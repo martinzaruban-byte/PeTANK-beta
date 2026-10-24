@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="cs">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>PeTANK — Physics Puzzle</title>
 <style>
 :root{--ink:#f2f3f4;--muted:#c5cbd0;--panel:#454a50a8;--line:#ffffff28;--mint:#f2f3f4;--gold:#d4d7da}
@@ -32,7 +32,7 @@ button{font:inherit;border:0;cursor:pointer;touch-action:manipulation}.fire{heig
 @media(max-width:620px){#chargeui{bottom:max(12px,env(safe-area-inset-bottom));width:min(340px,calc(100% - 28px));padding:11px 13px}#top{padding:13px;align-items:flex-start}.pill{min-width:74px;padding:8px 10px}.pill b{font-size:17px}.sub{max-width:220px;line-height:1.4}#topbuttons{top:104px;right:13px}#aimtip{top:112px;font-size:9px;max-width:calc(100% - 130px);white-space:nowrap}#bottom{left:10px;bottom:max(10px,env(safe-area-inset-bottom));width:calc(100% - 20px);grid-template-columns:minmax(0,1fr) auto;gap:7px}.control{padding:10px 11px;border-radius:14px}.fire{height:50px;min-width:110px;padding:0 12px}.mobile-help{display:block;font-size:10px;color:var(--muted);text-align:center;grid-column:1/-1;margin-top:1px}.desktop-only{display:none}}
 
 #mainmenu{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:22px;background:linear-gradient(135deg,#625954d9,#625954a8);backdrop-filter:blur(8px)}
-.menu-card{width:min(760px,100%);padding:clamp(22px,5vw,48px);border:1px solid #F2DEC766;border-radius:30px;background:linear-gradient(145deg,#625954f5,#625954e8);box-shadow:0 35px 100px #62595466}
+.menu-card{width:min(760px,100%);max-height:calc(100dvh - 24px);overflow-y:auto;padding:clamp(22px,5vw,48px);border:1px solid #F2DEC766;border-radius:30px;background:linear-gradient(145deg,#625954f5,#625954e8);box-shadow:0 35px 100px #62595466}
 .brand-mark{width:min(250px,70%);color:#F2DEC7;margin:0 0 16px}.brand-mark svg{display:block;width:100%;height:auto}.menu-kicker{font-size:10px;letter-spacing:.28em;font-weight:900;color:#CF7D65}.menu-title{font-size:clamp(46px,9vw,86px);letter-spacing:-.085em;line-height:.9;margin:14px 0 12px;color:#F2DEC7}.menu-copy{max-width:500px;color:#E1B8A2;font-size:14px;line-height:1.65;margin:0 0 26px}.menu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.menu-option{min-height:132px;text-align:left;padding:17px;border-radius:18px;background:#F2DEC710;border:1px solid #F2DEC733;color:#F2DEC7;transition:transform .2s,border-color .2s,background .2s}.menu-option:hover{transform:translateY(-3px);border-color:#CF7D65;background:#CF7D651b}.menu-option b{display:block;font-size:16px;margin-bottom:8px}.menu-option span{font-size:11px;line-height:1.5;color:#E1B8A2}.menu-foot{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:22px;color:#B5A58F;font-size:10px;letter-spacing:.12em}.menu-screen{display:none}.menu-screen.active{display:block}.world-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:18px}.world-btn{display:flex;align-items:center;justify-content:space-between;text-align:left;padding:13px 15px;border-radius:13px;background:#F2DEC710;border:1px solid #F2DEC733;color:#F2DEC7}.world-btn small{color:#CF7D65}.menu-back{margin-top:16px;background:transparent;border:1px solid #F2DEC744;border-radius:12px;color:#F2DEC7;padding:10px 14px}.menu-primary{background:#F2DEC7;color:#625954;border:0;border-radius:12px;padding:12px 16px;font-weight:900}.menu-input{width:100%;background:#F2DEC710;color:#F2DEC7;border:1px solid #F2DEC744;border-radius:12px;padding:12px;margin:8px 0 12px}
 body.menu-open #top,body.menu-open #bottom,body.menu-open #topbuttons,body.menu-open #aimtip,body.menu-open #aimfx,body.menu-open #reticle,body.menu-open #chargeui{display:none}
 @media(max-width:620px){.menu-grid{grid-template-columns:1fr}.menu-option{min-height:0;padding:15px}.menu-foot{align-items:flex-start;flex-direction:column}.world-grid{grid-template-columns:1fr}}
@@ -52,8 +52,10 @@ body.online #next,body.online #reset{display:none}
 
 #runtime-error{display:none;position:fixed;z-index:9999;left:12px;right:12px;bottom:12px;padding:14px 16px;border-radius:12px;background:#241f1c;color:#fff0df;border:1px solid #e0a27a;font:12px/1.5 ui-monospace,monospace;white-space:pre-wrap;max-height:35vh;overflow:auto}
 
+#fullscreenToggle{display:none}
 #mobile-controls{display:none}
 @media(max-width:700px){
+ #fullscreenToggle{display:inline-flex;align-items:center;justify-content:center;min-width:34px;min-height:34px;padding:6px;font-size:16px}
  #mobile-controls{display:block;position:fixed;z-index:4;left:10px;right:10px;bottom:max(8px,env(safe-area-inset-bottom));padding:9px 11px 10px;border:1px solid #ffffff32;border-radius:16px;background:#343a40d9;box-shadow:0 8px 26px #0005;backdrop-filter:blur(14px);touch-action:manipulation}
  #mobileAimPrompt{margin:0 0 7px;text-align:center;color:#e4e7e9b8;font-size:9px;font-weight:800;letter-spacing:.13em}
  .mobile-control-row{display:grid;grid-template-columns:minmax(0,1fr) 102px;align-items:center;gap:12px}
@@ -67,6 +69,9 @@ body.online #next,body.online #reset{display:none}
  body.menu-open #mobile-controls{display:none}
 }
 @media(max-width:700px) and (orientation:landscape){
+ #top{padding-top:max(7px,env(safe-area-inset-top));padding-left:max(9px,env(safe-area-inset-left));padding-right:max(9px,env(safe-area-inset-right))}
+ #topbuttons{top:54px;right:max(9px,env(safe-area-inset-right));gap:5px}
+ #topbuttons .secondary{min-height:30px;padding:5px 7px;font-size:9px}
  #mobile-controls{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:12px;padding:7px 10px;left:10px;right:10px;bottom:max(6px,env(safe-area-inset-bottom))}
  #mobileAimPrompt{margin:0;max-width:90px;line-height:1.5}
  .mobile-control-row{grid-template-columns:minmax(0,1fr) 98px;gap:10px}
@@ -85,7 +90,7 @@ body.online #next,body.online #reset{display:none}
  <div class="levelbadge"><div class="levelname" id="levelname">THE GARDEN</div><div class="levelcount" id="levelcount">LEVEL 1 / 4</div></div>
  <div style="display:flex;gap:8px"><div class="pill"><b id="shots">0 / 2</b></div><div class="pill" style="display:none"><b id="best">—</b></div><div class="pill" style="display:none"><b id="score">0</b></div></div>
 </div>
-<div id="topbuttons"><button class="secondary" id="soundToggle" aria-label="Sound on" title="Toggle sound (M)">♫</button><button class="secondary" id="backToMenu" aria-label="Back to main menu" title="Main menu">⌂ MENU</button><button class="secondary" id="reset">↻</button><button class="secondary" id="next" style="display:none">NEXT ↗</button></div>
+<div id="topbuttons"><button class="secondary" id="soundToggle" aria-label="Sound on" title="Toggle sound (M)">♫</button><button class="secondary" id="fullscreenToggle" aria-label="Enter full screen" title="Full screen">⛶</button><button class="secondary" id="backToMenu" aria-label="Back to main menu" title="Main menu">⌂ MENU</button><button class="secondary" id="reset">↻</button><button class="secondary" id="next" style="display:none">NEXT ↗</button></div>
 <div id="coopboard" style="display:none;position:fixed;right:16px;top:112px;width:160px;padding:8px;background:#454a50a8;border:1px solid #ffffff24;border-radius:12px;backdrop-filter:blur(16px);z-index:3"><div style="font-size:9px;letter-spacing:.16em;color:#CF7D65;font-weight:900;margin-bottom:8px">LOCAL MATCH <span id="cooproundlabel" style="float:right">ROUND 1/2</span></div><div id="cooprows"></div></div>
 <div id="aimtip">AIM WITH CURSOR · HOLD LEFT CLICK TO CHARGE · KEEP MOVING TO ADJUST</div><div id="aimfx"></div><div id="reticle"></div>
 <div id="chargeui"><div id="chargehead"><span id="chargelabel">SHOT POWER</span><output id="chargeval">50%</output></div><div id="chargebar"><div id="chargefill"></div></div><div id="chargenote">AIM · HOLD TO CHARGE · RELEASE TO FIRE</div></div>
@@ -984,7 +989,11 @@ let AC=null,muted=false,lastHit=0,lastChargeCue=50;
 function snd(f,d=.12,type='sine',v=.08,slide=0){if(muted)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();const t=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(30,f+slide),t+d);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(AC.destination);o.start();o.stop(t+d)}catch(e){}}
 function sndNoise(d=.12,v=.018,cutoff=900){if(muted)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();const t=AC.currentTime,n=Math.max(1,Math.floor(AC.sampleRate*d)),buffer=AC.createBuffer(1,n,AC.sampleRate),data=buffer.getChannelData(0);for(let i=0;i<n;i++)data[i]=(Math.random()*2-1)*(1-i/n);const source=AC.createBufferSource(),filter=AC.createBiquadFilter(),gain=AC.createGain();source.buffer=buffer;filter.type='lowpass';filter.frequency.setValueAtTime(cutoff,t);gain.gain.setValueAtTime(v,t);gain.gain.exponentialRampToValueAtTime(.0001,t+d);source.connect(filter).connect(gain).connect(AC.destination);source.start(t);source.stop(t+d)}catch(e){}}
 function toggleMute(){muted=!muted;const b=document.querySelector('#soundToggle');if(b){b.textContent=muted?'♪×':'♫';b.setAttribute('aria-label',muted?'Sound off':'Sound on');b.title=muted?'Turn sound on (M)':'Turn sound off (M)'}if(!muted&&AC?.state==='suspended')AC.resume().catch(()=>{})}
-document.querySelector('#soundToggle').addEventListener('click',toggleMute);document.addEventListener('click',e=>{if(e.target.closest('.menu-option,.menu-primary,.menu-back,[data-back]'))snd(540,.045,'sine',.018,120)});
+document.querySelector('#soundToggle').addEventListener('click',toggleMute);
+const fullscreenButton=document.querySelector('#fullscreenToggle');
+function syncFullscreenButton(){const active=!!document.fullscreenElement;fullscreenButton.textContent=active?'⤢':'⛶';fullscreenButton.setAttribute('aria-label',active?'Exit full screen':'Enter full screen');fullscreenButton.title=active?'Exit full screen':'Full screen';}
+fullscreenButton.addEventListener('click',async()=>{try{if(document.fullscreenElement){await document.exitFullscreen();try{await screen.orientation.unlock()}catch(_){}}else if(document.documentElement.requestFullscreen){await document.documentElement.requestFullscreen({navigationUI:'hide'});try{await screen.orientation.lock('landscape')}catch(_){}}else{showHint('FULL SCREEN','If your browser does not support this button, open the browser menu and choose Add to Home Screen for an app-like view.',2600)}}catch(_){showHint('FULL SCREEN','Your browser blocked full screen. Try Add to Home Screen from the browser menu for an app-like view.',2600)}syncFullscreenButton()});
+document.addEventListener('fullscreenchange',syncFullscreenButton);document.addEventListener('click',e=>{if(e.target.closest('.menu-option,.menu-primary,.menu-back,[data-back]'))snd(540,.045,'sine',.018,120)});
 let prog={};try{prog=JSON.parse(localStorage.getItem('rollcannon.v3')||'{}')}catch(e){}
 function saveProgress(i,st,sc){if(i<3)return;const o=prog[i]||{s:0,sc:0};prog[i]={s:Math.max(o.s,st),sc:Math.max(o.sc,sc)};try{localStorage.setItem('rollcannon.v3',JSON.stringify(prog))}catch(e){}buildWorlds()}
 function worldStars(w){let t=0;for(let h=0;h<4;h++)t+=(prog[3+w*4+h]?.s||0);return t}
