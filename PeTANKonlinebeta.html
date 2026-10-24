@@ -1071,4 +1071,17 @@ function startOnline(m){
 }
 $('#onHost').onclick=hostRoom;
 $('#onJoin').onclick=()=>{const id=$('#onJoinCode').value.trim();if(!id){onStatus('Enter the host room code first.');return}joinRoom(id)};
-$('#onCopy').onclick=async()=>{const value=$('#onlink').
+$('#onCopy').onclick=async()=>{const value=$('#onlink').value;try{await navigator.clipboard.writeText(value);$('#onCopy').textContent='COPIED ✓'}catch(e){$('#onlink').focus();$('#onlink').select();onStatus('Copy was blocked. Select and copy the highlighted text.')}setTimeout(()=>$('#onCopy').textContent=roomLink(online?.id||'')?'COPY LINK':'COPY ROOM CODE',1500)};
+$('#onStart').onclick=()=>{
+ if(!online||!online.isHost)return;if(online.conns.length<1){onStatus('Waiting for at least one more player…');return}
+ const map=$('#onMap').value,seed=Math.floor(Math.random()*0x7fffffff),level=map==='garden'?0:map==='switchback'?1:map==='foundry'?2:3+seed%28;
+ const msg={t:'start',players:online.conns.length+1,map,seed,level};
+ online.conns.forEach((c,i)=>c.open&&c.send({...msg,me:i+2}));startOnline({...msg,me:1});
+};
+try{$('#onBase').value=localStorage.getItem('rollcannon.base')||''}catch(e){}
+$('#onBase').addEventListener('input',()=>{try{localStorage.setItem('rollcannon.base',$('#onBase').value)}catch(e){}if(online&&online.id)showLink()});
+leaveOnline();
+{const room=new URLSearchParams(location.search).get('room');if(room){showMenuScreen('menuonline');joinRoom(room)}}
+loadLevel(0);requestAnimationFrame(frame);
+</script>
+</body></html>
