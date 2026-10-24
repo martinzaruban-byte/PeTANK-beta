@@ -1034,3 +1034,75 @@ document.querySelector('#startCoop').addEventListener('click',()=>{
  renderCoopBoard();showHint('ROUND 1 · PLAYER 1',`The flag appears in a random lane: centre, left, or right.`,2200);
 });
 // Returning to the campaign leaves local-match state behind.
+document.querySelector('#campaignBtn').addEventListener('click',()=>{coopMode=false;placementPhase=false;showMenuScreen('menucampaign')});
+// ONLINE: peer-to-peer rooms via PeerJS. Everyone simulates each shot; the shooter's final ball position is authoritative.
+const $=q=>document.querySelector(q);let lastAim=0;
+function createOnlinePeer(){return new Peer(undefined,{debug:0,config:{iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'},{urls:'stun:stun.cloudflare.com:3478'}]}})}
+function notMyTurn(){return !!(online&&online.started&&coopActivePlayer!==online.me)}
+function sendAim(){if(!online||!online.started)return;const n=performance.now();if(n-lastAim>80){lastAim=n;onSend({t:'aim',y:aimYaw,p:aimPitch})}}
+function onSend(m,except){if(!online)return;for(const c of online.isHost?online.conns:[online.hostConn])if(c&&c.open&&c!==except)c.send(m)}
+function onStatus(t){$('#onstatus').textContent=t}
+function onLobbyUI(){$('#onplayers').textContent=online?'PLAYERS IN ROOM: '+online.players+(online.isHost?' · NEED 2+ TO START':' · WAITING FOR HOST TO START'):''}
+function leaveOnline(){const o=online;online=null;orand=null;if(o)try{o.peer.destroy()}catch(e){}document.body.classList.remove('online');$('#onhome').style.display='block';$('#onlobby').style.display='none';$('#onplayers').textContent='';$('#onBaseWrap').style.display=location.protocol==='https:'?'none':'block'}
+function roomLink(id){const base=location.protocol==='https:'?location.origin+location.pathname:$('#onBase').value.trim().replace(/[?#].*$/u,'');return base?base+(base.includes('?')?'&':'?')+'room='+encodeURIComponent(id):''}
+function showLink(){const l=roomLink(online.id),q=$('#qr');$('#onlink').value=l||online.id;$('#onlink').placeholder=l?'Share this game link':'Room code — share with someone who has PeTANK';$('#onCopy').textContent=l?'COPY LINK':'COPY ROOM CODE';q.innerHTML='';if(l&&typeof qrcode!=='undefined'){try{const qr=qrcode(0,'M');qr.addData(l);qr.make();q.innerHTML=qr.createSvgTag(5,0)}catch(e){q.textContent='QR could not be generated. Copy the link instead.'}}else if(l){q.textContent='QR library did not load. Copy the link instead.'}else{q.style.background='transparent';q.style.color='#f2f3f4';q.style.padding='0';q.textContent='QR needs a public HTTPS game link. Share the room code shown above.'}}
+function onMsg(m,from){
+ if(!online)return;
+ if(online.isHost&&['aim','fire','end'].includes(m.t))onSend(m,from);
+ if(m.t==='full'){leaveOnline();onStatus('This room is full or the match has already started.')}
+ else if(m.t==='lobby'){online.players=m.n;onLobbyUI()}
+ else if(m.t==='start')startOnline(m);
+ else if(!online.started)return;
+ else if(m.t==='aim'){aimYaw=m.y;aimPitch=m.p;updateAimGuide()}
+ else if(m.t==='fire'){chargePower=m.pw;aimYaw=m.y;aimPitch=m.p;online.remote=true;fire();online.remote=false}
+ else if(m.t==='end'&&ballBody){ballBody.position.set(m.x,m.y,m.z);online.forced=true;finishThrow();online.forced=false}
+}
+function wireConn(c){c.on('data',m=>onMsg(m,c));c.on('close',()=>{if(!online)return;if(online.isHost){online.conns=online.conns.filter(x=>x!==c);online.players=online.conns.length+1;if(!online.started){onSend({t:'lobby',n:online.players});onLobbyUI()}}showHint('PLAYER LEFT','A player disconnected.',2500)})}
+function hostRoom(){
+ if(typeof Peer==='undefined'){onStatus('Online library did not load. Check internet and reload this page.');return}
+ leaveOnline();let ready=false;const peer=createOnlinePeer();online={peer,isHost:true,conns:[],me:1,players:1,started:false};
+ onStatus('Connecting to the room service…');
+ const openTimer=setTimeout(()=>{if(!ready&&online?.peer===peer){onStatus('Room service did not respond. Check internet, then reload and try again.');leaveOnline()}},15000);
+ peer.on('error',e=>{if(online?.peer!==peer)return;const type=e.type||String(e);onStatus(type==='browser-incompatible'?'This browser does not support WebRTC. Try current Chrome, Safari, or Firefox.':type==='network'||type==='socket-error'||type==='socket-closed'?'Could not reach the free connection service. Check internet or try again later.':'Connection error: '+type+'. Reload the game and try again.');if(!ready)leaveOnline()});
+ peer.on('disconnected',()=>{if(online?.peer!==peer)return;onStatus('Reconnecting to the room service…');setTimeout(()=>{if(online?.peer===peer&&peer.disconnected)try{peer.reconnect()}catch(e){}},1200)});
+ peer.on('open',id=>{ready=true;clearTimeout(openTimer);if(online?.peer!==peer)return;online.id=id;$('#onhome').style.display='none';$('#onlobby').style.display='block';showLink();onLobbyUI();onStatus(roomLink(id)?'Room ready. Share the game link or scan its QR code.':'Room ready. No public game link is set, so share the room code; friends must open their own copy and enter it.')});
+ peer.on('connection',c=>{
+  if(online.started||online.conns.length>=5){c.on('open',()=>{c.send({t:'full'});setTimeout(()=>c.close(),300)});return}
+  online.conns.push(c);wireConn(c);
+  c.on('open',()=>{online.players=online.conns.length+1;onSend({t:'lobby',n:online.players});onLobbyUI()})});
+}
+function joinRoom(id){
+ if(typeof Peer==='undefined'){onStatus('Online library did not load. Check internet and reload this page.');return}
+ leaveOnline();const peer=createOnlinePeer();online={peer,isHost:false,me:0,players:1,started:false};
+ $('#onhome').style.display='none';$('#onBaseWrap').style.display='none';onStatus('Connecting to the room service…');
+ let phase='signal',connected=false;let joinTimer=setTimeout(()=>{if(online?.peer===peer&&!connected){onStatus(phase==='signal'?'Room service is not responding. Check internet and reload the game.':'Direct connection is taking too long. This network may block peer connections; try Wi-Fi on both devices.');leaveOnline()}},20000);
+ peer.on('error',e=>{if(online?.peer!==peer)return;clearTimeout(joinTimer);const type=e.type||String(e);onStatus(type==='peer-unavailable'?'Room not found. Ask the host to create a new room.':type==='browser-incompatible'?'This browser does not support WebRTC. Try current Chrome, Safari, or Firefox.':type==='network'||type==='socket-error'||type==='socket-closed'?'Could not reach the free room service. Check internet or try again later.':'Could not join: '+type+'. Check the room code and try again.');leaveOnline()});
+ peer.on('disconnected',()=>{if(online?.peer!==peer)return;onStatus('Reconnecting to the room service…');setTimeout(()=>{if(online?.peer===peer&&peer.disconnected)try{peer.reconnect()}catch(e){}},1200)});
+ peer.on('open',()=>{if(online?.peer!==peer)return;phase='p2p';clearTimeout(joinTimer);joinTimer=setTimeout(()=>{if(online?.peer===peer&&!connected){onStatus('The room was found, but these networks could not establish a direct link. Try Wi-Fi on both devices.');leaveOnline()}},25000);const c=peer.connect(id,{reliable:true,serialization:'json'});online.hostConn=c;wireConn(c);c.on('open',()=>{if(online?.peer!==peer)return;connected=true;clearTimeout(joinTimer);onStatus('Connected! Waiting for the host to start the match…')});c.on('error',e=>{if(online?.peer!==peer)return;clearTimeout(joinTimer);onStatus('Direct connection failed: '+(e.type||e)+'. Try Wi-Fi on both devices.');leaveOnline()});c.on('close',()=>{if(online?.peer===peer&&!online.started){clearTimeout(joinTimer);onStatus('The host closed the room. Ask them to create a new one.');leaveOnline()}})});
+}
+function startOnline(m){
+ online.started=true;online.me=m.me;orand=seededRandom(m.seed);
+ coopMode=true;pendingNextCoopRound=false;coopPlayers=m.players;placementPhase=false;coopRound=1;coopActivePlayer=1;coopPlayersFinished=0;coopScores=[];coopPlayerThrows={};coopPlayerDistances={};
+ $('#mapSelect').value=m.map;activeCourseSeed=m.map==='random'?m.seed:null;
+ menuRoot.style.display='none';document.body.classList.remove('menu-open');document.body.classList.add('online');
+ loadLevel(m.level);
+ shots=0;throwDistances=[];for(let q=1;q<=coopPlayers;q++){coopPlayerThrows[q]=0;coopPlayerDistances[q]=[]}chooseFlagLane();
+ updateTurnLabel();$('#aimtip').textContent='YOU ARE PLAYER '+m.me+' · PLAYER 1 SHOOTS FIRST';
+ renderCoopBoard();showHint('ONLINE MATCH','You are Player '+m.me+'. Players alternate shots; watch the others aim live.',2800);
+}
+$('#onHost').onclick=hostRoom;
+$('#onJoin').onclick=()=>{const id=$('#onJoinCode').value.trim();if(!id){onStatus('Enter the host room code first.');return}joinRoom(id)};
+$('#onCopy').onclick=async()=>{const value=$('#onlink').value;try{await navigator.clipboard.writeText(value);$('#onCopy').textContent='COPIED ✓'}catch(e){$('#onlink').focus();$('#onlink').select();onStatus('Copy was blocked. Select and copy the highlighted text.')}setTimeout(()=>$('#onCopy').textContent=roomLink(online?.id||'')?'COPY LINK':'COPY ROOM CODE',1500)};
+$('#onStart').onclick=()=>{
+ if(!online||!online.isHost)return;if(online.conns.length<1){onStatus('Waiting for at least one more player…');return}
+ const map=$('#onMap').value,seed=Math.floor(Math.random()*0x7fffffff),level=map==='garden'?0:map==='switchback'?1:map==='foundry'?2:3+seed%28;
+ const msg={t:'start',players:online.conns.length+1,map,seed,level};
+ online.conns.forEach((c,i)=>c.open&&c.send({...msg,me:i+2}));startOnline({...msg,me:1});
+};
+try{$('#onBase').value=localStorage.getItem('rollcannon.base')||''}catch(e){}
+$('#onBase').addEventListener('input',()=>{try{localStorage.setItem('rollcannon.base',$('#onBase').value)}catch(e){}if(online&&online.id)showLink()});
+leaveOnline();
+{const room=new URLSearchParams(location.search).get('room');if(room){showMenuScreen('menuonline');joinRoom(room)}}
+loadLevel(0);requestAnimationFrame(frame);
+</script>
+</body></html>
