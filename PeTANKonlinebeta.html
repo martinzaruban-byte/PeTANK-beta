@@ -51,6 +51,29 @@ body.online #next,body.online #reset{display:none}
 #aimtip,#chargehead,#chargenote{display:none}.levelname{text-transform:uppercase}#chargeui{opacity:0;transition:opacity .2s;bottom:28px;padding:8px 10px}#chargeui.charging{opacity:1}#chargebar{height:12px}
 
 #runtime-error{display:none;position:fixed;z-index:9999;left:12px;right:12px;bottom:12px;padding:14px 16px;border-radius:12px;background:#241f1c;color:#fff0df;border:1px solid #e0a27a;font:12px/1.5 ui-monospace,monospace;white-space:pre-wrap;max-height:35vh;overflow:auto}
+
+#mobile-controls{display:none}
+@media(max-width:700px){
+ #mobile-controls{display:block;position:fixed;z-index:4;left:10px;right:10px;bottom:max(8px,env(safe-area-inset-bottom));padding:9px 11px 10px;border:1px solid #ffffff32;border-radius:16px;background:#343a40d9;box-shadow:0 8px 26px #0005;backdrop-filter:blur(14px);touch-action:manipulation}
+ #mobileAimPrompt{margin:0 0 7px;text-align:center;color:#e4e7e9b8;font-size:9px;font-weight:800;letter-spacing:.13em}
+ .mobile-control-row{display:grid;grid-template-columns:minmax(0,1fr) 102px;align-items:center;gap:12px}
+ .mobile-power-group{display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 8px;color:#e4e7e9c9;font-size:9px;font-weight:850;letter-spacing:.13em}
+ #mobilePowerValue{font-size:15px;color:#f2dec7;letter-spacing:0;font-variant-numeric:tabular-nums}
+ #mobilePower{grid-column:1/-1;width:100%;height:32px;margin:0;touch-action:pan-x;accent-color:#e1b8a2}
+ #mobilePower::-webkit-slider-thumb{width:26px;height:26px}
+ #mobilePower::-moz-range-thumb{width:26px;height:26px}
+ #mobileFire{height:58px;min-width:0;border-radius:14px;font-size:12px;letter-spacing:.1em;background:#f2dec7;color:#454a50;box-shadow:0 3px 12px #0004}
+ #chargeui{display:none!important}
+ body.menu-open #mobile-controls{display:none}
+}
+@media(max-width:700px) and (orientation:landscape){
+ #mobile-controls{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:12px;padding:7px 10px;left:10px;right:10px;bottom:max(6px,env(safe-area-inset-bottom))}
+ #mobileAimPrompt{margin:0;max-width:90px;line-height:1.5}
+ .mobile-control-row{grid-template-columns:minmax(0,1fr) 98px;gap:10px}
+ #mobileFire{height:48px}
+ #mobilePower{height:28px}
+}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -66,6 +89,7 @@ body.online #next,body.online #reset{display:none}
 <div id="coopboard" style="display:none;position:fixed;right:16px;top:112px;width:160px;padding:8px;background:#454a50a8;border:1px solid #ffffff24;border-radius:12px;backdrop-filter:blur(16px);z-index:3"><div style="font-size:9px;letter-spacing:.16em;color:#CF7D65;font-weight:900;margin-bottom:8px">LOCAL MATCH <span id="cooproundlabel" style="float:right">ROUND 1/2</span></div><div id="cooprows"></div></div>
 <div id="aimtip">AIM WITH CURSOR · HOLD LEFT CLICK TO CHARGE · KEEP MOVING TO ADJUST</div><div id="aimfx"></div><div id="reticle"></div>
 <div id="chargeui"><div id="chargehead"><span id="chargelabel">SHOT POWER</span><output id="chargeval">50%</output></div><div id="chargebar"><div id="chargefill"></div></div><div id="chargenote">AIM · HOLD TO CHARGE · RELEASE TO FIRE</div></div>
+<div id="mobile-controls" aria-label="Mobile shot controls"><div id="mobileAimPrompt">DRAG ON THE FIELD TO AIM</div><div class="mobile-control-row"><label class="mobile-power-group" for="mobilePower"><span>POWER</span><output id="mobilePowerValue">50%</output><input id="mobilePower" type="range" min="0" max="100" step="1" value="50" aria-label="Shot power"></label><button id="mobileFire" class="fire" type="button">SHOOT ↑</button></div></div>
 <div id="hint"><strong id="hinttitle">Nice shot!</strong><span id="hinttext">The ball is rolling…</span></div>
 <div id="result"><div class="card"><div class="eyebrow">ROUND COMPLETE</div><h2 id="resulttitle">CLOSE TO THE FLAG!</h2><div class="stars" id="resultstars">★★★</div><p id="resultcopy">Two boules played. Closest boule wins.</p><div class="actions"><button class="primary" id="continue">NEXT TERRAIN →</button><button class="secondary" id="replay">RETRY ↻</button></div></div></div>
 
@@ -131,6 +155,7 @@ const mats={};function material(color,rough=.72,metal=0){color=paletteColor(colo
 function meshBox(pos,size,color,opts={}){const m=new THREE.Mesh(new THREE.BoxGeometry(...size),material(color,opts.rough??.76,opts.metal??0));m.position.set(...pos);m.castShadow=opts.cast!==false;m.receiveShadow=true;scene.add(m);return m}
 function physBox(pos,size,color,opts={}){const mesh=meshBox(pos,size,color,opts);const body=new CANNON.Body({mass:opts.mass||0,material:opts.physicsMaterial||(color===0xCF7D65?matWall:matFloor),position:new CANNON.Vec3(...pos),shape:new CANNON.Box(new CANNON.Vec3(size[0]/2,size[1]/2,size[2]/2)),linearDamping:0,angularDamping:0});if(opts.rotation){mesh.rotation.set(...opts.rotation);body.quaternion.setFromEuler(...opts.rotation)}world.addBody(body);objects.push({mesh,body});return {mesh,body}}
 function campaignOneShot(){return false}
+function campaignPitchLimit(){return coopMode ? 0.36 : 1.48}
 let flagLift=0,flagSafeRing=null,boostPads=[],windZones=[],online=null,orand=null,rollDrag=.48,groundStripes=[],objects=[],dynamicObjects=[],ballBody=null,ballMesh=null,holeMesh=null,aimLine=null,aimArrow=null,aimMarker=null,aimMarkerExtras=[],aimDots=[],levelIndex=0,shots=0,rolling=false,completed=false,launchTime=0,shotBest=Infinity,levelStartShots=0,levelTarget=new THREE.Vector3(0,0,0),cannonGroup=null,ballSpawn=new THREE.Vector3(-5,0.8,0),levelBounds={x:16,z:20},holeRadius=.72,checkpointIndex=0,sectionShots=0,sectionStars=[0,0,0],checkpointTransition=false,checkpointTimer=null,landedBoules=[],landedBodies=[],throwDistances=[],shotScoreTimer=null,stuckSince=0;
 const levels=[
  {name:'01 · THE GARDEN',desc:'A fig-garden labyrinth: staggered rails, stepping blocks and two narrow shooting windows. Read the angles before firing.',spawn:[-12,.8,0],hole:[12,.14,0],bounds:[17,7],angle:0,power:80,build(){
@@ -143,7 +168,13 @@ const levels=[
    physBox([-1.0,.41,-.15],[.82,.82,.82],0xB5A58F,{rotation:[0,.28,0]});
    wall(2.2,.53,-1.62,3.0,.68,.38,0xCF7D65,[0,1.5708+.16,0]);
    physBox([5.2,.46,1.55],[.92,.92,.92],0x625954,{rotation:[0,.2,0]});
-   wall(7.4,.5,-.15,2.5,.58,.38,0xCF7D65,[0,1.5708-.2,0]);
+   // Four broad steps lead to a raised goal deck; the flag sits on its top surface.
+   wall(5.6,.5,-.15,2.5,.58,.38,0xCF7D65,[0,1.5708-.2,0]);
+   const stairTop=.35,stairRise=.28,stairRun=1.32,stairZ=0;
+   for(let si=0;si<4;si++){const top=stairTop+(si+1)*stairRise;physBox([7.0+si*stairRun,stairTop+(top-stairTop)/2,stairZ],[stairRun+.06,top-stairTop,3.4],si%2?0xB5A58F:0x625954,{physicsMaterial:matFloor});}
+   physBox([12.15,stairTop+4*stairRise/2,0],[2.4,4*stairRise,3.8],0xB5A58F,{physicsMaterial:matFloor});
+   flagLift=stairTop+4*stairRise+.06;
+   this.hole[0]=12.15;this.hole[2]=0;
    // Small offset posts force the player to choose a clean line through the final window.
    physBox([-6.4,.475,2.55],[.68,.95,.68],0xCF7D65,{rotation:[0,.2,0]});
    physBox([3.9,.475,-2.55],[.68,.95,.68],0xCF7D65,{rotation:[0,.35,0]});
@@ -158,10 +189,15 @@ const levels=[
    wall(-.1,.56,-.95,3.7,.78,.42,0xCF7D65,[0,1.5708-.2,0]);
    wall(3.6,.58,1.55,3.8,.82,.42,0xCF7D65,[0,1.5708+.18,0]);
    physBox([6.3,.5,-2.55],[.9,1.0,.9],0x625954,{rotation:[0,.4,0]});
-   wall(8.5,.52,.25,2.8,.68,.38,0xCF7D65,[0,0,-.22]);
-   // A side pocket and two short bank rails make a deliberate ricochet route possible.
+   // The final approach climbs four solid steps onto the elevated flag deck.
+   wall(6.2,.52,.25,2.8,.68,.38,0xCF7D65,[0,0,-.22]);
+   // A side pocket and a bank rail keep the earlier route varied.
    wall(1.0,.45,3.0,2.4,.5,.35,0xCF7D65,[0,1.5708+.28,0]);
-   wall(10.1,.45,-2.2,2.2,.5,.35,0xCF7D65,[0,1.5708-.28,0]);
+   const stairTop=.35,stairRise=.28,stairRun=1.32;
+   for(let si=0;si<4;si++){const top=stairTop+(si+1)*stairRise;physBox([8.1+si*stairRun,stairTop+(top-stairTop)/2,1.0],[stairRun+.06,top-stairTop,3.2],si%2?0xB5A58F:0x625954,{physicsMaterial:matFloor});}
+   physBox([13.25,stairTop+4*stairRise/2,1.0],[2.4,4*stairRise,3.6],0xB5A58F,{physicsMaterial:matFloor});
+   flagLift=stairTop+4*stairRise+.06;
+   this.hole[0]=13.25;this.hole[2]=1.0;
  }},
  {name:'03 · THE FOUNDRY',desc:'A fig-stone obstacle course with a split deck, raised ramps, offset blocks and a swinging gate guarding the final approach.',spawn:[-14,.8,0],hole:[14,.14,-1.0],bounds:[19,8],angle:0,power:80,build(){
    floor(-5.8,0,0,16.4,.7,10,0xF2DEC7);
@@ -198,9 +234,9 @@ function buildGeneratedCourse(seed,worldNo,holeNo,targetDistance=null){
  floor(0,0,0,length,.7,width,0xF2DEC7);
  // The three-metre sanctuary is an invisible generation rule, not a visible gameplay ring.
  if(flagSafeRing){scene.remove(flagSafeRing);if(flagSafeRing.geometry)flagSafeRing.geometry.dispose();if(flagSafeRing.material)flagSafeRing.material.dispose();flagSafeRing=null;}
- // Low continuous rails frame the play area without dominating the miniature course.
- wall(0,.58,-width/2-.05,length+12,1.05,.38,0xA7B8C0);wall(0,.58,width/2+.05,length+12,1.05,.38,0xA7B8C0);
- wall(length/2+5,.58,0,.72,1.05,width+.5,0xA7B8C0);
+ // Tall perimeter walls keep launched balls in play and make each course feel enclosed.
+ wall(0,1.05,-width/2-.05,length+12,3.8,.42,0xA7B8C0);wall(0,1.05,width/2+.05,length+12,2.8,.42,0xA7B8C0);
+ wall(length/2+5,1.05,0,.82,3.8,width+.55,0xA7B8C0);
  const colors=[0xCF7D65,0xE1B8A2,0xB5A58F,0x625954];
  const clearOfKeyZones=(x,z,rx=1.2,rz=1.2)=>{
   // Keep the launch pocket and the full three-metre flag sanctuary free of solid obstacles.
@@ -370,8 +406,8 @@ const WORLD_LEVELS=[
  [[['s',-12,-2.2,.8],['s',-8,2.4,.8],['c',-4,0,.5,.8],['U',0]],null,
   [['m',-14,4.4],['m',-9,4.4],['L',0]],
   [['w',-12,6,6],['p',-7,-2,1,.9],['V',0]]],
- [[['r',-17,0,3],['g',-11,0,.2,.9],['U',0]],
-  [['g',-18,-3,2.4,.8],['g',-13,3,2.4,.8],['q',-9,0],['n',-5,0,.5,1],['P',0]],
+ [[['r',-17,0,3],['g',-11,0,1.25,.9],['U',0]],
+  [['g',-18,-2.7,2.6,.8],['q',-14,-2.7],['k',-11,2.5,4,-.42,.8],['g',-7,2.4,2.5,.75],['p',-4,-1.5,.8,.9],['U',0]],
   [['k',-14,3,5,-.7,1.2],['k',-8,-3,5,.7,1.2],['H',0]],
   [['f',-18,2.6,.9],['w',-11,6,-7],['g',-6,-3.4,2.4,.8],['L',0]]],
  [[['p',-17,-2,1.4,1.2],['p',-14,2,1.4,1.2],['q',-10,0],['c',-6,0,.9,1.4],['V',0]],
@@ -414,7 +450,7 @@ function applyAtmosphere(){
  sun.color.set(new THREE.Color(0xfff0dc).lerp(new THREE.Color(P.blush),.25));hemi.color.set(new THREE.Color(0xe9efff).lerp(new THREE.Color(P.rail),.35));hemi.groundColor.set(new THREE.Color(P.dark).lerp(new THREE.Color(P.stone),.4));catchMesh.material.color.set(new THREE.Color(P.floor).lerp(new THREE.Color(P.dark),.4));
 }
 function flagDist(w,h){return [18,20,22,24][h]+[0,0,0,-2,4,0,0][w]}
-function buildDesignedCourse(worldNo,holeNo){
+function buildDesignedCourse(worldNo,holeNo,targetLane=0){
  // The Garden is authored by hand: four bespoke layouts, including a physically stepped descent.
  if(worldNo===0&&holeNo===1){
   const length=46,width=12;
@@ -447,6 +483,9 @@ function buildDesignedCourse(worldNo,holeNo){
     // Low transverse sill forces a line choice while leaving a ball-width passage on alternating sides.
     if(i===3){physBox([x,top+.18,-1.75],[.34,.36,3.15],accent,{rotation:[0,-.08,0],physicsMaterial:matWall});}
    }
+   // A tall split gate breaks the stair climb; its broad centre opening keeps the line readable.
+   physBox([-3.8,1.6,-3.65],[.42,3.2,4.1],accent,{physicsMaterial:matWall});
+   physBox([-3.8,1.6,3.65],[.42,3.2,4.1],accent,{physicsMaterial:matWall});
    // Bottom landing is deliberately more technical, but remains clear of the flag.
    physBox([9.0,.69,-2.35],[1.05,.68,1.05],accent,{rotation:[0,.22,0]});
    physBox([11.3,.69,2.25],[1.05,.68,1.05],stone,{rotation:[0,-.18,0]});
@@ -472,23 +511,24 @@ function buildDesignedCourse(worldNo,holeNo){
   addBiomeShapes(worldNo,holeNo);scenery(worldNo,length);
   return {length,width};
  }
- const F=flagDist(worldNo,holeNo),K=.65,length=F+9.6,width=12,fx=-length/2+1.6+F;
+ const F=flagDist(worldNo,holeNo),K=.65,length=F+9.6,width=12,fx=-length/2+1.6+F,fz=targetLane;
  floor(0,0,0,length,.7,width,palettes[worldNo].floor);
- wall(0,.58,-width/2-.05,length+12,1.05,.38,0xA7B8C0);wall(0,.58,width/2+.05,length+12,1.05,.38,0xA7B8C0);
- wall(length/2+5,.58,0,.72,1.05,width+.5,0xA7B8C0);
- let mi=0;const STONE=0xB5A58F;
+ wall(0,1.05,-width/2-.05,length+12,2.8,.42,0xA7B8C0);wall(0,1.05,width/2+.05,length+12,2.8,.42,0xA7B8C0);
+ wall(length/2+5,1.05,0,.82,2.8,width+.55,0xA7B8C0);
+ let mi=0,tallFeatureCount=0;const tallFeatureLimit=2-((worldNo+holeNo)%2),STONE=0xB5A58F;
+ const featuredHeight=h=>{if(tallFeatureCount<tallFeatureLimit){tallFeatureCount++;return 3.2;}return h;};
  const slab=(x,z,len,h,yaw=0,c=0xCF7D65)=>wall(x,h/2,z,.42,h,len,c,[0,yaw,0]);
  const post=(x,z,s,h)=>physBox([x,h/2,z],[s,h,s],STONE,{rotation:[0,.3+x*.1,0],physicsMaterial:matWall});
  const solid=(geo,mat,shape,x,y,z)=>{const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);m.castShadow=m.receiveShadow=true;scene.add(m);const b=new CANNON.Body({mass:0,material:matWall,position:new CANNON.Vec3(x,y,z),shape});world.addBody(b);objects.push({mesh:m,body:b})};
  const P={
   // g: gate across the lane with a gap at z=zc. f: funnel squeezing to a gap. k: diagonal bank wall.
-  g:(o,zc,gap,h)=>{const x=fx+o*K,a=zc-gap/2,c=zc+gap/2;if(a>-5.75)slab(x,(a-5.75)/2,a+5.75,h);if(c<5.75)slab(x,(c+5.75)/2,5.75-c,h,0,STONE)},
-  f:(o,gap,h)=>{for(const sd of[-1,1]){const x0=fx+o*K-2.5,z0=sd*5.75,x1=fx+o*K+2.5,z1=sd*gap/2,dx=x1-x0,dz=z1-z0;slab((x0+x1)/2,(z0+z1)/2,Math.hypot(dx,dz),h,Math.atan2(dx,dz))}},
-  k:(o,z,len,yaw,h)=>slab(fx+o*K,z,len,h,yaw),p:(o,z,sz,h)=>post(fx+o*K,z,sz,h),
-  m:(o,len)=>{const g=physBox([fx+o*K,.66,0],[.38,1.12,len],0xCF7D65,{physicsMaterial:matWall});g.mesh.userData.gate={phase:mi++*1.9+worldNo,baseZ:0};movingGates.push(g)},
-  // Flag settings: B backboard, U open basin, V tall front guard (must lob over), P four flanking pillars.
+  g:(o,zc,gap,h)=>{h=featuredHeight(h);const x=fx+o*K,a=zc-gap/2,c=zc+gap/2;if(a>-5.75)slab(x,(a-5.75)/2,a+5.75,h);if(c<5.75)slab(x,(c+5.75)/2,5.75-c,h,0,STONE)},
+  f:(o,gap,h)=>{h=featuredHeight(h);for(const sd of[-1,1]){const x0=fx+o*K-2.5,z0=sd*5.75,x1=fx+o*K+2.5,z1=sd*gap/2,dx=x1-x0,dz=z1-z0;slab((x0+x1)/2,(z0+z1)/2,Math.hypot(dx,dz),h,Math.atan2(dx,dz))}},
+  k:(o,z,len,yaw,h)=>slab(fx+o*K,z,len,featuredHeight(h),yaw),p:(o,z,sz,h)=>post(fx+o*K,z,sz,h),
+  m:(o,len)=>{const gateH=featuredHeight(1.1);const g=physBox([fx+o*K,gateH/2+.06,0],[.48,gateH,len],0xCF7D65,{physicsMaterial:matWall});g.mesh.userData.gate={phase:mi++*1.9+worldNo,baseZ:0};movingGates.push(g)},
+  // Flag settings: B backboard, U open basin, V tall front guard, P four flanking pillars. Tall gates and angled screens make clean lofted skips unreliable.
   // q boost pad, w crosswind strip (o,len,accel)
-  q:(o,z)=>{const x=fx+o*K,m=new THREE.Mesh(new THREE.BoxGeometry(1.5,.05,1.5),new THREE.MeshStandardMaterial({color:activePalette.light,emissive:activePalette.coral,emissiveIntensity:.8,roughness:.4})),ch=new THREE.Mesh(new THREE.ConeGeometry(.35,.6,3),new THREE.MeshBasicMaterial({color:activePalette.coral}));m.position.set(x,.03,z);m.receiveShadow=true;ch.rotation.z=-Math.PI/2;ch.position.set(x,.08,z);scene.add(m,ch);checkpointVisuals.push(m,ch);boostPads.push({x,z,t:0})},
+  q:(o,z)=>{const x=fx+o*K,m=new THREE.Mesh(new THREE.BoxGeometry(1.9,.08,1.9),new THREE.MeshStandardMaterial({color:activePalette.light,emissive:activePalette.coral,emissiveIntensity:1.15,roughness:.4})),ch=new THREE.Mesh(new THREE.ConeGeometry(.35,.6,3),new THREE.MeshBasicMaterial({color:activePalette.coral}));m.position.set(x,.03,z);m.receiveShadow=true;ch.rotation.z=-Math.PI/2;ch.position.set(x,.08,z);scene.add(m,ch);checkpointVisuals.push(m,ch);boostPads.push({x,z,t:0,active:false,mesh:m,icon:ch})},
   w:(o,len,az)=>{const x=fx+o*K,m=new THREE.Mesh(new THREE.BoxGeometry(len,.02,11.4),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.18,depthWrite:false}));m.position.set(x,.02,0);scene.add(m);checkpointVisuals.push(m);for(const zz of[-4.2,-1.4,1.4,4.2]){const c=new THREE.Mesh(new THREE.ConeGeometry(.28,.8,3),new THREE.MeshBasicMaterial({color:activePalette.coral,transparent:true,opacity:.7}));c.rotation.x=az>0?Math.PI/2:-Math.PI/2;c.position.set(x,.06,zz);scene.add(c);checkpointVisuals.push(c)}windZones.push({a:x-len/2,b:x+len/2,az})},
   // c column, n spire, s dome boulder, d diamond block, r launch ramp
   c:(o,z,r,h)=>solid(new THREE.CylinderGeometry(r*.85,r,h,10),material(0xE1B8A2,.62),new CANNON.Cylinder(r*.85,r,h,10),fx+o*K,h/2,z),
@@ -497,15 +537,16 @@ function buildDesignedCourse(worldNo,holeNo){
   d:(o,z,sz,h)=>physBox([fx+o*K,h/2,z],[sz,h,sz],0xCF7D65,{rotation:[0,.785,0],physicsMaterial:matWall}),
   r:(o,z,d)=>ramp(fx+o*K,.32,z,2.8,.14,d,.22,STONE),
   // H hidden bunker (tall shield, flag only partly visible), L raised plinth with ramp, X both
-  H:()=>{slab(fx-1.8,0,2.4,2.1);wall(fx+.4,.45,-1.9,4.4,.9,.3,STONE);wall(fx+.4,.45,1.9,4.4,.9,.3,STONE);slab(fx+2.6,0,4.1,1,0,STONE)},
-  L:()=>{physBox([fx,.3,0],[2.4,.6,2.4],STONE,{physicsMaterial:matFloor});ramp(fx-2.5,.31,0,2.6,.14,2.4,.22,STONE);flagLift=.6;slab(fx+2.2,0,3.4,.7,0,STONE)},
-  X:()=>{P.H();physBox([fx,.3,0],[2.4,.6,2.4],STONE,{physicsMaterial:matFloor});flagLift=.6},
-  B:o=>slab(fx+o*K,0,7,.9,0,STONE),
-  U:()=>{wall(fx+.2,.35,-1.55,3.6,.7,.3,STONE);wall(fx+.2,.35,1.55,3.6,.7,.3,STONE);slab(fx+1.9,0,3.4,.7,0,STONE)},
-  V:()=>{slab(fx-1.9,0,3.2,1.35);slab(fx+2.6,0,7,.9,0,STONE)},
-  P:()=>{for(const dx of[-1.2,1.4])for(const sd of[-1.5,1.5])post(fx+dx,sd,.6,1)}
+  H:()=>{slab(fx-1.8,fz,2.4,featuredHeight(.9));wall(fx+.4,.45,fz-1.9,4.4,.9,.3,STONE);wall(fx+.4,.45,fz+1.9,4.4,.9,.3,STONE);slab(fx+2.6,fz,4.1,1,0,STONE)},
+  L:()=>{physBox([fx,.3,fz],[2.4,.6,2.4],STONE,{physicsMaterial:matFloor});ramp(fx-2.5,.31,fz,2.6,.14,2.4,.22,STONE);flagLift=.6;slab(fx+2.2,fz,3.4,.7,0,STONE)},
+  X:()=>{P.H();physBox([fx,.3,fz],[2.4,.6,2.4],STONE,{physicsMaterial:matFloor});flagLift=.6},
+  B:o=>slab(fx+o*K,fz,7,.9,0,STONE),
+  U:()=>{wall(fx+.2,.35,fz-1.55,3.6,.7,.3,STONE);wall(fx+.2,.35,fz+1.55,3.6,.7,.3,STONE);slab(fx+1.9,fz,3.4,.7,0,STONE)},
+  V:()=>{slab(fx-1.9,fz,3.2,1.35);slab(fx+2.6,fz,7,.9,0,STONE)},
+  P:()=>{for(const dx of[-1.2,1.4])for(const sd of[-1.5,1.5])post(fx+dx,fz+sd,.6,1)}
  };
  for(const [k,...args] of WORLD_LEVELS[worldNo][holeNo])P[k](...args);
+ if(tallFeatureCount===0){const gateX=fx-8.8,gapZ=fz,gap=3.0,left=gapZ-gap/2,right=gapZ+gap/2;if(left>-5.75)slab(gateX,(left-5.75)/2,left+5.75,3.2);if(right<5.75)slab(gateX,(right+5.75)/2,5.75-right,3.2);tallFeatureCount++;}
  scenery(worldNo,length);
  return {length,width};
 }
@@ -520,7 +561,7 @@ const campaignHoleNames=[
 ];
 const campaignHoleDescriptions=[
  ['Bounce off the bumpers.','Roll down the stone stairs.','Time the spinning bars.','A breeze pushes you sideways.'],
- ['Launch off the ramp, clear the wall.','Hit the boost pad.','Bank it off both walls.','Gusts bend your shot.'],
+ ['Launch off the ramp, clear the wall.','Boost through the first opening, bank around a high angled wall, then line up for the final bend.','Bank it off both walls.','Gusts bend your shot.'],
  ['Heavy blocks, big rebounds.','Three bars, one rhythm.','Thread the diamond field.','Time the bar, ramp up to the flag.'],
  ['Wind drags your shot sideways.','Gusts blow both ways.','The flag hides behind the dunes.','Bounce off the oasis dome.'],
  ['Everything ricochets on ice.','Boost across, thread the gap.','Bank off the mirrors.','Slick ice, moving bars.'],
@@ -530,12 +571,12 @@ const campaignHoleDescriptions=[
 const generatedLevels=[];
 for(let w=0;w<7;w++)for(let h=0;h<4;h++){
  const idx=w*4+h;
- generatedLevels.push({name:String(w+1).padStart(2,'0')+'.'+String(h+1).padStart(2,'0')+' · '+campaignHoleNames[w][h],worldNo:w,holeNo:h,desc:campaignHoleDescriptions[w][h],spawn:[-21.4,.8,0],hole:[5,.14,0],bounds:[25,9],build(){flagLift=0;boostPads=[];windZones=[];rollDrag=[.48,.48,.5,.62,.26,.55,.48][w];const flagSpots=[0,1,2,3].map(hh=>flagDist(w,hh));const flagIndex=(coopMode&&document.querySelector('#mapSelect')?.value==='random')?Math.floor(seededRandom((activeCourseSeed??idx)+0xF1A6)()*flagSpots.length):h;const dims=(coopMode&&document.querySelector('#mapSelect')?.value==='random'&&activeCourseSeed!==null)?buildGeneratedCourse(activeCourseSeed+idx*97,w,h,flagSpots[flagIndex]):buildDesignedCourse(w,h);this.spawn[0]=-dims.length/2+1.6;this.spawn[1]=(w===0&&h===1)?1.6:.8;this.hole[0]=this.spawn[0]+flagSpots[flagIndex];if(w===0&&h===1){this.spawn[0]=-10.4;this.hole[0]=8.6;}if(w===0&&h===1)this.hole[1]=.14;if(w===0&&h===2){this.hole[0]=this.spawn[0]+flagDist(0,2);this.hole[2]=0;}else if(!(w===0&&h===1)){this.hole[2]=0;}if(false)addCampaignSpinners(this.spawn,this.hole,w,h,dims.width);this.bounds=[dims.length/2+2,dims.width/2+3];}});
+ generatedLevels.push({name:String(w+1).padStart(2,'0')+'.'+String(h+1).padStart(2,'0')+' · '+campaignHoleNames[w][h],worldNo:w,holeNo:h,desc:campaignHoleDescriptions[w][h],spawn:[-21.4,.8,0],hole:[5,.14,0],bounds:[25,9],build(){flagLift=0;boostPads=[];windZones=[];rollDrag=[.48,.48,.5,.62,.26,.55,.48][w];const flagSpots=[0,1,2,3].map(hh=>flagDist(w,hh));const flagIndex=(coopMode&&document.querySelector('#mapSelect')?.value==='random')?Math.floor(seededRandom((activeCourseSeed??idx)+0xF1A6)()*flagSpots.length):h;const isRandomMap=coopMode&&document.querySelector('#mapSelect')?.value==='random';const laneZ=(isRandomMap||(w===1&&h===0))?0:[-2.5,2.5,0][idx%3];const dims=(isRandomMap&&activeCourseSeed!==null)?buildGeneratedCourse(activeCourseSeed+idx*97,w,h,flagSpots[flagIndex]):buildDesignedCourse(w,h,laneZ);this.spawn[0]=-dims.length/2+1.6;this.spawn[1]=(w===0&&h===1)?1.6:.8;this.hole[0]=this.spawn[0]+flagSpots[flagIndex];if(w===0&&h===1){this.spawn[0]=-10.4;this.hole[0]=8.6;}if(w===0&&h===1)this.hole[1]=.14;if(w===0&&h===2){this.hole[0]=this.spawn[0]+flagDist(0,2);this.hole[2]=laneZ;}else if(!(w===0&&h===1)){this.hole[2]=laneZ;}if(false)addCampaignSpinners(this.spawn,this.hole,w,h,dims.width);this.hole[2]=laneZ;this.bounds=[dims.length/2+2,dims.width/2+3];}});
 }
 // Keep three showcase courses for quick co-op presets, followed by 28 hand-designed campaign levels.
 const showcaseLevels=levels.slice();
 levels.push(...generatedLevels);
-let campaignCheckpoints=[],checkpointVisuals=[],campaignPads=[];let movingGates=[];let coopMode=false,placementPhase=false,placementPlayer=1,coopPlayers=2,coopRound=1,coopActivePlayer=1,coopPlayersFinished=0,coopScores=[],coopPlayerThrows={},coopPlayerDistances={},pendingNextCoopRound=false;let aimYaw=0,aimPitch=0,cursorX=innerWidth*.5,cursorY=innerHeight*.5;let camOrbitYaw=0,camOrbitPitch=0,cameraDrag=null,cameraFollowYaw=0,cameraFollowPitch=0;let charging=false,chargeStart=0,chargePower=50,lockedYaw=0,lockedPitch=0,aimFov=48,shotPunch=0;
+let campaignCheckpoints=[],checkpointVisuals=[],campaignPads=[];let movingGates=[];let coopMode=false,placementPhase=false,placementPlayer=1,coopPlayers=2,coopRound=1,coopActivePlayer=1,coopPlayersFinished=0,coopScores=[],coopPlayerThrows={},coopPlayerDistances={},pendingNextCoopRound=false;let aimYaw=0,aimPitch=0,cursorX=innerWidth*.5,cursorY=innerHeight*.5;let camOrbitYaw=0,camOrbitPitch=0,cameraDrag=null,cameraFollowYaw=0,cameraFollowPitch=0;let charging=false,chargeStart=0,chargePower=50,lockedYaw=0,lockedPitch=0,aimFov=48,shotPunch=0,mobileAimDrag=null;
 // Clean, matte course surfaces: palette-driven stone/resin instead of the experimental grass.
 function floor(x,y,z,w,h,d,color){
  const topColor=paletteColor(color);
@@ -644,7 +685,7 @@ function makeCannon(spawn){
  cannonGroup.userData={turretPivot,barrelPivot,tracks,baseY:cannonGroup.position.y,recoil:0,drivePhase:0};scene.add(cannonGroup);
 }
 function makeBall(spawn){ballMesh=new THREE.Mesh(new THREE.SphereGeometry(.19,32,24),new THREE.MeshStandardMaterial({color:0xF2DEC7,roughness:.25,metalness:.12}));ballMesh.castShadow=true;ballMesh.receiveShadow=true;ballMesh.position.set(...spawn);ballMesh.visible=false;scene.add(ballMesh);ballBody=new CANNON.Body({mass:1.4,material:matBall,shape:new CANNON.Sphere(.19),position:new CANNON.Vec3(...spawn),linearDamping:.22,angularDamping:.19,allowSleep:true,sleepSpeedLimit:.12,sleepTimeLimit:.65});ballBody.fixedRotation=false;ballBody.addEventListener('collide',e=>{const v=Math.abs(e.contact.getImpactVelocityAlongNormal()),n=performance.now();if(v>.9&&n-lastHit>70){lastHit=n;snd(190+Math.min(v,10)*20,.09,'sine',Math.min(.06,v*.006),-65)}});world.addBody(ballBody)}
-function loadLevel(i){document.querySelector('#coopboard').style.display=coopMode?'block':'none';placementPhase=false;activePalette=coopMode&&document.querySelector('#mapSelect')?.value==='random'?palettes[Math.floor((orand||Math.random)()*palettes.length)]:palettes[Math.min(6,Math.max(0,Math.floor((i-3)/4)))];removeLevel();applyAtmosphere();clearTimeout(checkpointTimer);clearTimeout(shotScoreTimer);shotScoreTimer=null;checkpointTransition=false;levelIndex=(i+levels.length)%levels.length;const L=levels[levelIndex];shots=0;charging=false;chargePower=50;aimFov=48;camera.fov=48;camera.updateProjectionMatrix();sectionShots=0;sectionStars=[0,0,0];checkpointIndex=0;rolling=false;completed=false;shotBest=Infinity;throwDistances=[];movingGates=[];L.build();makeHole(L.hole);holeMesh.position.y=flagLift;ballSpawn=new THREE.Vector3(...L.spawn);makeBall(L.spawn);makeCannon(L.spawn);levelTarget.set(L.hole[0],0,L.hole[2]);levelBounds={x:L.bounds[0],z:L.bounds[1]};if(false){const span=levelTarget.x-L.spawn[0];for(let ci=1;ci<=3;ci++){const cx=L.spawn[0]+span*(ci/4);const gateMat=new THREE.MeshStandardMaterial({color:activePalette.rail,roughness:.62,metalness:.08,emissive:activePalette.coral,emissiveIntensity:.12});const ringMat=new THREE.MeshStandardMaterial({color:activePalette.light,emissive:activePalette.coral,emissiveIntensity:.32,roughness:.38});const ring=new THREE.Mesh(new THREE.TorusGeometry(1.05,.065,8,32),ringMat);ring.rotation.x=-Math.PI/2;ring.position.set(cx,.09,0);scene.add(ring);checkpointVisuals.push(ring);const posts=[];for(const side of [-1,1]){const post=new THREE.Mesh(new THREE.CylinderGeometry(.105,.15,1.55,8),gateMat);post.position.set(cx,.77,side*2.45);post.castShadow=true;scene.add(post);checkpointVisuals.push(post);posts.push(post)}const lintel=new THREE.Mesh(new THREE.BoxGeometry(.2,.16,5.05),gateMat);lintel.position.set(cx,1.56,0);lintel.castShadow=true;scene.add(lintel);checkpointVisuals.push(lintel);campaignCheckpoints.push({x:cx,z:0,active:false,ring,posts,lintel});}for(const frac of [.48,.73]){const px=L.spawn[0]+span*frac;const pad=new THREE.Mesh(new THREE.BoxGeometry(1.65,.16,2.25),new THREE.MeshStandardMaterial({color:0xC9B995,emissive:0x75674B,emissiveIntensity:.18,roughness:.72}));pad.position.set(px,.06,frac>.7?-1.8:1.8);pad.rotation.y=frac>.7?-.18:.18;pad.receiveShadow=true;scene.add(pad);checkpointVisuals.push(pad);campaignPads.push({x:px,z:pad.position.z,used:false});}}const worldNo=L.worldNo??Math.min(6,Math.max(0,Math.floor((levelIndex-3)/4)));const holeNo=L.holeNo??Math.max(0,(levelIndex-3)%4);document.querySelector('#levelname').textContent=(L.name||'').split(' · ')[1]||worldNames[worldNo];document.querySelector('#levelcount').textContent=worldNames[worldNo]+' · '+(holeNo+1)+'/4';chargePower=50;document.querySelector('#chargeval').textContent='50%';document.querySelector('#chargefill').style.width='50%';document.querySelector('#shots').textContent=campaignOneShot()?'0 / 1':'0 / 2';document.querySelector('#best').textContent='—';document.querySelector('#score').textContent='0';document.querySelector('#result').style.display='none';aimYaw=0;aimPitch=0;camOrbitYaw=0;camOrbitPitch=0;cameraDrag=null;cursorX=innerWidth*.5;cursorY=innerHeight*.5;camera.position.set(L.spawn[0]-3.7,L.spawn[1]+1.25,L.spawn[2]);camera.lookAt(L.spawn[0]+8,L.spawn[1]+.5,L.spawn[2]);makeAimGuide();document.querySelector('#aimtip').textContent='AIM WITH CURSOR · HOLD LEFT CLICK TO CHARGE · KEEP MOVING TO ADJUST';document.querySelector('#aimfx').classList.remove('active');document.querySelector('#reticle').classList.remove('active');document.querySelector('#chargeui').classList.remove('charging');showHint((L.name||'').split(' · ')[1]||'READY',L.desc,2400);renderCoopBoard()}
+function loadLevel(i){document.querySelector('#coopboard').style.display=coopMode?'block':'none';placementPhase=false;activePalette=coopMode&&document.querySelector('#mapSelect')?.value==='random'?palettes[Math.floor((orand||Math.random)()*palettes.length)]:palettes[Math.min(6,Math.max(0,Math.floor((i-3)/4)))];removeLevel();applyAtmosphere();clearTimeout(checkpointTimer);clearTimeout(shotScoreTimer);shotScoreTimer=null;checkpointTransition=false;levelIndex=(i+levels.length)%levels.length;const L=levels[levelIndex];shots=0;charging=false;chargePower=50;syncMobilePower();aimFov=48;camera.fov=48;camera.updateProjectionMatrix();sectionShots=0;sectionStars=[0,0,0];checkpointIndex=0;rolling=false;completed=false;shotBest=Infinity;throwDistances=[];movingGates=[];L.build();makeHole(L.hole);holeMesh.position.y=flagLift;ballSpawn=new THREE.Vector3(...L.spawn);makeBall(L.spawn);makeCannon(L.spawn);levelTarget.set(L.hole[0],0,L.hole[2]);levelBounds={x:L.bounds[0],z:L.bounds[1]};if(false){const span=levelTarget.x-L.spawn[0];for(let ci=1;ci<=3;ci++){const cx=L.spawn[0]+span*(ci/4);const gateMat=new THREE.MeshStandardMaterial({color:activePalette.rail,roughness:.62,metalness:.08,emissive:activePalette.coral,emissiveIntensity:.12});const ringMat=new THREE.MeshStandardMaterial({color:activePalette.light,emissive:activePalette.coral,emissiveIntensity:.32,roughness:.38});const ring=new THREE.Mesh(new THREE.TorusGeometry(1.05,.065,8,32),ringMat);ring.rotation.x=-Math.PI/2;ring.position.set(cx,.09,0);scene.add(ring);checkpointVisuals.push(ring);const posts=[];for(const side of [-1,1]){const post=new THREE.Mesh(new THREE.CylinderGeometry(.105,.15,1.55,8),gateMat);post.position.set(cx,.77,side*2.45);post.castShadow=true;scene.add(post);checkpointVisuals.push(post);posts.push(post)}const lintel=new THREE.Mesh(new THREE.BoxGeometry(.2,.16,5.05),gateMat);lintel.position.set(cx,1.56,0);lintel.castShadow=true;scene.add(lintel);checkpointVisuals.push(lintel);campaignCheckpoints.push({x:cx,z:0,active:false,ring,posts,lintel});}for(const frac of [.48,.73]){const px=L.spawn[0]+span*frac;const pad=new THREE.Mesh(new THREE.BoxGeometry(1.65,.16,2.25),new THREE.MeshStandardMaterial({color:0xC9B995,emissive:0x75674B,emissiveIntensity:.18,roughness:.72}));pad.position.set(px,.06,frac>.7?-1.8:1.8);pad.rotation.y=frac>.7?-.18:.18;pad.receiveShadow=true;scene.add(pad);checkpointVisuals.push(pad);campaignPads.push({x:px,z:pad.position.z,used:false});}}const worldNo=L.worldNo??Math.min(6,Math.max(0,Math.floor((levelIndex-3)/4)));const holeNo=L.holeNo??Math.max(0,(levelIndex-3)%4);document.querySelector('#levelname').textContent=(L.name||'').split(' · ')[1]||worldNames[worldNo];document.querySelector('#levelcount').textContent=worldNames[worldNo]+' · '+(holeNo+1)+'/4';chargePower=50;document.querySelector('#chargeval').textContent='50%';document.querySelector('#chargefill').style.width='50%';document.querySelector('#shots').textContent=campaignOneShot()?'0 / 1':'0 / 2';document.querySelector('#best').textContent='—';document.querySelector('#score').textContent='0';document.querySelector('#result').style.display='none';aimYaw=0;aimPitch=0;camOrbitYaw=0;camOrbitPitch=0;cameraDrag=null;cursorX=innerWidth*.5;cursorY=innerHeight*.5;camera.position.set(L.spawn[0]-3.7,L.spawn[1]+1.25,L.spawn[2]);camera.lookAt(L.spawn[0]+8,L.spawn[1]+.5,L.spawn[2]);makeAimGuide();document.querySelector('#aimtip').textContent='AIM WITH CURSOR · HOLD LEFT CLICK TO CHARGE · KEEP MOVING TO ADJUST';document.querySelector('#aimfx').classList.remove('active');document.querySelector('#reticle').classList.remove('active');document.querySelector('#chargeui').classList.remove('charging');showHint((L.name||'').split(' · ')[1]||'READY',L.desc,2400);renderCoopBoard()}
 function makeAimGuide(){
  if(aimLine){scene.remove(aimLine);aimLine.geometry.dispose();aimLine.material.dispose()}
  if(aimMarker){scene.remove(aimMarker);aimMarker.geometry.dispose();aimMarker.material.dispose()}
@@ -688,7 +729,7 @@ function updateAimGuide(){
 }
 function updateControlLabels(){const slider=document.querySelector('#power');const value=Number(slider.value);document.querySelector('#powerval').textContent=value+'%';slider.style.setProperty('--power-fill',((value-Number(slider.min))/(Number(slider.max)-Number(slider.min))*100)+'%')}
 function showHint(title,text,duration=1700){const h=document.querySelector('#hint');document.querySelector('#hinttitle').textContent=title;document.querySelector('#hinttext').textContent=text;h.classList.add('show');clearTimeout(showHint.timer);showHint.timer=setTimeout(()=>h.classList.remove('show'),duration)}
-function fire(){camOrbitYaw=0;camOrbitPitch=0;cameraFollowYaw=aimYaw;cameraFollowPitch=0;cameraDrag=null;
+function fire(){syncMobilePower();camOrbitYaw=0;camOrbitPitch=0;cameraFollowYaw=aimYaw;cameraFollowPitch=0;cameraDrag=null;
  if(rolling||completed||shots>=(campaignOneShot()?1:2))return;
  const power=chargePower/100,speed=(4.5+power*9.5)*1.2;
  const yaw=aimYaw,pitch=aimPitch;
@@ -705,7 +746,7 @@ function fire(){camOrbitYaw=0;camOrbitPitch=0;cameraFollowYaw=aimYaw;cameraFollo
  // Keep the playfield unobstructed while the boule is moving; no in-play popup.
 }
 
-function resetBall(){if(!ballBody)return;clearTimeout(shotScoreTimer);shotScoreTimer=null;ballBody.position.set(ballSpawn.x,ballSpawn.y,ballSpawn.z);ballBody.velocity.set(0,0,0);ballBody.angularVelocity.set(0,0,0);ballBody.quaternion.set(0,0,0,1);ballBody.sleep();if(ballMesh)ballMesh.visible=false;rolling=false;completed=false;charging=false;chargePower=50;document.querySelector('#chargeval').textContent='50%';document.querySelector('#chargefill').style.width='50%';document.querySelector('#aimfx').classList.remove('active');document.querySelector('#reticle').classList.remove('active');document.querySelector('#chargeui').classList.remove('charging');document.querySelector('#result').style.display='none';updateAimGuide()}
+function resetBall(){if(!ballBody)return;clearTimeout(shotScoreTimer);shotScoreTimer=null;ballBody.position.set(ballSpawn.x,ballSpawn.y,ballSpawn.z);ballBody.velocity.set(0,0,0);ballBody.angularVelocity.set(0,0,0);ballBody.quaternion.set(0,0,0,1);ballBody.sleep();if(ballMesh)ballMesh.visible=false;rolling=false;completed=false;charging=false;chargePower=50;syncMobilePower();document.querySelector('#chargeval').textContent='50%';document.querySelector('#chargefill').style.width='50%';document.querySelector('#aimfx').classList.remove('active');document.querySelector('#reticle').classList.remove('active');document.querySelector('#chargeui').classList.remove('charging');document.querySelector('#result').style.display='none';updateAimGuide()}
 function sectionStarValue(n){return n<=2?1:n===3?.5:0}
 function playerColor(n){return [0xF2DEC7,0xCF7D65,0xA7B8C0,0x625954,0xE1B8A2,0xABA66F][(n-1)%6]}
 function finishThrow(){
@@ -830,13 +871,18 @@ document.querySelector('#backToMenu').addEventListener('click',()=>{
  document.querySelector('#menuhome').classList.add('active');
 });
 document.querySelector('#reset').addEventListener('click',()=>{if(completed){loadLevel(levelIndex);return}resetBall()});document.querySelector('#next').addEventListener('click',()=>loadLevel(levelIndex+1));document.querySelector('#continue').addEventListener('click',()=>{if(coopMode&&pendingNextCoopRound){advanceCoopRound();return}if(coopMode){document.querySelector('#result').style.display='none';document.querySelector('#mainmenu').style.display='flex';document.body.classList.add('menu-open');document.querySelector('#coopboard').style.display='none';coopMode=false;placementPhase=false;showMenuScreen('menuhome')}else loadLevel(levelIndex+1)});document.querySelector('#replay').addEventListener('click',()=>{if(coopMode){document.querySelector('#result').style.display='none';document.querySelector('#mainmenu').style.display='flex';document.body.classList.add('menu-open');document.querySelector('#coopboard').style.display='none';coopMode=false;placementPhase=false;showMenuScreen('menuc-oop')}else loadLevel(levelIndex)});
+function useMobileShotControls(){return window.matchMedia('(max-width:700px)').matches}
+function syncMobilePower(){const slider=document.querySelector('#mobilePower'),value=document.querySelector('#mobilePowerValue');if(slider)slider.value=String(Math.round(chargePower));if(value)value.textContent=Math.round(chargePower)+'%'}
+function setMobilePower(value){if(rolling)return;chargePower=Math.max(0,Math.min(100,Number(value)||0));syncMobilePower();document.querySelector('#chargeval').textContent=Math.round(chargePower)+'%';document.querySelector('#chargefill').style.width=chargePower+'%';updateAimGuide()}
+const mobilePowerInput=document.querySelector('#mobilePower');mobilePowerInput.addEventListener('input',()=>setMobilePower(mobilePowerInput.value));
+document.querySelector('#mobileFire').addEventListener('click',()=>{if(notMyTurn()){showHint('WAIT YOUR TURN','The other player is taking a shot.',1200);return}fire()});
 function aimFromPointer(e){
  if(rolling||completed||notMyTurn())return;cursorX=e.clientX;cursorY=e.clientY;
  if(charging){const reticle=document.querySelector('#reticle');reticle.style.left=e.clientX+'px';reticle.style.top=e.clientY+'px';}
  const nx=(e.clientX/innerWidth-.5)*2,ny=(e.clientY/innerHeight-.5)*2;
  aimYaw=THREE.MathUtils.clamp(nx*1.28,-1.08,1.08);
  const vertical=THREE.MathUtils.clamp(-ny,-1,1);
- aimPitch=THREE.MathUtils.clamp(vertical<0?vertical*.24:Math.pow(vertical,.78)*1.48,-.24,1.48);sendAim();
+ aimPitch=THREE.MathUtils.clamp(vertical<0?vertical*.24:Math.pow(vertical,.78)*1.48,-.24,campaignPitchLimit());sendAim();
  updateAimGuide();
 }
 function chargeValue(elapsedMs){const t=Math.min(1,Math.max(0,elapsedMs/1900));const eased=1-Math.pow(1-t,3.1);return 50+50*eased;}
@@ -860,23 +906,31 @@ renderer.domElement.addEventListener('pointermove',e=>{
   camOrbitYaw=THREE.MathUtils.clamp(camOrbitYaw-dx*.008,-1.45,1.45);
   camOrbitPitch=THREE.MathUtils.clamp(camOrbitPitch-dy*.006,-.45,.8);return;
  }
- if(rolling||completed)return;aimFromPointer(e);
+ if(rolling||completed)return;
+ if(useMobileShotControls()){
+  if(mobileAimDrag&&mobileAimDrag.id===e.pointerId){const dx=(e.clientX-mobileAimDrag.x)/Math.max(1,innerWidth),dy=(e.clientY-mobileAimDrag.y)/Math.max(1,innerHeight);aimYaw=THREE.MathUtils.clamp(mobileAimDrag.yaw+dx*2.2,-1.08,1.08);aimPitch=THREE.MathUtils.clamp(mobileAimDrag.pitch-dy*1.65,-.24,campaignPitchLimit());cursorX=e.clientX;cursorY=e.clientY;const reticle=document.querySelector('#reticle');reticle.style.left=e.clientX+'px';reticle.style.top=e.clientY+'px';updateAimGuide();sendAim()}
+  return;
+ }
+ aimFromPointer(e);
 });
 renderer.domElement.addEventListener('pointerdown',e=>{
  if(renderer.domElement.setPointerCapture)try{renderer.domElement.setPointerCapture(e.pointerId)}catch(_){}
  if(rolling||completed){cameraDrag={id:e.pointerId,x:e.clientX,y:e.clientY};return;}
+ if(useMobileShotControls()&&e.pointerType==='touch'){
+  if(notMyTurn())return;mobileAimDrag={id:e.pointerId,x:e.clientX,y:e.clientY,yaw:aimYaw,pitch:aimPitch};cursorX=e.clientX;cursorY=e.clientY;const reticle=document.querySelector('#reticle');reticle.style.left=e.clientX+'px';reticle.style.top=e.clientY+'px';reticle.classList.add('active');return;
+ }
  if(e.pointerType==='touch')aimFromPointer(e);if(e.button===0||e.pointerType==='touch')beginCharge(e);
 });
-window.addEventListener('pointerup',e=>{if(cameraDrag&&cameraDrag.id===e.pointerId)cameraDrag=null;releaseCharge(e)});
-window.addEventListener('pointercancel',e=>{if(cameraDrag&&cameraDrag.id===e.pointerId)cameraDrag=null;releaseCharge(e)});
+window.addEventListener('pointerup',e=>{if(cameraDrag&&cameraDrag.id===e.pointerId)cameraDrag=null;if(mobileAimDrag&&mobileAimDrag.id===e.pointerId){mobileAimDrag=null;document.querySelector('#reticle').classList.remove('active')}releaseCharge(e)});
+window.addEventListener('pointercancel',e=>{if(cameraDrag&&cameraDrag.id===e.pointerId)cameraDrag=null;if(mobileAimDrag&&mobileAimDrag.id===e.pointerId){mobileAimDrag=null;document.querySelector('#reticle').classList.remove('active')}releaseCharge(e)});
 renderer.domElement.addEventListener('contextmenu',e=>e.preventDefault());
-window.addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();if(notMyTurn())return;if(!charging)beginCharge({button:0,clientX:cursorX,clientY:cursorY});else releaseCharge({})}if((e.key==='r'||e.key==='R')&&!online)resetBall();if(e.key==='m'||e.key==='M')toggleMute();if(!rolling&&!completed&&!notMyTurn()&&!document.body.classList.contains('menu-open')){const k=e.code;if(k==='ArrowLeft')aimYaw=Math.max(-1.08,aimYaw-.02);else if(k==='ArrowRight')aimYaw=Math.min(1.08,aimYaw+.02);else if(k==='ArrowUp')aimPitch=Math.min(1.48,aimPitch+.02);else if(k==='ArrowDown')aimPitch=Math.max(-.24,aimPitch-.02);else return;e.preventDefault();updateAimGuide();sendAim()}});
+window.addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();if(notMyTurn())return;if(!charging)beginCharge({button:0,clientX:cursorX,clientY:cursorY});else releaseCharge({})}if((e.key==='r'||e.key==='R')&&!online)resetBall();if(e.key==='m'||e.key==='M')toggleMute();if(!rolling&&!completed&&!notMyTurn()&&!document.body.classList.contains('menu-open')){const k=e.code;if(k==='ArrowLeft')aimYaw=Math.max(-1.08,aimYaw-.02);else if(k==='ArrowRight')aimYaw=Math.min(1.08,aimYaw+.02);else if(k==='ArrowUp')aimPitch=Math.min(campaignPitchLimit(),aimPitch+.02);else if(k==='ArrowDown')aimPitch=Math.max(-.24,aimPitch-.02);else return;e.preventDefault();updateAimGuide();sendAim()}});
 function animateGates(t){for(const g of movingGates){const meta=g.mesh.userData.gate;if(!meta)continue;g.mesh.rotation.y=Math.sin(t*.85+meta.phase)*.75;g.body.quaternion.setFromEuler(0,g.mesh.rotation.y,0);g.body.aabbNeedsUpdate=true;}}
 let last=performance.now(),acc=0;
 function frame(now){requestAnimationFrame(frame);const dt=Math.min((now-last)/1000,.033);last=now;acc+=dt;const t=now/1000;if(charging){chargePower=Math.round(chargeValue(now-chargeStart));if(chargePower>=75&&lastChargeCue<75){snd(520,.06,'sine',.018,65);lastChargeCue=75}if(chargePower>=99&&lastChargeCue<99){snd(650,.07,'sine',.02,80);lastChargeCue=99}document.querySelector('#chargeval').textContent=chargePower+'%';document.querySelector('#chargefill').style.width=chargePower+'%';updateAimGuide();aimFov=THREE.MathUtils.damp(aimFov,60+chargePower*.08,5,dt);document.querySelector('#reticle').style.transform='translate(-50%,-50%) scale('+(1+chargePower/220)+')';}else{aimFov=THREE.MathUtils.damp(aimFov,48,5,dt)}if(Math.abs(camera.fov-aimFov)>.08){camera.fov=aimFov;camera.updateProjectionMatrix()}animateGates(t);if(cannonGroup){const d=cannonGroup.userData;d.recoil=Math.max(0,d.recoil-dt*3.8);d.drivePhase+=dt*(rolling?7:1.3);const kick=d.recoil;d.barrelPivot.position.x=.22-kick*.19;d.turretPivot.position.y=.7+Math.sin(d.drivePhase)*.012+(rolling?Math.sin(d.drivePhase*2)*.018:0);cannonGroup.position.y=d.baseY+(rolling?Math.abs(Math.sin(d.drivePhase*1.4))*.025:0);for(const tr of d.tracks)tr.position.y=.31+(rolling?Math.sin(d.drivePhase)*.012:0)}for(const b of landedBodies){if(b.userData?.mesh){b.userData.mesh.position.copy(b.position);b.userData.mesh.quaternion.copy(b.quaternion)}}while(acc>=1/60){world.step(1/60);if(rolling&&ballBody&&ballBody.position.y<=.215){const drag=Math.exp(-rollDrag/60);ballBody.velocity.x*=drag;ballBody.velocity.z*=drag;ballBody.angularVelocity.x*=Math.exp(-.3/60);ballBody.angularVelocity.z*=Math.exp(-.3/60);
  // Couple spin to travel so the boule rolls instead of skating across the surface.
  const speed=Math.hypot(ballBody.velocity.x,ballBody.velocity.z);if(speed>.08){const targetSpinX=ballBody.velocity.z/.19,targetSpinZ=-ballBody.velocity.x/.19;ballBody.angularVelocity.x+=(targetSpinX-ballBody.angularVelocity.x)*.018;ballBody.angularVelocity.z+=(targetSpinZ-ballBody.angularVelocity.z)*.018}}acc-=1/60}
- if(cannonGroup&&!rolling){cannonGroup.position.x=ballSpawn.x;cannonGroup.position.z=ballSpawn.z;cannonGroup.rotation.y=THREE.MathUtils.damp(cannonGroup.rotation.y,cannonGroup.userData.targetYaw||0,10,dt);cannonGroup.rotation.x=0;if(cannonGroup.userData.barrelPivot)cannonGroup.userData.barrelPivot.rotation.z=-THREE.MathUtils.damp(-cannonGroup.userData.barrelPivot.rotation.z,cannonGroup.userData.targetPitch||0,8,dt)}if(ballBody){ballMesh.position.copy(ballBody.position);ballMesh.quaternion.copy(ballBody.quaternion);try{const distanceLabel=document.getElementById('flagdistance');if(distanceLabel&&ballMesh.visible&&!completed&&rolling){const flagDistance=Math.hypot(ballBody.position.x-levelTarget.x,ballBody.position.z-levelTarget.z);if(flagDistance<=8){camera.updateMatrixWorld();const labelPos=new THREE.Vector3(ballBody.position.x,ballBody.position.y+.48,ballBody.position.z).project(camera);const sx=(labelPos.x*.5+.5)*window.innerWidth,sy=(-labelPos.y*.5+.5)*window.innerHeight;if(labelPos.z>=-1&&labelPos.z<=1&&sx>=0&&sx<=window.innerWidth&&sy>=0&&sy<=window.innerHeight){distanceLabel.textContent=flagDistance.toFixed(1)+' m';distanceLabel.style.left=sx+'px';distanceLabel.style.top=sy+'px';distanceLabel.style.display='block'}else distanceLabel.style.display='none'}else distanceLabel.style.display='none'}else if(distanceLabel)distanceLabel.style.display='none'}catch(_){const distanceLabel=document.getElementById('flagdistance');if(distanceLabel)distanceLabel.style.display='none'}if(rolling&&!completed){const p=ballBody.position;for(const b of boostPads)if(Math.abs(p.x-b.x)<.8&&Math.abs(p.z-b.z)<.8&&p.y<.5&&now-b.t>700){b.t=now;ballBody.velocity.x=ballBody.velocity.x*1.25+4;snd(520,.15,'triangle',.08,500)}for(const w of windZones)if(p.x>w.a&&p.x<w.b)ballBody.velocity.z+=w.az*dt;if(!coopMode&&campaignCheckpoints.length){for(let ci=0;ci<campaignCheckpoints.length;ci++){const cp=campaignCheckpoints[ci];if(!cp.active&&p.x>=cp.x&&Math.abs(p.z-cp.z)<4.9&&p.y<2.4){cp.active=true;ballSpawn.set(cp.x-1.5,.8,cp.z);checkpointIndex=ci+1;const ring=cp.ring;if(ring?.material){ring.material.color.setHex(0xB8F28B);ring.material.emissive.setHex(0x5FAD4D);ring.material.emissiveIntensity=1.1}for(const part of [...(cp.posts||[]),cp.lintel].filter(Boolean)){if(part.material){part.material.color.setHex(0xB8F28B);part.material.emissive.setHex(0x5FAD4D);part.material.emissiveIntensity=.55}}showHint('CHECKPOINT '+checkpointIndex+'/3','Checkpoint saved — next shots start from here.',1700);}}for(const pad of campaignPads){if(!pad.used&&Math.abs(p.x-pad.x)<.85&&Math.abs(p.z-pad.z)<1.2&&p.y<.65){pad.used=true;ballBody.velocity.y=Math.max(ballBody.velocity.y,5.6);ballBody.velocity.x*=1.12;const padMesh=checkpointVisuals.find(v=>v.geometry?.type==='BoxGeometry'&&Math.abs(v.position.x-pad.x)<.01);if(padMesh?.material){padMesh.material.color.setHex(0xB8F28B);padMesh.material.emissive.setHex(0x4D9E47)}showHint('BOOST PAD','Launch boost! Use the extra airtime to clear the next obstacle.',1500);}}}const liveDistance=Math.hypot(p.x-levelTarget.x,p.z-levelTarget.z);document.querySelector('#best').textContent=liveDistance<=10?liveDistance.toFixed(2)+' m':'—';document.querySelector('#score').textContent=String(scoreForDistance(liveDistance));if(p.y< -2||Math.abs(p.x)>levelBounds.x||Math.abs(p.z)>levelBounds.z){
+ if(cannonGroup&&!rolling){cannonGroup.position.x=ballSpawn.x;cannonGroup.position.z=ballSpawn.z;cannonGroup.rotation.y=THREE.MathUtils.damp(cannonGroup.rotation.y,cannonGroup.userData.targetYaw||0,10,dt);cannonGroup.rotation.x=0;if(cannonGroup.userData.barrelPivot)cannonGroup.userData.barrelPivot.rotation.z=-THREE.MathUtils.damp(-cannonGroup.userData.barrelPivot.rotation.z,cannonGroup.userData.targetPitch||0,8,dt)}if(ballBody){ballMesh.position.copy(ballBody.position);ballMesh.quaternion.copy(ballBody.quaternion);try{const distanceLabel=document.getElementById('flagdistance');if(distanceLabel&&ballMesh.visible&&!completed&&rolling){const flagDistance=Math.hypot(ballBody.position.x-levelTarget.x,ballBody.position.z-levelTarget.z);if(flagDistance<=8){camera.updateMatrixWorld();const labelPos=new THREE.Vector3(ballBody.position.x,ballBody.position.y+.48,ballBody.position.z).project(camera);const sx=(labelPos.x*.5+.5)*window.innerWidth,sy=(-labelPos.y*.5+.5)*window.innerHeight;if(labelPos.z>=-1&&labelPos.z<=1&&sx>=0&&sx<=window.innerWidth&&sy>=0&&sy<=window.innerHeight){distanceLabel.textContent=flagDistance.toFixed(1)+' m';distanceLabel.style.left=sx+'px';distanceLabel.style.top=sy+'px';distanceLabel.style.display='block'}else distanceLabel.style.display='none'}else distanceLabel.style.display='none'}else if(distanceLabel)distanceLabel.style.display='none'}catch(_){const distanceLabel=document.getElementById('flagdistance');if(distanceLabel)distanceLabel.style.display='none'}if(rolling&&!completed){const p=ballBody.position;for(const b of boostPads){const onPad=Math.abs(p.x-b.x)<1.0&&Math.abs(p.z-b.z)<1.0&&p.y<.65;if(onPad&&!b.active&&now-b.t>500){b.t=now;b.active=true;const v=ballBody.velocity,hs=Math.hypot(v.x,v.z);let dx=hs>.25?v.x/hs:1,dz=hs>.25?v.z/hs:0;v.x+=dx*10.5;v.z+=dz*10.5;v.y=Math.max(v.y,7.0);if(b.mesh?.material){b.mesh.material.color.setHex(0xB8F28B);b.mesh.material.emissive.setHex(0x5FAD4D);b.mesh.material.emissiveIntensity=1.45;}if(b.icon)b.icon.scale.setScalar(1.35);snd(520,.18,'triangle',.095,520);showHint('BOOST!','Power pad launched your boule — use the extra lift to clear the next obstacle.',1450)}else if(!onPad&&b.active){b.active=false;if(b.mesh?.material){b.mesh.material.color.set(activePalette.light);b.mesh.material.emissive.set(activePalette.coral);b.mesh.material.emissiveIntensity=1.15;}if(b.icon)b.icon.scale.setScalar(1);}}for(const w of windZones)if(p.x>w.a&&p.x<w.b)ballBody.velocity.z+=w.az*dt;if(!coopMode&&campaignCheckpoints.length){for(let ci=0;ci<campaignCheckpoints.length;ci++){const cp=campaignCheckpoints[ci];if(!cp.active&&p.x>=cp.x&&Math.abs(p.z-cp.z)<4.9&&p.y<2.4){cp.active=true;ballSpawn.set(cp.x-1.5,.8,cp.z);checkpointIndex=ci+1;const ring=cp.ring;if(ring?.material){ring.material.color.setHex(0xB8F28B);ring.material.emissive.setHex(0x5FAD4D);ring.material.emissiveIntensity=1.1}for(const part of [...(cp.posts||[]),cp.lintel].filter(Boolean)){if(part.material){part.material.color.setHex(0xB8F28B);part.material.emissive.setHex(0x5FAD4D);part.material.emissiveIntensity=.55}}showHint('CHECKPOINT '+checkpointIndex+'/3','Checkpoint saved — next shots start from here.',1700);}}for(const pad of campaignPads){if(!pad.used&&Math.abs(p.x-pad.x)<.85&&Math.abs(p.z-pad.z)<1.2&&p.y<.65){pad.used=true;ballBody.velocity.y=Math.max(ballBody.velocity.y,5.6);ballBody.velocity.x*=1.12;const padMesh=checkpointVisuals.find(v=>v.geometry?.type==='BoxGeometry'&&Math.abs(v.position.x-pad.x)<.01);if(padMesh?.material){padMesh.material.color.setHex(0xB8F28B);padMesh.material.emissive.setHex(0x4D9E47)}showHint('BOOST PAD','Launch boost! Use the extra airtime to clear the next obstacle.',1500);}}}const liveDistance=Math.hypot(p.x-levelTarget.x,p.z-levelTarget.z);document.querySelector('#best').textContent=liveDistance<=10?liveDistance.toFixed(2)+' m':'—';document.querySelector('#score').textContent=String(scoreForDistance(liveDistance));if(p.y< -2||Math.abs(p.x)>levelBounds.x||Math.abs(p.z)>levelBounds.z){
   // Keep an out-of-bounds shot at the edge until the fixed 8-second shot timer scores it.
   p.x=THREE.MathUtils.clamp(p.x,-levelBounds.x+.2,levelBounds.x-.2);
   p.z=THREE.MathUtils.clamp(p.z,-levelBounds.z+.2,levelBounds.z-.2);
