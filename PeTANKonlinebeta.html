@@ -7,7 +7,7 @@
 :root{--ink:#f2f3f4;--muted:#c5cbd0;--panel:#454a50a8;--line:#ffffff28;--mint:#f2f3f4;--gold:#d4d7da}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#454a50;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}canvas{display:block;touch-action:none}
 #flagdistance{position:fixed;left:0;top:0;z-index:4;transform:translate(-50%,-100%);font-size:11px;font-weight:500;line-height:1;color:#fff;white-space:nowrap;text-shadow:0 1px 3px #000b,0 0 5px #0008;pointer-events:none;display:none;font-variant-numeric:tabular-nums}
-#game{position:fixed;inset:0}#top{position:fixed;top:0;left:0;right:0;padding:12px 16px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;gap:10px}
+#game{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;overflow:hidden}#game>canvas{position:absolute;inset:0;width:100%!important;height:100%!important;touch-action:none}#top{position:fixed;top:0;left:0;right:0;padding:12px 16px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;gap:10px}
 .levelbadge{padding:9px 13px;border-radius:12px;background:#454a508c;border:1px solid #ffffff20;backdrop-filter:blur(16px)}.levelname{font-size:clamp(12px,2vw,16px);font-weight:850;letter-spacing:.12em}.levelcount{font-size:9px;font-weight:750;letter-spacing:.16em;color:#e4e7e9a0;margin-top:4px}
 .pill{background:#454a508c;border:1px solid #ffffff20;border-radius:11px;padding:6px 9px;min-width:65px;text-align:center;backdrop-filter:blur(16px)}.pill small{display:block;font-size:8px;letter-spacing:.12em;color:#e4e7e9a0;font-weight:750}.pill b{display:block;font-size:16px;margin-top:2px;font-weight:750}
 #bottom{position:fixed;bottom:18px;left:18px;transform:none;width:min(620px,calc(100% - 36px));display:grid;grid-template-columns:minmax(170px,1fr) auto;gap:10px;align-items:end}
@@ -54,20 +54,20 @@ body.online #next,body.online #reset{display:none}
 
 #fullscreenToggle{display:none}
 #mobile-controls{display:none}
-@media(max-width:700px){
+@media(max-width:900px), (pointer:coarse){
  #fullscreenToggle{display:inline-flex;align-items:center;justify-content:center;min-width:34px;min-height:34px;padding:6px;font-size:16px}
- #mobile-controls{display:block;position:fixed;z-index:4;left:10px;right:10px;bottom:max(8px,env(safe-area-inset-bottom));padding:9px 11px 10px;border:1px solid #ffffff32;border-radius:16px;background:#343a40d9;box-shadow:0 8px 26px #0005;backdrop-filter:blur(14px);touch-action:manipulation}
+ #mobile-controls{display:block;position:fixed;z-index:4;left:10px;right:10px;bottom:max(8px,env(safe-area-inset-bottom));padding:9px 11px 10px;border:1px solid #ffffff32;border-radius:16px;background:#343a40d9;box-shadow:0 8px 26px #0005;backdrop-filter:blur(14px);touch-action:none}
  #mobileAimPrompt{margin:0 0 7px;text-align:center;color:#e4e7e9b8;font-size:9px;font-weight:800;letter-spacing:.13em}
  .mobile-control-row{display:grid;grid-template-columns:minmax(0,1fr) 102px;align-items:center;gap:12px}
  .mobile-power-group{display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 8px;color:#e4e7e9c9;font-size:9px;font-weight:850;letter-spacing:.13em}
  #mobilePowerValue{font-size:15px;color:#f2dec7;letter-spacing:0;font-variant-numeric:tabular-nums}
  .mobile-power-track{grid-column:1/-1;height:12px;border-radius:99px;background:#625954;overflow:hidden;box-shadow:inset 0 1px 3px #0004}
  .mobile-power-track i{display:block;width:50%;height:100%;border-radius:99px;background:linear-gradient(90deg,#B5A58F,#F2DEC7);box-shadow:0 0 12px #F2DEC766;transition:width .04s linear}
- #mobileFire{height:58px;min-width:0;border-radius:14px;font-size:12px;letter-spacing:.1em;background:#f2dec7;color:#454a50;box-shadow:0 3px 12px #0004}
+ #mobileFire{touch-action:none;height:58px;min-width:0;border-radius:14px;font-size:12px;letter-spacing:.1em;background:#f2dec7;color:#454a50;box-shadow:0 3px 12px #0004}
  #chargeui{display:none!important}
  body.menu-open #mobile-controls{display:none}
 }
-@media(max-width:700px) and (orientation:landscape){
+@media(max-width:900px) and (orientation:landscape), (pointer:coarse) and (orientation:landscape){
  #top{padding-top:max(7px,env(safe-area-inset-top));padding-left:max(9px,env(safe-area-inset-left));padding-right:max(9px,env(safe-area-inset-right))}
  #topbuttons{top:54px;right:max(9px,env(safe-area-inset-right));gap:5px}
  #topbuttons .secondary{min-height:30px;padding:5px 7px;font-size:9px}
@@ -875,7 +875,7 @@ document.querySelector('#backToMenu').addEventListener('click',()=>{
  document.querySelector('#menuhome').classList.add('active');
 });
 document.querySelector('#reset').addEventListener('click',()=>{if(completed){loadLevel(levelIndex);return}resetBall()});document.querySelector('#next').addEventListener('click',()=>loadLevel(levelIndex+1));document.querySelector('#continue').addEventListener('click',()=>{if(coopMode&&pendingNextCoopRound){advanceCoopRound();return}if(coopMode){document.querySelector('#result').style.display='none';document.querySelector('#mainmenu').style.display='flex';document.body.classList.add('menu-open');document.querySelector('#coopboard').style.display='none';coopMode=false;placementPhase=false;showMenuScreen('menuhome')}else loadLevel(levelIndex+1)});document.querySelector('#replay').addEventListener('click',()=>{if(coopMode){document.querySelector('#result').style.display='none';document.querySelector('#mainmenu').style.display='flex';document.body.classList.add('menu-open');document.querySelector('#coopboard').style.display='none';coopMode=false;placementPhase=false;showMenuScreen('menuc-oop')}else loadLevel(levelIndex)});
-function useMobileShotControls(){return window.matchMedia('(max-width:700px)').matches}
+function useMobileShotControls(){return window.matchMedia('(max-width:900px), (pointer:coarse)').matches}
 function syncMobilePower(){const value=document.querySelector('#mobilePowerValue'),fill=document.querySelector('#mobilePowerFill');if(value)value.textContent=Math.round(chargePower)+'%';if(fill)fill.style.width=Math.round(chargePower)+'%'}
 const mobileFireButton=document.querySelector('#mobileFire');
 mobileFireButton.addEventListener('pointerdown',e=>{e.preventDefault();if(notMyTurn()){showHint('WAIT YOUR TURN','The other player is taking a shot.',1200);return}try{mobileFireButton.setPointerCapture(e.pointerId)}catch(_){}const started=beginCharge({button:0,clientX:cursorX,clientY:cursorY,pointerId:e.pointerId,mobileHold:true});if(started)mobileChargePointerId=e.pointerId});
@@ -911,7 +911,7 @@ renderer.domElement.addEventListener('pointermove',e=>{
  }
  if(rolling||completed)return;
  if(useMobileShotControls()){
-  if(mobileAimDrag&&mobileAimDrag.id===e.pointerId){const dx=(e.clientX-mobileAimDrag.x)/Math.max(1,innerWidth),dy=(e.clientY-mobileAimDrag.y)/Math.max(1,innerHeight);aimYaw=THREE.MathUtils.clamp(mobileAimDrag.yaw+dx*2.2,-1.08,1.08);aimPitch=THREE.MathUtils.clamp(mobileAimDrag.pitch-dy*1.65,-.24,campaignPitchLimit());cursorX=e.clientX;cursorY=e.clientY;const reticle=document.querySelector('#reticle');reticle.style.left=e.clientX+'px';reticle.style.top=e.clientY+'px';updateAimGuide();sendAim()}
+  if(mobileAimDrag&&mobileAimDrag.id===e.pointerId){const dx=(e.clientX-mobileAimDrag.x)/Math.max(1,innerWidth),dy=(e.clientY-mobileAimDrag.y)/Math.max(1,innerHeight);mobileAimDrag.x=e.clientX;mobileAimDrag.y=e.clientY;aimYaw=THREE.MathUtils.clamp(aimYaw+dx*2.8,-1.08,1.08);aimPitch=THREE.MathUtils.clamp(aimPitch-dy*1.8,-.24,campaignPitchLimit());cursorX=e.clientX;cursorY=e.clientY;const reticle=document.querySelector('#reticle');reticle.style.left=e.clientX+'px';reticle.style.top=e.clientY+'px';updateAimGuide();sendAim()}
   return;
  }
  aimFromPointer(e);
@@ -980,7 +980,8 @@ function frame(now){requestAnimationFrame(frame);const dt=Math.min((now-last)/10
  }
 }
  renderer.render(scene,camera)}
-window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.35))});
+function resizeGameViewport(){const w=Math.max(1,window.innerWidth),h=Math.max(1,window.innerHeight);camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.35))}
+window.addEventListener('resize',resizeGameViewport);window.addEventListener('orientationchange',()=>requestAnimationFrame(resizeGameViewport));if(window.visualViewport)window.visualViewport.addEventListener('resize',resizeGameViewport);
 
 // Sound (tiny synth), saved stars, and keyboard fine-aim.
 let AC=null,muted=false,lastHit=0,lastChargeCue=50;
@@ -1070,7 +1071,4 @@ function startOnline(m){
 }
 $('#onHost').onclick=hostRoom;
 $('#onJoin').onclick=()=>{const id=$('#onJoinCode').value.trim();if(!id){onStatus('Enter the host room code first.');return}joinRoom(id)};
-$('#onCopy').onclick=async()=>{const value=$('#onlink').value;try{await navigator.clipboard.writeText(value);$('#onCopy').textContent='COPIED ✓'}catch(e){$('#onlink').focus();$('#onlink').select();onStatus('Copy was blocked. Select and copy the highlighted text.')}setTimeout(()=>$('#onCopy').textContent=roomLink(online?.id||'')?'COPY LINK':'COPY ROOM CODE',1500)};
-$('#onStart').onclick=()=>{
- if(!online||!online.isHost)return;if(online.conns.length<1){onStatus('Waiting for at least one more player…');return}
- const map=$('#onMap').value,seed=Math.floor(Math.random()*0x7fffffff),level=map==
+$('#onCopy').onclick=async()=>{const value=$('#onlink').
