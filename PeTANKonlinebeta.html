@@ -8,7 +8,7 @@
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#454a50;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}canvas{display:block;touch-action:none}
 #flagdistance{position:fixed;left:0;top:0;z-index:4;transform:translate(-50%,-100%);font-size:11px;font-weight:500;line-height:1;color:#fff;white-space:nowrap;text-shadow:0 1px 3px #000b,0 0 5px #0008;pointer-events:none;display:none;font-variant-numeric:tabular-nums}
 #game{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;overflow:hidden}#game>canvas{position:absolute;inset:0;width:100%!important;height:100%!important;touch-action:none}#top{position:fixed;top:0;left:0;right:0;padding:12px 16px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;gap:10px}
-.levelbadge{padding:9px 13px;border-radius:12px;background:#454a508c;border:1px solid #ffffff20;backdrop-filter:blur(16px)}.levelname{font-size:clamp(12px,2vw,16px);font-weight:850;letter-spacing:.12em}.levelcount{font-size:9px;font-weight:750;letter-spacing:.16em;color:#e4e7e9a0;margin-top:4px}
+.levelbadge{padding:10px 13px;border-radius:13px;background:#343a4090;border:1px solid #ffffff1c;backdrop-filter:blur(16px);box-shadow:0 6px 20px #0002}.levelname{font-size:clamp(12px,2vw,16px);font-weight:850;letter-spacing:.1em}.turnline{margin-top:5px;color:#f2dec7;font-size:10px;font-weight:800;letter-spacing:.1em;font-variant-numeric:tabular-nums}.levelcount{font-size:8px;font-weight:700;letter-spacing:.13em;color:#e4e7e9a0;margin-top:4px}
 .pill{background:#454a508c;border:1px solid #ffffff20;border-radius:11px;padding:6px 9px;min-width:65px;text-align:center;backdrop-filter:blur(16px)}.pill small{display:block;font-size:8px;letter-spacing:.12em;color:#e4e7e9a0;font-weight:750}.pill b{display:block;font-size:16px;margin-top:2px;font-weight:750}
 #bottom{position:fixed;bottom:18px;left:18px;transform:none;width:min(620px,calc(100% - 36px));display:grid;grid-template-columns:minmax(170px,1fr) auto;gap:10px;align-items:end}
 .control{background:#454a5090;border:1px solid #ffffff22;border-radius:13px;padding:9px 11px;backdrop-filter:blur(18px);min-width:0}.control label{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:10px;font-weight:850;letter-spacing:.12em;text-transform:uppercase;margin-bottom:9px}.control output{color:var(--mint);font-variant-numeric:tabular-nums}
@@ -25,7 +25,7 @@ input[type=range]::-moz-range-thumb{width:15px;height:15px;border-radius:50%;bac
 .power-labels{display:flex;justify-content:space-between;gap:8px;margin-top:5px;font-size:8px;font-weight:750;letter-spacing:.1em;color:#d4d8dbaa}
 .power-labels span:nth-child(2){color:#F2DEC7}
 button{font:inherit;border:0;cursor:pointer;touch-action:manipulation}.fire{height:48px;min-width:92px;padding:0 14px;border-radius:13px;background:#e6e9eb;color:#353a40;font-size:11px;font-weight:850;letter-spacing:.07em;box-shadow:0 5px 18px #00000020}.fire:active{transform:scale(.97)}.secondary{background:#F2DEC710;color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:11px;font-weight:800}
-#topbuttons{position:fixed;right:16px;top:66px;display:flex;gap:6px}#hint{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:#454a50c4;border:1px solid var(--line);border-radius:18px;padding:18px 22px;max-width:min(390px,calc(100% - 30px));text-align:center;pointer-events:none;opacity:0;transition:opacity .25s;backdrop-filter:blur(10px)}#hint.show{opacity:1}#hint strong{display:block;font-size:19px;margin-bottom:5px}#hint span{font-size:12px;color:#F2DEC7;line-height:1.5}
+#topbuttons{position:fixed;right:14px;top:14px;display:flex;align-items:center;gap:3px}#hint{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:#454a50c4;border:1px solid var(--line);border-radius:18px;padding:18px 22px;max-width:min(390px,calc(100% - 30px));text-align:center;pointer-events:none;opacity:0;transition:opacity .25s;backdrop-filter:blur(10px)}#hint.show{opacity:1}#hint strong{display:block;font-size:19px;margin-bottom:5px}#hint span{font-size:12px;color:#F2DEC7;line-height:1.5}
 #aimtip{position:fixed;left:50%;top:78px;transform:translateX(-50%);font-size:9px;letter-spacing:.08em;font-weight:750;color:#f2f3f4;background:#454a5090;border:1px solid var(--line);border-radius:999px;padding:8px 12px;pointer-events:none;transition:all .25s}#aimfx{position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity .25s;background:radial-gradient(ellipse at center,transparent 34%,#F2DEC708 56%,#6259549c 100%)}#aimfx.active{opacity:1}#reticle{position:fixed;left:50%;top:50%;width:34px;height:34px;transform:translate(-50%,-50%) scale(.65);opacity:0;border:1px solid #F2DEC7;border-radius:50%;pointer-events:none;box-shadow:0 0 18px #F2DEC780,inset 0 0 12px #F2DEC733;transition:opacity .2s,transform .2s}#reticle:before,#reticle:after{content:"";position:absolute;background:#F2DEC7;box-shadow:0 0 8px #F2DEC7}#reticle:before{width:1px;height:54px;left:16px;top:-11px}#reticle:after{height:1px;width:54px;top:16px;left:-11px}#reticle.active{opacity:1;transform:translate(-50%,-50%) scale(1)}#chargeui{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);width:min(300px,calc(100% - 36px));padding:9px 12px 8px;border-radius:13px;background:#454a50a8;border:1px solid #ffffff24;box-shadow:0 8px 24px #00000020;backdrop-filter:blur(14px);pointer-events:none}#chargehead{display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:900;letter-spacing:.14em;color:#F2DEC7;margin-bottom:10px}#chargeval{font-size:18px;letter-spacing:0;color:var(--mint)}#chargebar{height:9px;border-radius:20px;background:#625954;overflow:hidden;box-shadow:inset 0 1px 3px #62595466}#chargefill{height:100%;width:50%;border-radius:20px;background:linear-gradient(90deg,#F2DEC7,#F2DEC7,#F2DEC7);box-shadow:0 0 16px #F2DEC766;transition:width .04s linear}#chargenote{text-align:center;font-size:8px;color:#e4e7e9a0;letter-spacing:.08em;margin-top:5px}#chargeui.charging{border-color:#F2DEC799;box-shadow:0 0 36px #F2DEC722,0 12px 34px #62595444}#chargeui.charging #chargeval{color:#F2DEC7}
 #result{position:fixed;inset:0;background:#625954cc;backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:18px;z-index:5}.card{width:min(420px,100%);background:#625954f5;border:1px solid var(--line);border-radius:25px;padding:28px;text-align:center;box-shadow:0 30px 100px #62595488}.eyebrow{font-size:10px;letter-spacing:.2em;font-weight:900;color:var(--mint)}.card h2{font-size:38px;letter-spacing:-.06em;margin:10px 0}.stars{font-size:38px;letter-spacing:.08em;color:var(--gold);margin:8px}.card p{color:#F2DEC7;font-size:13px;line-height:1.6}.actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:20px}.primary{background:var(--mint);color:#625954;border-radius:12px;padding:13px 17px;font-weight:950}.mobile-help{display:none}
 #cooprows .cooprow{display:flex;align-items:center;justify-content:space-between;padding:7px 8px;margin-top:4px;border-radius:9px;color:#F2DEC7;font-size:12px;border:1px solid transparent}#cooprows .cooprow.active{background:#F2DEC71c;border-color:#F2DEC7;color:#fff;font-weight:900}#cooprows .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px}#cooprows .pts{font-variant-numeric:tabular-nums;color:#E1B8A2}
@@ -34,18 +34,18 @@ button{font:inherit;border:0;cursor:pointer;touch-action:manipulation}.fire{heig
 #mainmenu{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:22px;background:linear-gradient(135deg,#625954d9,#625954a8);backdrop-filter:blur(8px)}
 .menu-card{width:min(760px,100%);max-height:calc(100dvh - 24px);overflow-y:auto;padding:clamp(22px,5vw,48px);border:1px solid #F2DEC766;border-radius:30px;background:linear-gradient(145deg,#625954f5,#625954e8);box-shadow:0 35px 100px #62595466}
 .brand-mark{width:min(250px,70%);color:#F2DEC7;margin:0 0 16px}.brand-mark svg{display:block;width:100%;height:auto}.menu-kicker{font-size:10px;letter-spacing:.28em;font-weight:900;color:#CF7D65}.menu-title{font-size:clamp(46px,9vw,86px);letter-spacing:-.085em;line-height:.9;margin:14px 0 12px;color:#F2DEC7}.menu-copy{max-width:500px;color:#E1B8A2;font-size:14px;line-height:1.65;margin:0 0 26px}.menu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.menu-option{min-height:132px;text-align:left;padding:17px;border-radius:18px;background:#F2DEC710;border:1px solid #F2DEC733;color:#F2DEC7;transition:transform .2s,border-color .2s,background .2s}.menu-option:hover{transform:translateY(-3px);border-color:#CF7D65;background:#CF7D651b}.menu-option b{display:block;font-size:16px;margin-bottom:8px}.menu-option span{font-size:11px;line-height:1.5;color:#E1B8A2}.menu-foot{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:22px;color:#B5A58F;font-size:10px;letter-spacing:.12em}.menu-screen{display:none}.menu-screen.active{display:block}.world-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:18px}.world-btn{display:flex;align-items:center;justify-content:space-between;text-align:left;padding:13px 15px;border-radius:13px;background:#F2DEC710;border:1px solid #F2DEC733;color:#F2DEC7}.world-btn small{color:#CF7D65}.menu-back{margin-top:16px;background:transparent;border:1px solid #F2DEC744;border-radius:12px;color:#F2DEC7;padding:10px 14px}.menu-primary{background:#F2DEC7;color:#625954;border:0;border-radius:12px;padding:12px 16px;font-weight:900}.menu-input{width:100%;background:#F2DEC710;color:#F2DEC7;border:1px solid #F2DEC744;border-radius:12px;padding:12px;margin:8px 0 12px}
-body.menu-open #top,body.menu-open #bottom,body.menu-open #topbuttons,body.menu-open #aimtip,body.menu-open #aimfx,body.menu-open #reticle,body.menu-open #chargeui{display:none}
+body.menu-open #top,body.menu-open #bottom,body.menu-open #topbuttons,body.menu-open #coopboard,body.menu-open #aimtip,body.menu-open #aimfx,body.menu-open #reticle,body.menu-open #chargeui{display:none}
 @media(max-width:620px){.menu-grid{grid-template-columns:1fr}.menu-option{min-height:0;padding:15px}.menu-foot{align-items:flex-start;flex-direction:column}.world-grid{grid-template-columns:1fr}}
 
 
 .menu-option#onlineBtn{grid-column:1/-1}
 /* Minimal frosted-grey HUD */
-.secondary{background:#454a5088;color:#f2f3f4;border-color:#ffffff24;backdrop-filter:blur(12px);padding:7px 9px;font-size:10px}
+.secondary{background:#454a5088;color:#f2f3f4;border-color:#ffffff24;backdrop-filter:blur(12px);padding:7px 9px;font-size:10px}#topbuttons .secondary{background:transparent;border-color:transparent;min-width:34px;min-height:34px;padding:6px 8px}#topbuttons .secondary:hover{background:#ffffff14;border-color:#ffffff18}#reset{white-space:nowrap}.action-label{font-size:9px;letter-spacing:.09em}
 #coopboard>div:first-child{font-size:8px!important;color:#e4e7e9a0!important}
 #cooprows .cooprow{font-size:11px;padding:5px 6px;color:#f2f3f4}
 #cooprows .cooprow.active{background:#ffffff18;border-color:#ffffff24}
 #cooprows .pts{color:#f2f3f4}
-@media(max-width:620px){#top{padding:9px;gap:6px}.levelbadge{padding:7px 9px}.levelname{font-size:11px}.levelcount{font-size:8px}#top>div:last-child{gap:4px!important}.pill{min-width:49px;padding:5px 6px;border-radius:9px}.pill small{font-size:7px;letter-spacing:.06em}.pill b{font-size:13px}#topbuttons{top:58px;right:9px}#aimtip{top:83px;padding:6px 9px;font-size:8px;max-width:calc(100% - 100px);overflow:hidden;text-overflow:ellipsis}#bottom{bottom:max(8px,env(safe-area-inset-bottom))}.control{padding:8px 9px;border-radius:11px}.fire{height:43px;min-width:78px;font-size:10px}#chargeui{bottom:max(8px,env(safe-area-inset-bottom));width:min(270px,calc(100% - 24px));padding:8px 10px}#chargehead{font-size:9px;margin-bottom:6px}#chargeval{font-size:15px}#coopboard{top:100px!important;right:8px!important;width:132px!important;padding:6px!important}}
+@media(max-width:620px){#top{padding:9px;gap:6px}.levelbadge{padding:7px 9px}.levelname{font-size:11px}.levelcount{font-size:8px}#top>div:last-child{gap:4px!important}.pill{min-width:49px;padding:5px 6px;border-radius:9px}.pill small{font-size:7px;letter-spacing:.06em}.pill b{font-size:13px}#topbuttons{top:58px;right:9px}#aimtip{top:83px;padding:6px 9px;font-size:8px;max-width:calc(100% - 100px);overflow:hidden;text-overflow:ellipsis}#bottom{bottom:max(8px,env(safe-area-inset-bottom))}.control{padding:8px 9px;border-radius:11px}.fire{height:43px;min-width:78px;font-size:10px}#chargeui{bottom:max(8px,env(safe-area-inset-bottom));width:min(270px,calc(100% - 24px));padding:8px 10px}#chargehead{font-size:9px;margin-bottom:6px}#chargeval{font-size:15px}#coopboard{top:86px!important;left:9px!important;right:auto!important;width:180px!important;padding:6px!important}#cooprows .cooprow{grid-template-columns:30px 1fr auto;gap:4px;padding:5px 4px}}
 
 body.online #next,body.online #reset{display:none}
 #aimtip,#chargehead,#chargenote{display:none}.levelname{text-transform:uppercase}#chargeui{opacity:0;transition:opacity .2s;bottom:28px;padding:8px 10px}#chargeui.charging{opacity:1}#chargebar{height:12px}
@@ -78,6 +78,7 @@ body.online #next,body.online #reset{display:none}
  .mobile-power-track{height:9px}
 }
 
+#coopboard{position:fixed;left:16px;top:94px;width:210px;padding:8px;background:#343a40a6;border:1px solid #ffffff24;border-radius:11px;backdrop-filter:blur(14px);z-index:3}#coophead{display:flex;justify-content:space-between;margin:0 2px 5px;color:#f2f3f4a8;font-size:8px;font-weight:850;letter-spacing:.12em}#cooproundlabel{font-size:7px}#cooprows .cooprow{display:grid;grid-template-columns:36px 1fr auto;gap:6px;align-items:center;padding:5px 6px;margin-top:3px;border-radius:8px;color:#f2f3f4;font-size:10px;border:1px solid transparent}#cooprows .cooprow.active{background:#ffffff16;border-color:#ffffff26;color:#fff;font-weight:850}#cooprows .pts{font-variant-numeric:tabular-nums;color:#f2f3f4;font-weight:800}.playerball{display:inline-block;width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 4px #fff8;vertical-align:middle;margin-right:4px}.playerthrows{font-size:9px;color:#f2f3f4a8;font-variant-numeric:tabular-nums}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
@@ -87,10 +88,10 @@ body.online #next,body.online #reset{display:none}
 <div id="flagdistance" aria-hidden="true"></div><div id="runtime-error" role="alert"></div>
 <div id="top">
  <div class="levelbadge"><div class="levelname" id="levelname">THE GARDEN</div><div class="levelcount" id="levelcount">LEVEL 1 / 4</div></div>
- <div style="display:flex;gap:8px"><div class="pill"><b id="shots">0 / 2</b></div><div class="pill" style="display:none"><b id="best">—</b></div><div class="pill" style="display:none"><b id="score">0</b></div></div>
+ <div hidden><span id="best">—</span><span id="score">0</span></div>
 </div>
-<div id="topbuttons"><button class="secondary" id="soundToggle" aria-label="Sound on" title="Toggle sound (M)">♫</button><button class="secondary" id="fullscreenToggle" aria-label="Enter full screen" title="Full screen">⛶</button><button class="secondary" id="backToMenu" aria-label="Back to main menu" title="Main menu">⌂ MENU</button><button class="secondary" id="reset">↻</button><button class="secondary" id="next" style="display:none">NEXT ↗</button></div>
-<div id="coopboard" style="display:none;position:fixed;right:16px;top:112px;width:160px;padding:8px;background:#454a50a8;border:1px solid #ffffff24;border-radius:12px;backdrop-filter:blur(16px);z-index:3"><div style="font-size:9px;letter-spacing:.16em;color:#CF7D65;font-weight:900;margin-bottom:8px">LOCAL MATCH <span id="cooproundlabel" style="float:right">ROUND 1/2</span></div><div id="cooprows"></div></div>
+<div id="topbuttons"><button class="secondary" id="fullscreenToggle" aria-hidden="true" tabindex="-1" style="display:none">⛶</button><button class="secondary" id="soundToggle" aria-label="Sound on" title="Sound">♫</button><button class="secondary" id="reset" aria-label="Restart level" title="Restart (R)">↻</button><button class="secondary" id="backToMenu" aria-label="Main menu" title="Menu (M)">⌂</button><button class="secondary" id="next" style="display:none">NEXT ↗</button></div>
+<div id="coopboard" aria-label="Player scores"><div id="coophead">PLAYERS <span id="cooproundlabel">ROUND 1/2</span></div><div id="cooprows"></div></div>
 <div id="aimtip">AIM WITH CURSOR · HOLD LEFT CLICK TO CHARGE · KEEP MOVING TO ADJUST</div><div id="aimfx"></div><div id="reticle"></div>
 <div id="chargeui"><div id="chargehead"><span id="chargelabel">SHOT POWER</span><output id="chargeval">50%</output></div><div id="chargebar"><div id="chargefill"></div></div><div id="chargenote">AIM · HOLD TO CHARGE · RELEASE TO FIRE</div></div>
 <div id="mobile-controls" aria-label="Mobile shot controls"><div id="mobileAimPrompt">AIM WITH ONE FINGER · HOLD POWER WITH ANOTHER</div><div class="mobile-control-row"><div class="mobile-power-group"><span>POWER</span><output id="mobilePowerValue">50%</output><div class="mobile-power-track" aria-hidden="true"><i id="mobilePowerFill"></i></div></div><button id="mobileFire" class="fire" type="button">HOLD POWER</button></div></div>
@@ -100,17 +101,16 @@ body.online #next,body.online #reset{display:none}
 <div id="mainmenu">
  <div class="menu-card">
   <section id="menuhome" class="menu-screen active">
-   <div class="brand-mark" aria-label="PeTANK logo"><svg viewBox="0 0 220 62" role="img" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><path d="M8 40h47l8-8h18v8h10v10H8z"/><path d="M42 31l9-9h17l8 9M54 22v-7h16v7"/><circle cx="22" cy="50" r="5"/><circle cx="43" cy="50" r="5"/><circle cx="65" cy="50" r="5"/></g><text x="93" y="43" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="31" letter-spacing="-2" fill="currentColor">PeTANK</text></svg></div><div class="menu-kicker">A LITTLE GAME OF BIG BOUNCES</div><div class="menu-title">PeTANK<span style="color:#CF7D65">.</span></div>
-   <p class="menu-copy">Drive the aim. Charge the shot. Bounce your way to the flag.</p>
+   <div class="menu-title">PeTANK<span style="color:#CF7D65">.</span></div>
+   <p class="menu-copy">Aim. Charge. Fire. Reach the flag.</p>
    <div class="menu-grid">
     <button class="menu-option" id="campaignBtn"><b>01 / CAMPAIGN</b><span>28 original holes</span></button>
     <button class="menu-option" id="coopBtn"><b>02 / LOCAL PLAY</b><span>Take turns on one screen</span></button>
     <button class="menu-option" id="onlineBtn"><b>03 / ONLINE PLAY</b><span>Peer-to-peer room · share a temporary link</span></button>
     
    </div>
-   <div class="menu-foot"><span>HOLD TO CHARGE · RELEASE TO FIRE</span><span>LOCAL PLAY · ARROWS TO AIM</span></div>
   </section>
-  <section id="menucampaign" class="menu-screen"><div class="menu-kicker">SINGLEPLAYER</div><h2 style="font-size:34px;letter-spacing:-.05em;margin:10px 0">Choose your world</h2><p class="menu-copy">Seven worlds, four holes each.</p><div id="worldgrid" class="world-grid"></div><button class="menu-back" data-back>← MAIN MENU</button></section>
+  <section id="menucampaign" class="menu-screen"><div class="menu-kicker">SINGLEPLAYER</div><h2 style="font-size:34px;letter-spacing:-.05em;margin:10px 0">Choose your world</h2><p class="menu-copy">Seven worlds · four stages each: discover, practice, twist, then prove your line.</p><div id="worldgrid" class="world-grid"></div><button class="menu-back" data-back>← MAIN MENU</button></section>
   <section id="menuc-oop" class="menu-screen"><div class="menu-kicker">LOCAL MULTIPLAYER</div><h2 style="font-size:34px;letter-spacing:-.05em;margin:10px 0">Set up a round</h2><p class="menu-copy">Pass the device and take turns.</p><label for="playersSelect">PLAYERS</label><select id="playersSelect" class="menu-input"><option value="2">2 players</option><option value="3">3 players</option><option value="4">4 players</option><option value="5">5 players</option><option value="6">6 players</option></select><label for="mapSelect">COURSE</label><select id="mapSelect" class="menu-input"><option value="random">Random generated hole</option><option value="garden">The Garden</option><option value="switchback">The Switchback</option><option value="foundry">The Foundry</option></select><button class="menu-primary" id="startCoop">START ROUND →</button><br><button class="menu-back" data-back>← MAIN MENU</button></section>
   <section id="menuonline" class="menu-screen"><div class="menu-kicker">ONLINE MULTIPLAYER</div><h2 style="font-size:34px;letter-spacing:-.05em;margin:10px 0">Play together</h2><p class="menu-copy" id="onstatus">Create a temporary room. Players connect directly; a free shared service only introduces them. The game itself must be on a public HTTPS link.</p>
 <div id="onhome"><label for="onMap">COURSE</label><select id="onMap" class="menu-input"><option value="random">Random generated hole</option><option value="garden">The Garden</option><option value="switchback">The Switchback</option><option value="foundry">The Foundry</option></select><button class="menu-primary" id="onHost">CREATE ROOM →</button><div style="display:flex;gap:8px;align-items:center;margin-top:12px"><input id="onJoinCode" class="menu-input" style="margin:0;flex:1" placeholder="Room code"><button class="menu-primary" id="onJoin">JOIN →</button></div></div>
@@ -161,6 +161,7 @@ function physBox(pos,size,color,opts={}){const mesh=meshBox(pos,size,color,opts)
 function campaignOneShot(){return false}
 function campaignPitchLimit(){return coopMode ? 0.36 : 1.48}
 let flagLift=0,flagSafeRing=null,boostPads=[],windZones=[],online=null,orand=null,rollDrag=.48,groundStripes=[],objects=[],dynamicObjects=[],ballBody=null,ballMesh=null,holeMesh=null,aimLine=null,aimArrow=null,aimMarker=null,aimMarkerExtras=[],aimDots=[],levelIndex=0,shots=0,rolling=false,completed=false,launchTime=0,shotBest=Infinity,levelStartShots=0,levelTarget=new THREE.Vector3(0,0,0),cannonGroup=null,ballSpawn=new THREE.Vector3(-5,0.8,0),levelBounds={x:16,z:20},holeRadius=.72,checkpointIndex=0,sectionShots=0,sectionStars=[0,0,0],checkpointTransition=false,checkpointTimer=null,landedBoules=[],landedBodies=[],throwDistances=[],shotScoreTimer=null,stuckSince=0;
+function updateTurnLabel(){renderCoopBoard()}
 const levels=[
  {name:'01 · THE GARDEN',desc:'A fig-garden labyrinth: staggered rails, stepping blocks and two narrow shooting windows. Read the angles before firing.',spawn:[-12,.8,0],hole:[12,.14,0],bounds:[17,7],angle:0,power:80,build(){
    floor(0,0,0,32,.7,8,0xF2DEC7);
@@ -223,13 +224,13 @@ const levels=[
 // Campaign: 7 biomes × 4 curated layouts. Random generation remains reserved for multiplayer.
 const worldNames=['THE GARDEN','THE SWITCHBACK','THE FOUNDRY','THE DUNES','THE FROZEN LAKE','THE OVERGROWTH','THE IMPOSSIBLE'];
 const worldDescriptions=[
- 'Soft garden geometry, staggered rails and clean shooting windows.',
- 'Chicanes, bank-shot pockets and offset pillars.',
- 'Industrial blocks, ramps and narrow gates.',
- 'Long bends, offset barriers and open sandy lanes.',
- 'A slick-looking precision course with close obstacle spacing.',
- 'Layered routes, side pockets and irregular formations.',
- 'A final exam combining tight angles and complex obstacle patterns.'
+ 'Learn rebound timing, then climb the stepped garden to its flag.',
+ 'Use a ramp and boost to learn bank shots and route planning.',
+ 'Read moving hazards, heavy blocks and their open rhythm.',
+ 'Counter crosswinds while preserving a low, controlled roll.',
+ 'Manage long rolls on slick ground and thread narrow gates.',
+ 'Choose between wide safe lanes and risky shortcuts through roots.',
+ 'Combine every lesson in a four-stage championship course.'
 ];
 function seededRandom(seed){let a=seed>>>0;return()=>{a=(a+0x6D2B79F5)|0;let t=Math.imul(a^(a>>>15),1|a);t^=t+Math.imul(t^(t>>>7),61|t);return((t^(t>>>14))>>>0)/4294967296}}
 function buildGeneratedCourse(seed,worldNo,holeNo,targetDistance=null){
@@ -407,33 +408,13 @@ function addCampaignSpinners(spawn,hole,worldNo,holeNo,width){
 // Obstacles: g gate, f funnel, k bank wall, p block, m rotating bar, c column, n spire, s dome, d diamond, r ramp.
 // Flag settings: B backboard, U basin, V front guard, P pillars, H hidden bunker, L raised plinth, X hidden + raised.
 const WORLD_LEVELS=[
- [[['s',-12,-2.2,.8],['s',-8,2.4,.8],['c',-4,0,.5,.8],['U',0]],null,
-  [['m',-14,4.4],['m',-9,4.4],['L',0]],
-  [['w',-12,6,6],['p',-7,-2,1,.9],['V',0]]],
- [[['r',-17,0,3],['g',-11,0,1.25,.9],['U',0]],
-  [['g',-18,-2.7,2.6,.8],['q',-14,-2.7],['k',-11,2.5,4,-.42,.8],['g',-7,2.4,2.5,.75],['p',-4,-1.5,.8,.9],['U',0]],
-  [['k',-14,3,5,-.7,1.2],['k',-8,-3,5,.7,1.2],['H',0]],
-  [['f',-18,2.6,.9],['w',-11,6,-7],['g',-6,-3.4,2.4,.8],['L',0]]],
- [[['p',-17,-2,1.4,1.2],['p',-14,2,1.4,1.2],['q',-10,0],['c',-6,0,.9,1.4],['V',0]],
-  [['m',-16,5],['m',-11,5],['m',-6,5],['B',2.6]],
-  [['d',-17,-3,1.2,1.2],['d',-14,3,1.2,1.2],['d',-11,-2,1.2,1.2],['d',-8,2,1.2,1.2],['U',0]],
-  [['g',-15,3,2,1.4],['m',-10,4.6],['r',-6,-2.5,2.4],['X',0]]],
- [[['w',-16,9,7],['s',-10,-2,.9],['s',-8,2,.9],['U',0]],
-  [['w',-18,6,-9],['w',-12,6,9],['n',-7,0,.7,1.2],['V',0]],
-  [['k',-16,-2.6,5,.5,.7],['q',-12,2.5],['k',-9,2.6,5,-.5,.7],['H',0]],
-  [['c',-14,-3,.5,1],['c',-14,3,.5,1],['s',-10,0,1.2],['w',-6,5,6],['L',0]]],
- [[['s',-16,-3,.7],['s',-14,2,.7],['s',-11,-1,.7],['s',-8,3,.7],['s',-6,-3,.7],['B',2.6]],
-  [['q',-18,0],['g',-12,0,1.6,.8],['n',-8,-2,.5,1],['n',-8,2,.5,1],['V',0]],
-  [['c',-16,0,.5,1],['k',-11,-3,4,.6,.9],['k',-11,3,4,-.6,.9],['w',-7,5,6],['L',0]],
-  [['m',-18,4.6],['d',-13,0,1,.9],['m',-9,4.6],['X',0]]],
- [[['c',-18,-3,.7,1.2],['c',-15,1,.7,1.2],['c',-12,-2,.7,1.2],['c',-9,3,.7,1.2],['H',0]],
-  [['g',-18,-3.4,2.2,1],['g',-14,3.4,2.2,1],['q',-10,0],['g',-7,-3.4,2.2,1],['U',0]],
-  [['k',-16,-2.5,4,.9,1.2],['k',-16,2.5,4,-.9,1.2],['s',-11,0,1],['r',-8,0,2.5],['X',0]],
-  [['n',-20,-2,.6,1.4],['n',-17,2,.6,1.4],['w',-13,6,-8],['m',-9,4.4],['n',-6,0,.6,1.4],['X',0]]],
- [[['q',-22,0],['m',-18,4.6],['m',-14,4.6],['g',-10,-3,2,1.1],['H',0]],
-  [['g',-24,-3.4,2.2,.9],['g',-21,3.4,2.2,.9],['g',-18,-3.4,2.2,.9],['g',-15,3.4,2.2,.9],['g',-12,-3.4,2.2,.9],['g',-9,3.4,2.2,.9],['B',2.4]],
-  [['f',-22,2,1.2],['w',-16,6,8],['c',-11,0,1.1,1.6],['s',-7,2.5,.7],['X',0]],
-  [['r',-24,0,3],['f',-19,3,1.2],['m',-15,4.6],['w',-11,6,-9],['d',-7,0,1.2,1.3],['X',0]]]
+ [[['s',-15,-2.1,.72],['s',-11,2.0,.82],['c',-7,-.2,.42,.72],['U',0]],null,[['s',-16,2.2,.9],['s',-12,-2.1,.78],['m',-7,4.6],['L',0]],[['w',-14,8,5.5],['p',-9,-2.4,.72,.75],['k',-5,1.9,3.2,-.28,.7],['V',0]]],
+ [[['r',-18,0,3.4],['g',-12,0,2.1,.85],['U',0]],[['g',-19,-2.7,2.7,.8],['q',-15,-2.7],['k',-11,2.35,4.8,-.46,.9],['g',-7,2.45,2.8,.75],['p',-4,-1.2,.7,.78],['U',0]],[['k',-16,3.1,5.3,-.68,1.15],['k',-9,-3.0,5.0,.72,1.0],['p',-5,0,.78,.8],['H',0]],[['r',-19,0,3.2],['f',-14,2.8,.9],['w',-10,7,-6.5],['g',-6,-3.1,2.7,.8],['L',0]]],
+ [[['p',-18,-2.0,1.1,.85],['p',-14,2.1,1.1,.9],['q',-10,0],['c',-6,0,.72,1.1],['V',0]],[['m',-18,5.0],['p',-14,-2.0,.82,.9],['m',-10,5.0],['m',-6,4.6],['B',2.6]],[['d',-18,-3,1.0,.9],['d',-15,2.8,.95,.95],['d',-11,-2.4,.9,.85],['d',-7,2.3,.85,.8],['U',0]],[['g',-17,3,2.1,1.1],['m',-12,4.8],['r',-8,-2.5,2.8],['m',-5,4.6],['X',0]]],
+ [[['w',-17,8,6.5],['s',-11,-2.0,.8],['s',-8,2.1,.78],['U',0]],[['w',-19,7,-8],['n',-14,0,.58,.9],['w',-10,6,8.5],['V',0]],[['k',-17,-2.8,5.1,.48,.72],['q',-13,2.5],['w',-9,7,-7.5],['k',-6,2.8,4.4,-.5,.72],['H',0]],[['c',-17,-3,.48,.95],['c',-17,3,.48,.95],['s',-12,0,1.05],['w',-8,7,7.5],['L',0]]],
+ [[['s',-17,-3,.68],['s',-14,2.5,.68],['s',-11,-1,.68],['s',-8,3,.68],['B',2.6]],[['q',-19,0],['g',-13,0,2.0,.78],['n',-9,-2,.46,.9],['n',-9,2,.46,.9],['V',0]],[['c',-18,0,.48,.9],['k',-13,-3,4.5,.58,.82],['k',-13,3,4.5,-.58,.82],['w',-8,6,4],['L',0]],[['m',-19,4.8],['d',-14,0,.9,.82],['m',-10,4.8],['f',-6,2.5,.82],['X',0]]],
+ [[['c',-18,-3,.62,1.0],['c',-15,1.2,.56,.9],['c',-12,-2.0,.58,.95],['c',-9,3,.62,1.0],['H',0]],[['g',-19,-3.3,2.4,.82],['g',-15,3.2,2.4,.82],['q',-11,-.2],['g',-7,-3.0,2.5,.78],['U',0]],[['k',-18,-2.6,4.6,.82,.95],['k',-18,2.6,4.6,-.82,.95],['s',-13,0,.95],['r',-9,0,2.8],['X',0]],[['n',-20,-2,.52,1.15],['n',-17,2,.52,1.15],['w',-13,7,-7],['m',-9,4.5],['n',-6,0,.52,1.1],['X',0]]],
+ [[['q',-22,0],['m',-18,4.7],['g',-13,-2.8,2.5,.85],['m',-9,4.5],['H',0]],[['g',-25,-3.35,2.45,.8],['g',-21,3.35,2.45,.8],['g',-17,-3.35,2.45,.8],['g',-13,3.35,2.45,.8],['g',-9,-3.35,2.45,.8],['B',2.4]],[['f',-23,2.2,1.05],['w',-17,7,7.5],['c',-12,0,.9,1.4],['s',-8,2.5,.75],['m',-5,4.4],['X',0]],[['r',-25,0,3.4],['f',-20,2.8,1.0],['m',-16,4.7],['w',-12,7,-8],['d',-8,0,1.0,1.0],['m',-5,4.5],['X',0]]]
 ];
 // Non-colliding scenery outside the rails: spires, boulders and crystals in the biome palette.
 function scenery(w,length){
@@ -515,10 +496,11 @@ function buildDesignedCourse(worldNo,holeNo,targetLane=0){
   addBiomeShapes(worldNo,holeNo);scenery(worldNo,length);
   return {length,width};
  }
- const F=flagDist(worldNo,holeNo),K=.65,length=F+9.6,width=12,fx=-length/2+1.6+F,fz=targetLane;
+ const F=flagDist(worldNo,holeNo),K=.65,length=F+9.6,width=[14.5,10.5,11.5,15,13,12,10.8][worldNo]+[.4,0,-.3,-.8][holeNo],fx=-length/2+1.6+F,fz=targetLane;
  floor(0,0,0,length,.7,width,palettes[worldNo].floor);
- wall(0,1.05,-width/2-.05,length+12,2.8,.42,0xA7B8C0);wall(0,1.05,width/2+.05,length+12,2.8,.42,0xA7B8C0);
- wall(length/2+5,1.05,0,.82,2.8,width+.55,0xA7B8C0);
+ const sideHeight=[1.25,1.9,3.0,1.45,1.0,2.25,3.1][worldNo];
+ wall(0,sideHeight/2,-width/2-.05,length+12,sideHeight,.42,0xA7B8C0);wall(0,sideHeight/2,width/2+.05,length+12,sideHeight,.42,0xA7B8C0);
+ wall(length/2+5,sideHeight/2,0,.82,sideHeight,width+.55,0xA7B8C0);
  let mi=0,tallFeatureCount=0;const tallFeatureLimit=2-((worldNo+holeNo)%2),STONE=0xB5A58F;
  const featuredHeight=h=>{if(tallFeatureCount<tallFeatureLimit){tallFeatureCount++;return 3.2;}return h;};
  const slab=(x,z,len,h,yaw=0,c=0xCF7D65)=>wall(x,h/2,z,.42,h,len,c,[0,yaw,0]);
@@ -550,32 +532,53 @@ function buildDesignedCourse(worldNo,holeNo,targetLane=0){
   P:()=>{for(const dx of[-1.2,1.4])for(const sd of[-1.5,1.5])post(fx+dx,fz+sd,.6,1)}
  };
  for(const [k,...args] of WORLD_LEVELS[worldNo][holeNo])P[k](...args);
+  addCampaignSignature(worldNo,holeNo,-length/2+1.6,fx,fz,width);
  if(tallFeatureCount===0){const gateX=fx-8.8,gapZ=fz,gap=3.0,left=gapZ-gap/2,right=gapZ+gap/2;if(left>-5.75)slab(gateX,(left-5.75)/2,left+5.75,3.2);if(right<5.75)slab(gateX,(right+5.75)/2,5.75-right,3.2);tallFeatureCount++;}
  scenery(worldNo,length);
  return {length,width};
 }
-const campaignHoleNames=[
- ['First Light','Garden Steps','Sprinkler','Breeze'],
- ['Ramp Jump','Boost & Bend','Bank Pocket','S-Curve Gust'],
- ['Warm Foundry','The Crusher','Diamond Field','Furnace Gate'],
- ['Dune Drift','Wind Tunnel','Mirage','Oasis'],
- ['Pinball Rink','Frostline','Mirror Gap','Frozen Precision'],
- ['First Thicket','Vine Slalom','Twin Pockets','Deep Growth'],
- ['The Gauntlet','Six-Step Slalom','Needle Thread','Impossible Line']
+function addCampaignSignature(worldNo,holeNo,spawnX,targetX,targetZ,width){
+ const span=targetX-spawnX,xAt=f=>spawnX+span*f;
+ const bumper=(x,z,r,color)=>{const mesh=new THREE.Mesh(new THREE.SphereGeometry(r,18,14),material(color,.38,.08));mesh.position.set(x,r*.62,z);mesh.castShadow=mesh.receiveShadow=true;scene.add(mesh);const body=new CANNON.Body({mass:0,material:matWall,position:new CANNON.Vec3(x,r*.62,z),shape:new CANNON.Sphere(r*.82)});world.addBody(body);objects.push({mesh,body})};
+ const visual=(x,y,z,w,h,d,color)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material(color,.42,.12));m.position.set(x,y,z);m.castShadow=true;scene.add(m);checkpointVisuals.push(m)};
+ if(worldNo===0){
+  for(let i=0;i<2+holeNo;i++){const f=.2+i*.16,z=(i%2?1:-1)*width*.25;bumper(xAt(f),z,.48+(i%2)*.10,i%2?0xE8806A:0xFFF1C9)}
+ }else if(worldNo===1){
+  for(let i=0;i<2+holeNo;i++){const f=.23+i*.17,z=(i%2?-1:1)*width*.22,angle=i%2?-.58:.58;wall(xAt(f),.43,z,width*.43,.72,.34,0xCF7D65,[0,angle,0])}
+ }else if(worldNo===2){
+  for(let i=0;i<2+holeNo;i++){const f=.22+i*.18,z=(i%2?-1:1)*width*.25,h=.8+(i%2)*.16;physBox([xAt(f),h/2,z],[1.45,h,1.25],i%2?0x625954:0xCF7D65,{physicsMaterial:matWall})}
+ }else if(worldNo===3){
+  for(let i=0;i<1+(holeNo%3);i++){const f=.28+i*.23,z=(i%2?-1:1)*width*.20;ramp(xAt(f),.13,z,2.8,.22,width*.38,i%2?.18:-.18,0xB5A58F)}
+ }else if(worldNo===4){
+  for(let i=0;i<2+holeNo;i++){const x=xAt(.18+i*.18);visual(x,.018,0,2.6,.025,width-1.0,i%2?0xA9D9EF:0xD8F3FF);if(i%2===0)wall(xAt(.3+i*.18),.22,(i%4<2?-1:1)*width*.26,1.4,.42,.22,0xA7B8C0)}
+ }else if(worldNo===5){
+  for(let i=0;i<3+holeNo;i++){const f=.2+i*.13,z=(i%2?-1:1)*width*.27,x=xAt(f),h=1.05+(i%3)*.16;physBox([x,h/2,z],[.62,h,.62],0x4F7F6F,{physicsMaterial:matWall});const canopy=new THREE.Mesh(new THREE.IcosahedronGeometry(.67+(i%2)*.12,0),material(0xCADBC6,.78,0));canopy.position.set(x,h+.28,z);canopy.scale.y=.82;canopy.castShadow=true;scene.add(canopy);checkpointVisuals.push(canopy)}
+ }else{
+  for(let i=0;i<2+holeNo;i++){const x=xAt(.22+i*(.60/Math.max(1,1+holeNo))),z=(i%2?-1:1)*width*.18,gateColor=i%2?0xE1B8A2:0xCF7D65;physBox([x,.42,z],[.38,.84,width*.42],gateColor,{physicsMaterial:matWall});visual(x,1.78,z,.32,.12,width*.46,0xF6ECF7)}
+ }
+}const campaignHoleNames=[
+ ['First Bounce','Garden Steps','Spinner Orchard','Crosswind Bloom'],
+ ['Ramp School','Boost & Bend','Bank Pocket','Gust Switchback'],
+ ['Warm Welcome','Three-Beat Crusher','Diamond Yard','Furnace Finale'],
+ ['Read the Dunes','Counter-Gust','Mirage Crossing','Oasis Drift'],
+ ['Long Glide','Frostline','Mirror Gate','Black Ice Finale'],
+ ['Root Fork','Twin Lanes','Canopy Shortcut','Thicket Thread'],
+ ['Gauntlet Entry','Six Gate Rhythm','Crosswind Machine','The Impossible Line']
 ];
 const campaignHoleDescriptions=[
- ['Bounce off the bumpers.','Roll down the stone stairs.','Time the spinning bars.','A breeze pushes you sideways.'],
- ['Launch off the ramp, clear the wall.','Boost through the first opening, bank around a high angled wall, then line up for the final bend.','Bank it off both walls.','Gusts bend your shot.'],
- ['Heavy blocks, big rebounds.','Three bars, one rhythm.','Thread the diamond field.','Time the bar, ramp up to the flag.'],
- ['Wind drags your shot sideways.','Gusts blow both ways.','The flag hides behind the dunes.','Bounce off the oasis dome.'],
- ['Everything ricochets on ice.','Boost across, thread the gap.','Bank off the mirrors.','Slick ice, moving bars.'],
- ['Weave between the trees.','Boost mid-slalom.','Ramp over the dome into the nest.','A windy thicket of spires.'],
- ['Boost, bars, bunker.','Six gates, no mistakes.','Wind, column, dome, bunker.','Everything at once.']
+ ['DISCOVER · Tap the soft bumpers and watch the rebound. BONUS · First boule within 5 m.','PRACTICE · Climb the broad stair route and settle on the raised flag deck. BONUS · First boule within 4 m.','TWIST · Read the spinner rhythm, then use the terrace as your safe line. BONUS · First boule within 3.5 m.','TRIAL · A crosswind and offset gate test your rebound control. BONUS · First boule within 3 m.'],
+ ['DISCOVER · The wide ramp teaches a clean launch over a low gate. BONUS · First boule within 4.5 m.','PRACTICE · Hit the boost lane, bank off the angled rail, and line up the second opening. BONUS · First boule within 3.5 m.','TWIST · Two bank walls leave a short, narrow pocket approach. BONUS · First boule within 3 m.','TRIAL · Ramp, funnel, gust and gate combine into one readable sequence. BONUS · First boule within 2.5 m.'],
+ ['DISCOVER · Nudge the heavy blocks to open the clean lane; the pad is a shortcut. BONUS · First boule within 4 m.','PRACTICE · Watch the moving bars and cross during their open rhythm. BONUS · First boule within 3.5 m.','TWIST · Diamond blocks create alternating pockets; choose a side early. BONUS · First boule within 3 m.','TRIAL · A moving crusher and launch ramp guard the raised target. BONUS · First boule within 2.5 m.'],
+ ['DISCOVER · The first gust pushes sideways. Aim against it and keep the ball low. BONUS · First boule within 4 m.','PRACTICE · Two opposite gusts demand a correction between wind lanes. BONUS · First boule within 3.5 m.','TWIST · The boost sits between angled banks; use it only if your line is stable. BONUS · First boule within 3 m.','TRIAL · Pillars, a boulder and a final crosswind protect the raised oasis. BONUS · First boule within 2.5 m.'],
+ ['DISCOVER · Ice keeps the ball moving. Start softer and leave room to roll. BONUS · First boule within 4 m.','PRACTICE · A boost carries you toward a narrow gate; brake with a gentle launch. BONUS · First boule within 3.5 m.','TWIST · Mirror rails and crosswind make the raised landing a speed puzzle. BONUS · First boule within 3 m.','TRIAL · Time two moving gates, then thread the last funnel on low-friction ground. BONUS · First boule within 2.5 m.'],
+ ['DISCOVER · Roots split the course. Pick the wider lane before you shoot. BONUS · First boule within 4 m.','PRACTICE · Boost through one pocket, then swap sides at the next gate. BONUS · First boule within 3.5 m.','TWIST · A ramp shortcut clears the central root, but the safe route banks around it. BONUS · First boule within 3 m.','TRIAL · Spires, wind and a moving branch leave a narrow final thread. BONUS · First boule within 2.5 m.'],
+ ['DISCOVER · Combine a boost and a timed gate; save your second boule to correct. BONUS · First boule within 3.5 m.','PRACTICE · Six alternating windows reward a steady, repeatable line. BONUS · First boule within 3 m.','TWIST · Counter the wind after the funnel, then choose a side around the heavy core. BONUS · First boule within 2.5 m.','FINAL TRIAL · Ramp, funnel, crusher, wind and a final diamond: use every lesson. BONUS · First boule within 2 m.']
 ];
+const campaignBonusDistances=[[5,4,3.5,3],[4.5,3.5,3,2.5],[4,3.5,3,2.5],[4,3.5,3,2.5],[4,3.5,3,2.5],[4,3.5,3,2.5],[3.5,3,2.5,2]];
 const generatedLevels=[];
 for(let w=0;w<7;w++)for(let h=0;h<4;h++){
  const idx=w*4+h;
- generatedLevels.push({name:String(w+1).padStart(2,'0')+'.'+String(h+1).padStart(2,'0')+' · '+campaignHoleNames[w][h],worldNo:w,holeNo:h,desc:campaignHoleDescriptions[w][h],spawn:[-21.4,.8,0],hole:[5,.14,0],bounds:[25,9],build(){flagLift=0;boostPads=[];windZones=[];rollDrag=[.48,.48,.5,.62,.26,.55,.48][w];const flagSpots=[0,1,2,3].map(hh=>flagDist(w,hh));const flagIndex=(coopMode&&document.querySelector('#mapSelect')?.value==='random')?Math.floor(seededRandom((activeCourseSeed??idx)+0xF1A6)()*flagSpots.length):h;const isRandomMap=coopMode&&document.querySelector('#mapSelect')?.value==='random';const laneZ=(isRandomMap||(w===1&&h===0))?0:[-2.5,2.5,0][idx%3];const dims=(isRandomMap&&activeCourseSeed!==null)?buildGeneratedCourse(activeCourseSeed+idx*97,w,h,flagSpots[flagIndex]):buildDesignedCourse(w,h,laneZ);this.spawn[0]=-dims.length/2+1.6;this.spawn[1]=(w===0&&h===1)?1.6:.8;this.hole[0]=this.spawn[0]+flagSpots[flagIndex];if(w===0&&h===1){this.spawn[0]=-10.4;this.hole[0]=8.6;}if(w===0&&h===1)this.hole[1]=.14;if(w===0&&h===2){this.hole[0]=this.spawn[0]+flagDist(0,2);this.hole[2]=laneZ;}else if(!(w===0&&h===1)){this.hole[2]=laneZ;}if(false)addCampaignSpinners(this.spawn,this.hole,w,h,dims.width);this.hole[2]=laneZ;this.bounds=[dims.length/2+2,dims.width/2+3];}});
+ generatedLevels.push({name:String(w+1).padStart(2,'0')+'.'+String(h+1).padStart(2,'0')+' · '+campaignHoleNames[w][h],worldNo:w,holeNo:h,desc:campaignHoleDescriptions[w][h],bonusDistance:campaignBonusDistances[w][h],spawn:[-21.4,.8,0],hole:[5,.14,0],bounds:[25,9],build(){flagLift=0;boostPads=[];windZones=[];rollDrag=[.48,.48,.5,.62,.26,.55,.48][w];const flagSpots=[0,1,2,3].map(hh=>flagDist(w,hh));const flagIndex=(coopMode&&document.querySelector('#mapSelect')?.value==='random')?Math.floor(seededRandom((activeCourseSeed??idx)+0xF1A6)()*flagSpots.length):h;const isRandomMap=coopMode&&document.querySelector('#mapSelect')?.value==='random';const laneZ=(isRandomMap||(w===1&&h===0))?0:[-2.5,2.5,0][idx%3];const dims=(isRandomMap&&activeCourseSeed!==null)?buildGeneratedCourse(activeCourseSeed+idx*97,w,h,flagSpots[flagIndex]):buildDesignedCourse(w,h,laneZ);this.spawn[0]=-dims.length/2+1.6;this.spawn[1]=(w===0&&h===1)?1.6:.8;this.hole[0]=this.spawn[0]+flagSpots[flagIndex];if(w===0&&h===1){this.spawn[0]=-10.4;this.hole[0]=8.6;}if(w===0&&h===1)this.hole[1]=.14;if(w===0&&h===2){this.hole[0]=this.spawn[0]+flagDist(0,2);this.hole[2]=laneZ;}else if(!(w===0&&h===1)){this.hole[2]=laneZ;}if(false)addCampaignSpinners(this.spawn,this.hole,w,h,dims.width);this.hole[2]=laneZ;this.bounds=[dims.length/2+2,dims.width/2+3];}});
 }
 // Keep three showcase courses for quick co-op presets, followed by 28 hand-designed campaign levels.
 const showcaseLevels=levels.slice();
@@ -661,18 +664,22 @@ function advanceCoopRound(){
  chooseFlagLane();
  document.querySelector('#best').textContent='—';document.querySelector('#score').textContent='0';
  ballBody.position.set(ballSpawn.x,ballSpawn.y,ballSpawn.z);ballBody.velocity.set(0,0,0);ballBody.angularVelocity.set(0,0,0);ballBody.quaternion.set(0,0,0,1);ballBody.wakeUp();ballMesh.position.copy(ballBody.position);ballMesh.visible=false;ballMesh.material.color.setHex(playerColor(1));
- document.querySelector('#shots').textContent='P1 · 0 / 2';document.querySelector('#aimtip').textContent='ROUND 2 · PLAYER 1 · SHOT 1 / 2';
+ updateTurnLabel();document.querySelector('#aimtip').textContent='ROUND 2 · PLAYER 1 · SHOT 1 / 2';
  showHint('ROUND 2',`Round 1 is complete. The target moves and all boules from the previous round are cleared.`,2200);
  renderCoopBoard();updateAimGuide();
 }
-function renderCoopBoard(){
- const board=document.querySelector('#coopboard');if(!board)return;board.style.display=coopMode?'block':'none';if(!coopMode)return;
- document.querySelector('#cooproundlabel').textContent='ROUND '+coopRound+'/2';
- const rows=document.querySelector('#cooprows');rows.innerHTML='';
- for(let i=1;i<=coopPlayers;i++){const roundPts=playerRoundScore(i,coopRound);const prior=coopScores.reduce((sum,r,idx)=>sum+(idx<coopRound-1&&r&&Number.isFinite(r[i])?r[i]:0),0);const row=document.createElement('div');row.className='cooprow'+(i===coopActivePlayer&&!placementPhase?' active':'');const color='#'+playerColor(i).toString(16).padStart(6,'0');row.innerHTML='<span><i class="dot" style="background:'+color+'"></i>PLAYER '+i+(online&&online.started&&online.me===i?' · YOU':'')+'</span><span class="pts">'+roundPts.toLocaleString()+' <small style="opacity:.65">(+'+prior.toLocaleString()+')</small></span>';rows.appendChild(row)}
-}
-
-function makeCannon(spawn){
+ function renderCoopBoard(){
+  const board=document.querySelector('#coopboard');if(!board)return;board.style.display='block';
+  document.querySelector('#cooproundlabel').textContent=coopMode?'ROUND '+coopRound+'/2':'';
+  const rows=document.querySelector('#cooprows');rows.innerHTML='';const total=coopMode?coopPlayers:1;
+  for(let i=1;i<=total;i++){
+   const active=!coopMode||i===coopActivePlayer;const throws=coopMode?(coopPlayerThrows[i]||0):(i===1?shots:0);
+   const points=coopMode?coopScores.reduce((sum,r,idx)=>sum+(idx<coopRound-1&&r&&Number.isFinite(r[i])?r[i]:0),0)+playerRoundScore(i,coopRound):(Number(document.querySelector('#score').textContent)||0);
+   const row=document.createElement('div');row.className='cooprow'+(active?' active':'');
+   row.innerHTML='<span>P'+i+'</span><span class="playerthrows"><i class="playerball"></i> '+Math.min(2,throws)+'/2</span><span class="pts">'+points.toLocaleString()+' pts</span>';rows.appendChild(row)
+  }
+ }
+ function makeCannon(spawn){
  // PeTANK: a compact toy tank. Keep the same aim/launch interface as the old cannon.
  cannonGroup=new THREE.Group();cannonGroup.rotation.order='YXZ';
  const hullMat=material(0xC2A16D,.78,.025),dark=material(0x514536,.84,.015),trim=material(0xD9C5A0,.58,.025),turretMat=material(0xD2B581,.7,.025),barrelMat=material(0x665944,.68,.035);
@@ -689,7 +696,7 @@ function makeCannon(spawn){
  cannonGroup.userData={turretPivot,barrelPivot,tracks,baseY:cannonGroup.position.y,recoil:0,drivePhase:0};scene.add(cannonGroup);
 }
 function makeBall(spawn){ballMesh=new THREE.Mesh(new THREE.SphereGeometry(.19,32,24),new THREE.MeshStandardMaterial({color:0xF2DEC7,roughness:.25,metalness:.12}));ballMesh.castShadow=true;ballMesh.receiveShadow=true;ballMesh.position.set(...spawn);ballMesh.visible=false;scene.add(ballMesh);ballBody=new CANNON.Body({mass:1.4,material:matBall,shape:new CANNON.Sphere(.19),position:new CANNON.Vec3(...spawn),linearDamping:.22,angularDamping:.19,allowSleep:true,sleepSpeedLimit:.12,sleepTimeLimit:.65});ballBody.fixedRotation=false;ballBody.addEventListener('collide',e=>{const v=Math.abs(e.contact.getImpactVelocityAlongNormal()),n=performance.now();if(v>.9&&n-lastHit>70){lastHit=n;snd(190+Math.min(v,10)*20,.09,'sine',Math.min(.06,v*.006),-65)}});world.addBody(ballBody)}
-function loadLevel(i){document.querySelector('#coopboard').style.display=coopMode?'block':'none';placementPhase=false;activePalette=coopMode&&document.querySelector('#mapSelect')?.value==='random'?palettes[Math.floor((orand||Math.random)()*palettes.length)]:palettes[Math.min(6,Math.max(0,Math.floor((i-3)/4)))];removeLevel();applyAtmosphere();clearTimeout(checkpointTimer);clearTimeout(shotScoreTimer);shotScoreTimer=null;checkpointTransition=false;levelIndex=(i+levels.length)%levels.length;const L=levels[levelIndex];shots=0;charging=false;chargePower=50;syncMobilePower();aimFov=48;camera.fov=48;camera.updateProjectionMatrix();sectionShots=0;sectionStars=[0,0,0];checkpointIndex=0;rolling=false;completed=false;shotBest=Infinity;throwDistances=[];movingGates=[];L.build();makeHole(L.hole);holeMesh.position.y=flagLift;ballSpawn=new THREE.Vector3(...L.spawn);makeBall(L.spawn);makeCannon(L.spawn);levelTarget.set(L.hole[0],0,L.hole[2]);levelBounds={x:L.bounds[0],z:L.bounds[1]};if(false){const span=levelTarget.x-L.spawn[0];for(let ci=1;ci<=3;ci++){const cx=L.spawn[0]+span*(ci/4);const gateMat=new THREE.MeshStandardMaterial({color:activePalette.rail,roughness:.62,metalness:.08,emissive:activePalette.coral,emissiveIntensity:.12});const ringMat=new THREE.MeshStandardMaterial({color:activePalette.light,emissive:activePalette.coral,emissiveIntensity:.32,roughness:.38});const ring=new THREE.Mesh(new THREE.TorusGeometry(1.05,.065,8,32),ringMat);ring.rotation.x=-Math.PI/2;ring.position.set(cx,.09,0);scene.add(ring);checkpointVisuals.push(ring);const posts=[];for(const side of [-1,1]){const post=new THREE.Mesh(new THREE.CylinderGeometry(.105,.15,1.55,8),gateMat);post.position.set(cx,.77,side*2.45);post.castShadow=true;scene.add(post);checkpointVisuals.push(post);posts.push(post)}const lintel=new THREE.Mesh(new THREE.BoxGeometry(.2,.16,5.05),gateMat);lintel.position.set(cx,1.56,0);lintel.castShadow=true;scene.add(lintel);checkpointVisuals.push(lintel);campaignCheckpoints.push({x:cx,z:0,active:false,ring,posts,lintel});}for(const frac of [.48,.73]){const px=L.spawn[0]+span*frac;const pad=new THREE.Mesh(new THREE.BoxGeometry(1.65,.16,2.25),new THREE.MeshStandardMaterial({color:0xC9B995,emissive:0x75674B,emissiveIntensity:.18,roughness:.72}));pad.position.set(px,.06,frac>.7?-1.8:1.8);pad.rotation.y=frac>.7?-.18:.18;pad.receiveShadow=true;scene.add(pad);checkpointVisuals.push(pad);campaignPads.push({x:px,z:pad.position.z,used:false});}}const worldNo=L.worldNo??Math.min(6,Math.max(0,Math.floor((levelIndex-3)/4)));const holeNo=L.holeNo??Math.max(0,(levelIndex-3)%4);document.querySelector('#levelname').textContent=(L.name||'').split(' · ')[1]||worldNames[worldNo];document.querySelector('#levelcount').textContent=worldNames[worldNo]+' · '+(holeNo+1)+'/4';chargePower=50;document.querySelector('#chargeval').textContent='50%';document.querySelector('#chargefill').style.width='50%';document.querySelector('#shots').textContent=campaignOneShot()?'0 / 1':'0 / 2';document.querySelector('#best').textContent='—';document.querySelector('#score').textContent='0';document.querySelector('#result').style.display='none';aimYaw=0;aimPitch=0;camOrbitYaw=0;camOrbitPitch=0;cameraDrag=null;cursorX=innerWidth*.5;cursorY=innerHeight*.5;camera.position.set(L.spawn[0]-3.7,L.spawn[1]+1.25,L.spawn[2]);camera.lookAt(L.spawn[0]+8,L.spawn[1]+.5,L.spawn[2]);makeAimGuide();document.querySelector('#aimtip').textContent='AIM WITH CURSOR · HOLD LEFT CLICK TO CHARGE · KEEP MOVING TO ADJUST';document.querySelector('#aimfx').classList.remove('active');document.querySelector('#reticle').classList.remove('active');document.querySelector('#chargeui').classList.remove('charging');showHint((L.name||'').split(' · ')[1]||'READY',L.desc,2400);renderCoopBoard()}
+function loadLevel(i){document.querySelector('#coopboard').style.display='block';placementPhase=false;activePalette=coopMode&&document.querySelector('#mapSelect')?.value==='random'?palettes[Math.floor((orand||Math.random)()*palettes.length)]:palettes[Math.min(6,Math.max(0,Math.floor((i-3)/4)))];removeLevel();applyAtmosphere();clearTimeout(checkpointTimer);clearTimeout(shotScoreTimer);shotScoreTimer=null;checkpointTransition=false;levelIndex=(i+levels.length)%levels.length;const L=levels[levelIndex];shots=0;charging=false;chargePower=50;syncMobilePower();aimFov=48;camera.fov=48;camera.updateProjectionMatrix();sectionShots=0;sectionStars=[0,0,0];checkpointIndex=0;rolling=false;completed=false;shotBest=Infinity;throwDistances=[];movingGates=[];L.build();makeHole(L.hole);holeMesh.position.y=flagLift;ballSpawn=new THREE.Vector3(...L.spawn);makeBall(L.spawn);makeCannon(L.spawn);levelTarget.set(L.hole[0],0,L.hole[2]);levelBounds={x:L.bounds[0],z:L.bounds[1]};if(false){const span=levelTarget.x-L.spawn[0];for(let ci=1;ci<=3;ci++){const cx=L.spawn[0]+span*(ci/4);const gateMat=new THREE.MeshStandardMaterial({color:activePalette.rail,roughness:.62,metalness:.08,emissive:activePalette.coral,emissiveIntensity:.12});const ringMat=new THREE.MeshStandardMaterial({color:activePalette.light,emissive:activePalette.coral,emissiveIntensity:.32,roughness:.38});const ring=new THREE.Mesh(new THREE.TorusGeometry(1.05,.065,8,32),ringMat);ring.rotation.x=-Math.PI/2;ring.position.set(cx,.09,0);scene.add(ring);checkpointVisuals.push(ring);const posts=[];for(const side of [-1,1]){const post=new THREE.Mesh(new THREE.CylinderGeometry(.105,.15,1.55,8),gateMat);post.position.set(cx,.77,side*2.45);post.castShadow=true;scene.add(post);checkpointVisuals.push(post);posts.push(post)}const lintel=new THREE.Mesh(new THREE.BoxGeometry(.2,.16,5.05),gateMat);lintel.position.set(cx,1.56,0);lintel.castShadow=true;scene.add(lintel);checkpointVisuals.push(lintel);campaignCheckpoints.push({x:cx,z:0,active:false,ring,posts,lintel});}for(const frac of [.48,.73]){const px=L.spawn[0]+span*frac;const pad=new THREE.Mesh(new THREE.BoxGeometry(1.65,.16,2.25),new THREE.MeshStandardMaterial({color:0xC9B995,emissive:0x75674B,emissiveIntensity:.18,roughness:.72}));pad.position.set(px,.06,frac>.7?-1.8:1.8);pad.rotation.y=frac>.7?-.18:.18;pad.receiveShadow=true;scene.add(pad);checkpointVisuals.push(pad);campaignPads.push({x:px,z:pad.position.z,used:false});}}const worldNo=L.worldNo??Math.min(6,Math.max(0,Math.floor((levelIndex-3)/4)));const holeNo=L.holeNo??Math.max(0,(levelIndex-3)%4);document.querySelector('#levelname').textContent=(L.name||'').split(' · ')[1]||worldNames[worldNo];document.querySelector('#levelcount').textContent=worldNames[worldNo]+' · '+(holeNo+1)+'/4 · '+['DISCOVER','PRACTICE','TWIST','TRIAL'][holeNo];chargePower=50;document.querySelector('#chargeval').textContent='50%';document.querySelector('#chargefill').style.width='50%';updateTurnLabel();document.querySelector('#best').textContent='—';document.querySelector('#score').textContent='0';document.querySelector('#result').style.display='none';aimYaw=0;aimPitch=0;camOrbitYaw=0;camOrbitPitch=0;cameraDrag=null;cursorX=innerWidth*.5;cursorY=innerHeight*.5;camera.position.set(L.spawn[0]-3.7,L.spawn[1]+1.25,L.spawn[2]);camera.lookAt(L.spawn[0]+8,L.spawn[1]+.5,L.spawn[2]);makeAimGuide();document.querySelector('#aimtip').textContent='AIM WITH CURSOR · HOLD LEFT CLICK TO CHARGE · KEEP MOVING TO ADJUST';document.querySelector('#aimfx').classList.remove('active');document.querySelector('#reticle').classList.remove('active');document.querySelector('#chargeui').classList.remove('charging');showHint((L.name||'').split(' · ')[1]||'READY',L.desc,2400);renderCoopBoard()}
 function makeAimGuide(){
  if(aimLine){scene.remove(aimLine);aimLine.geometry.dispose();aimLine.material.dispose()}
  if(aimMarker){scene.remove(aimMarker);aimMarker.geometry.dispose();aimMarker.material.dispose()}
@@ -744,13 +751,20 @@ function fire(){syncMobilePower();camOrbitYaw=0;camOrbitPitch=0;cameraFollowYaw=
  ballBody.position.set(muzzleX,muzzleY,muzzleZ);ballMesh.position.copy(ballBody.position);ballMesh.visible=true;
  ballBody.wakeUp();ballBody.velocity.set(dir.x*speed,dir.y*speed,dir.z*speed);
  ballBody.angularVelocity.set(-dir.z*speed*2.5,0,dir.x*speed*2.5);
- if(cannonGroup)cannonGroup.userData.recoil=1;if(online&&online.started&&!online.remote)onSend({t:'fire',y:yaw,p:pitch,pw:chargePower});rolling=true;snd(155+power*45,.2,'triangle',.055,-65);sndNoise(.14,.018,760);updateAimGuide();launchTime=performance.now();stuckSince=0;shots++;sectionShots++;document.querySelector('#shots').textContent=coopMode?'P'+coopActivePlayer+' · '+shots+' / 2':shots+' / '+(campaignOneShot()?1:2);
+ if(cannonGroup)cannonGroup.userData.recoil=1;if(online&&online.started&&!online.remote)onSend({t:'fire',y:yaw,p:pitch,pw:chargePower});rolling=true;snd(155+power*45,.2,'triangle',.055,-65);sndNoise(.14,.018,760);updateAimGuide();launchTime=performance.now();stuckSince=0;shots++;sectionShots++;updateTurnLabel();
  clearTimeout(shotScoreTimer);
  shotScoreTimer=setTimeout(()=>{if(!completed&&shots>throwDistances.length)finishThrow()},8000);
  // Keep the playfield unobstructed while the boule is moving; no in-play popup.
 }
 
-function resetBall(){if(!ballBody)return;clearTimeout(shotScoreTimer);shotScoreTimer=null;ballBody.position.set(ballSpawn.x,ballSpawn.y,ballSpawn.z);ballBody.velocity.set(0,0,0);ballBody.angularVelocity.set(0,0,0);ballBody.quaternion.set(0,0,0,1);ballBody.sleep();if(ballMesh)ballMesh.visible=false;rolling=false;completed=false;charging=false;chargePower=50;syncMobilePower();document.querySelector('#chargeval').textContent='50%';document.querySelector('#chargefill').style.width='50%';document.querySelector('#aimfx').classList.remove('active');document.querySelector('#reticle').classList.remove('active');document.querySelector('#chargeui').classList.remove('charging');document.querySelector('#result').style.display='none';updateAimGuide()}
+function restartCurrentLevel(){
+ if(!ballBody)return;
+ clearTimeout(shotScoreTimer);shotScoreTimer=null;clearTimeout(checkpointTimer);checkpointTimer=null;
+ charging=false;chargingPointerId=null;mobileChargePointerId=null;mobileAimDrag=null;cameraDrag=null;
+ if(coopMode){pendingNextCoopRound=false;coopRound=1;coopActivePlayer=1;coopPlayersFinished=0;coopScores=[];coopPlayerThrows={};coopPlayerDistances={}}
+ loadLevel(levelIndex);
+ if(coopMode){chooseFlagLane();shots=0;throwDistances=[];updateTurnLabel();renderCoopBoard()}
+}
 function sectionStarValue(n){return n<=2?1:n===3?.5:0}
 function playerColor(n){return [0xF2DEC7,0xCF7D65,0xA7B8C0,0x625954,0xE1B8A2,0xABA66F][(n-1)%6]}
 function finishThrow(){
@@ -775,7 +789,7 @@ function finishThrow(){
   marker.position.copy(ballBody.position);marker.castShadow=true;marker.receiveShadow=true;scene.add(marker);landedBoules.push(marker);const markerBody=new CANNON.Body({mass:.55,material:matBall,shape:new CANNON.Sphere(.19),position:new CANNON.Vec3(marker.position.x,marker.position.y,marker.position.z),linearDamping:.12,angularDamping:.15});markerBody.userData={mesh:marker};world.addBody(markerBody);landedBodies.push(markerBody);
   placementPhase=false;shots=0;sectionShots=0;throwDistances=[];completed=false;coopActivePlayer=1;coopPlayersFinished=0;
   ballBody.position.set(ballSpawn.x,ballSpawn.y,ballSpawn.z);ballBody.velocity.set(0,0,0);ballBody.angularVelocity.set(0,0,0);ballBody.quaternion.set(0,0,0,1);ballBody.wakeUp();ballMesh.position.copy(ballBody.position);ballMesh.visible=false;ballMesh.material.color.setHex(playerColor(coopActivePlayer));
-  document.querySelector('#shots').textContent='P'+coopActivePlayer+' · 0 / 2';document.querySelector('#best').textContent='—';document.querySelector('#score').textContent='0';
+  updateTurnLabel();document.querySelector('#best').textContent='—';document.querySelector('#score').textContent='0';
   document.querySelector('#aimtip').textContent='PLAYER '+coopActivePlayer+' · AIM AT THE FLAG · HOLD TO CHARGE';
   showHint('PLAYER '+coopActivePlayer,`Flag planted by Player ${placementPlayer}. Player ${coopActivePlayer}, take your two shots.`,2400);updateAimGuide();return;
  }
@@ -785,9 +799,9 @@ function finishThrow(){
  const landed=new THREE.Mesh(new THREE.SphereGeometry(.19,24,18),new THREE.MeshStandardMaterial({color:coopMode?playerColor(coopActivePlayer):[0xF2DEC7,0xE1B8A2,0xA7B8C0][Math.min(shots-1,2)],roughness:.28,metalness:.16}));
  landed.position.copy(ballBody.position);landed.quaternion.copy(ballBody.quaternion);landed.castShadow=true;landed.receiveShadow=true;scene.add(landed);landedBoules.push(landed);const landedBody=new CANNON.Body({mass:.55,material:matBall,shape:new CANNON.Sphere(.19),position:new CANNON.Vec3(landed.position.x,landed.position.y,landed.position.z),linearDamping:.12,angularDamping:.15});landedBody.userData={mesh:landed,coopPlayer:coopMode?coopActivePlayer:null,coopRound:coopMode?coopRound:null,placement:false};world.addBody(landedBody);landedBodies.push(landedBody);
  clearTimeout(shotScoreTimer);shotScoreTimer=null;
- rolling=false;ballBody.velocity.set(0,0,0);ballBody.angularVelocity.set(0,0,0);ballBody.sleep();
+ rolling=false;ballBody.velocity.set(0,0,0);ballBody.angularVelocity.set(0,0,0);ballBody.sleep();updateTurnLabel();
  const best=Math.min(...throwDistances);
- const roundScore=scoreForDistance(best);
+ const campaignBonus=!coopMode&&levelIndex>=3&&throwDistances[0]<=levels[levelIndex].bonusDistance;const roundScore=scoreForDistance(best)+(campaignBonus?150:0);
  document.querySelector('#best').textContent=best.toFixed(2)+' m';
  document.querySelector('#score').textContent=String(roundScore);renderCoopBoard();
  if(coopMode){
@@ -800,7 +814,7 @@ function finishThrow(){
   if(nextPlayer){
    coopActivePlayer=nextPlayer;shots=coopPlayerThrows[coopActivePlayer];throwDistances=[...(coopPlayerDistances[coopActivePlayer]||[])];completed=false;sectionShots=0;
    ballBody.position.set(ballSpawn.x,ballSpawn.y,ballSpawn.z);ballBody.velocity.set(0,0,0);ballBody.angularVelocity.set(0,0,0);ballBody.quaternion.set(0,0,0,1);ballBody.wakeUp();ballMesh.position.copy(ballBody.position);ballMesh.visible=false;ballMesh.material.color.setHex(playerColor(coopActivePlayer));
-   document.querySelector('#shots').textContent='P'+coopActivePlayer+' · '+shots+' / 2';document.querySelector('#best').textContent=throwDistances.length?Math.min(...throwDistances).toFixed(2)+' m':'—';document.querySelector('#score').textContent=String(playerRoundScore(coopActivePlayer,coopRound));document.querySelector('#aimtip').textContent='PLAYER '+coopActivePlayer+' · SHOT '+(shots+1)+' / 2';
+   updateTurnLabel();document.querySelector('#best').textContent=throwDistances.length?Math.min(...throwDistances).toFixed(2)+' m':'—';document.querySelector('#score').textContent=String(playerRoundScore(coopActivePlayer,coopRound));document.querySelector('#aimtip').textContent='PLAYER '+coopActivePlayer+' · SHOT '+(shots+1)+' / 2';
    showHint('PLAYER '+coopActivePlayer+' TURN',`Player ${coopActivePlayer}, take shot ${shots+1} of 2 with your own colour.`,1800);renderCoopBoard();updateAimGuide();return;
   }
   if(coopRound===1){
@@ -832,13 +846,13 @@ function finishThrow(){
    coopScores[coopRound-1]=coopScores[coopRound-1]||{};coopScores[coopRound-1][coopActivePlayer]=scoreForDistance(Math.min(...throwDistances));
    coopActivePlayer++;shots=0;throwDistances=[];completed=false;sectionShots=0;
    ballBody.position.set(ballSpawn.x,ballSpawn.y,ballSpawn.z);ballBody.velocity.set(0,0,0);ballBody.angularVelocity.set(0,0,0);ballBody.quaternion.set(0,0,0,1);ballBody.wakeUp();ballMesh.position.copy(ballBody.position);ballMesh.visible=false;ballMesh.material.color.setHex(playerColor(coopActivePlayer));
-   document.querySelector('#shots').textContent='P'+coopActivePlayer+' · 0 / 2';document.querySelector('#best').textContent='—';document.querySelector('#score').textContent='0';document.querySelector('#aimtip').textContent='PLAYER '+coopActivePlayer+' · TWO SHOTS';
+   updateTurnLabel();document.querySelector('#best').textContent='—';document.querySelector('#score').textContent='0';document.querySelector('#aimtip').textContent='PLAYER '+coopActivePlayer+' · TWO SHOTS';
    showHint('PLAYER '+coopActivePlayer+' TURN',`Player ${coopActivePlayer} is up next. Each player takes two shots per turn; all previous boules remain in place.`,2200);renderCoopBoard();updateAimGuide();return;
   }
   if(coopMode && coopRound===1){
    coopScores[0]=coopScores[0]||{};coopScores[0][coopActivePlayer]=scoreForDistance(Math.min(...throwDistances));coopRound=2;placementPhase=false;shots=0;throwDistances=[];completed=false;coopActivePlayer=1;sectionShots=0;coopPlayerThrows={};coopPlayerDistances={};for(let p=1;p<=coopPlayers;p++){coopPlayerThrows[p]=0;coopPlayerDistances[p]=[]}chooseFlagLane();document.querySelector('#best').textContent='—';document.querySelector('#score').textContent='0';
    ballBody.position.set(ballSpawn.x,ballSpawn.y,ballSpawn.z);ballBody.velocity.set(0,0,0);ballBody.angularVelocity.set(0,0,0);ballBody.quaternion.set(0,0,0,1);ballBody.wakeUp();ballMesh.position.copy(ballBody.position);ballMesh.visible=false;ballMesh.material.color.setHex(playerColor(coopActivePlayer));
-   document.querySelector('#shots').textContent='P1 · 0 / 2';document.querySelector('#aimtip').textContent='ROUND 2 · PLAYER 1 · TWO SHOTS';showHint('ROUND 2',`The flag has moved to a random lane. The map and all previous boules stay in place.`,2400);renderCoopBoard();updateAimGuide();return;
+   updateTurnLabel();document.querySelector('#aimtip').textContent='ROUND 2 · PLAYER 1 · TWO SHOTS';showHint('ROUND 2',`The flag has moved to a random lane. The map and all previous boules stay in place.`,2400);renderCoopBoard();updateAimGuide();return;
   }
   if(coopMode){coopScores[coopRound-1]=coopScores[coopRound-1]||{};coopScores[coopRound-1][coopActivePlayer]=playerRoundScore(coopActivePlayer,coopRound);}
   completed=true;
@@ -854,8 +868,8 @@ function finishThrow(){
   const stars=roundScore>=750?3:roundScore>=500?2:roundScore>=150?1:0;
   document.querySelector('#resulttitle').textContent=roundScore===1000?'BULLSEYE · 1,000!':roundScore>=850?'INCREDIBLE AIM!':roundScore>=600?'NICE PLACEMENT!':'ROUND COMPLETE';
   document.querySelector('#resultstars').textContent='★'.repeat(stars)+'☆'.repeat(3-stars);saveProgress(levelIndex,stars,roundScore);[523,659,784].slice(0,Math.max(1,stars)).forEach((f,i)=>setTimeout(()=>snd(f,.3,'sine',.09),i*120));
-  document.querySelector('#resultcopy').textContent=`${roundScore} pts · ${best.toFixed(2)} m from the flag`;
-  document.querySelector('#continue').textContent=levelIndex===levels.length-1?'PLAY AGAIN →':'NEXT TERRAIN →';
+  document.querySelector('#resultcopy').textContent=`${roundScore} pts · ${best.toFixed(2)} m from the flag${campaignBonus?' · BONUS +150: first boule challenge complete':' · BONUS: first boule within '+(levels[levelIndex].bonusDistance||0).toFixed(1)+' m'}${(levelIndex>=3&&(levelIndex-3)%4===3)?' · WORLD CLEARED':''}`;
+  document.querySelector('#continue').textContent=levelIndex===levels.length-1?'PLAY AGAIN →':(levelIndex>=3&&(levelIndex-3)%4===3?'NEXT WORLD →':'NEXT STAGE →');
   document.querySelector('#result').style.display='flex';document.querySelector('#best').textContent=best.toFixed(2)+' m';
   
  }
@@ -874,7 +888,7 @@ document.querySelector('#backToMenu').addEventListener('click',()=>{
  document.querySelectorAll('.menu-screen').forEach(el=>el.classList.remove('active'));
  document.querySelector('#menuhome').classList.add('active');
 });
-document.querySelector('#reset').addEventListener('click',()=>{if(completed){loadLevel(levelIndex);return}resetBall()});document.querySelector('#next').addEventListener('click',()=>loadLevel(levelIndex+1));document.querySelector('#continue').addEventListener('click',()=>{if(coopMode&&pendingNextCoopRound){advanceCoopRound();return}if(coopMode){document.querySelector('#result').style.display='none';document.querySelector('#mainmenu').style.display='flex';document.body.classList.add('menu-open');document.querySelector('#coopboard').style.display='none';coopMode=false;placementPhase=false;showMenuScreen('menuhome')}else loadLevel(levelIndex+1)});document.querySelector('#replay').addEventListener('click',()=>{if(coopMode){document.querySelector('#result').style.display='none';document.querySelector('#mainmenu').style.display='flex';document.body.classList.add('menu-open');document.querySelector('#coopboard').style.display='none';coopMode=false;placementPhase=false;showMenuScreen('menuc-oop')}else loadLevel(levelIndex)});
+document.querySelector('#reset').addEventListener('click',restartCurrentLevel);document.querySelector('#next').addEventListener('click',()=>loadLevel(levelIndex+1));document.querySelector('#continue').addEventListener('click',()=>{if(coopMode&&pendingNextCoopRound){advanceCoopRound();return}if(coopMode){document.querySelector('#result').style.display='none';document.querySelector('#mainmenu').style.display='flex';document.body.classList.add('menu-open');document.querySelector('#coopboard').style.display='none';coopMode=false;placementPhase=false;showMenuScreen('menuhome')}else loadLevel(levelIndex+1)});document.querySelector('#replay').addEventListener('click',()=>{if(coopMode){document.querySelector('#result').style.display='none';document.querySelector('#mainmenu').style.display='flex';document.body.classList.add('menu-open');document.querySelector('#coopboard').style.display='none';coopMode=false;placementPhase=false;showMenuScreen('menuc-oop')}else loadLevel(levelIndex)});
 function useMobileShotControls(){return window.matchMedia('(max-width:900px), (pointer:coarse)').matches}
 function syncMobilePower(){const value=document.querySelector('#mobilePowerValue'),fill=document.querySelector('#mobilePowerFill');if(value)value.textContent=Math.round(chargePower)+'%';if(fill)fill.style.width=Math.round(chargePower)+'%'}
 const mobileFireButton=document.querySelector('#mobileFire');
@@ -927,7 +941,7 @@ renderer.domElement.addEventListener('pointerdown',e=>{
 window.addEventListener('pointerup',e=>{if(cameraDrag&&cameraDrag.id===e.pointerId)cameraDrag=null;if(mobileAimDrag&&mobileAimDrag.id===e.pointerId){mobileAimDrag=null;document.querySelector('#reticle').classList.remove('active')}if(mobileChargePointerId===e.pointerId){mobileChargePointerId=null;releaseCharge(e)}else if(charging&&(chargingPointerId===null||chargingPointerId===e.pointerId))releaseCharge(e)});
 window.addEventListener('pointercancel',e=>{if(cameraDrag&&cameraDrag.id===e.pointerId)cameraDrag=null;if(mobileAimDrag&&mobileAimDrag.id===e.pointerId){mobileAimDrag=null;document.querySelector('#reticle').classList.remove('active')}if(mobileChargePointerId===e.pointerId){mobileChargePointerId=null;releaseCharge(e)}else if(charging&&(chargingPointerId===null||chargingPointerId===e.pointerId))releaseCharge(e)});
 renderer.domElement.addEventListener('contextmenu',e=>e.preventDefault());
-window.addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();if(notMyTurn())return;if(!charging)beginCharge({button:0,clientX:cursorX,clientY:cursorY});else releaseCharge({})}if((e.key==='r'||e.key==='R')&&!online)resetBall();if(e.key==='m'||e.key==='M')toggleMute();if(!rolling&&!completed&&!notMyTurn()&&!document.body.classList.contains('menu-open')){const k=e.code;if(k==='ArrowLeft')aimYaw=Math.max(-1.08,aimYaw-.02);else if(k==='ArrowRight')aimYaw=Math.min(1.08,aimYaw+.02);else if(k==='ArrowUp')aimPitch=Math.min(campaignPitchLimit(),aimPitch+.02);else if(k==='ArrowDown')aimPitch=Math.max(-.24,aimPitch-.02);else return;e.preventDefault();updateAimGuide();sendAim()}});
+window.addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();if(notMyTurn())return;if(!charging)beginCharge({button:0,clientX:cursorX,clientY:cursorY});else releaseCharge({})}if((e.key==='r'||e.key==='R')&&!online)restartCurrentLevel();if((e.key==='m'||e.key==='M')&&!document.body.classList.contains('menu-open'))document.querySelector('#backToMenu').click();if(!rolling&&!completed&&!notMyTurn()&&!document.body.classList.contains('menu-open')){const k=e.code;if(k==='ArrowLeft')aimYaw=Math.max(-1.08,aimYaw-.02);else if(k==='ArrowRight')aimYaw=Math.min(1.08,aimYaw+.02);else if(k==='ArrowUp')aimPitch=Math.min(campaignPitchLimit(),aimPitch+.02);else if(k==='ArrowDown')aimPitch=Math.max(-.24,aimPitch-.02);else return;e.preventDefault();updateAimGuide();sendAim()}});
 function animateGates(t){for(const g of movingGates){const meta=g.mesh.userData.gate;if(!meta)continue;g.mesh.rotation.y=Math.sin(t*.85+meta.phase)*.75;g.body.quaternion.setFromEuler(0,g.mesh.rotation.y,0);g.body.aabbNeedsUpdate=true;}}
 let last=performance.now(),acc=0;
 function frame(now){requestAnimationFrame(frame);const dt=Math.min((now-last)/1000,.033);last=now;acc+=dt;const t=now/1000;if(charging){chargePower=Math.round(chargeValue(now-chargeStart));syncMobilePower();if(chargePower>=75&&lastChargeCue<75){snd(520,.06,'sine',.018,65);lastChargeCue=75}if(chargePower>=99&&lastChargeCue<99){snd(650,.07,'sine',.02,80);lastChargeCue=99}document.querySelector('#chargeval').textContent=chargePower+'%';document.querySelector('#chargefill').style.width=chargePower+'%';updateAimGuide();aimFov=THREE.MathUtils.damp(aimFov,60+chargePower*.08,5,dt);document.querySelector('#reticle').style.transform='translate(-50%,-50%) scale('+(1+chargePower/220)+')';}else{aimFov=THREE.MathUtils.damp(aimFov,48,5,dt)}if(Math.abs(camera.fov-aimFov)>.08){camera.fov=aimFov;camera.updateProjectionMatrix()}animateGates(t);if(cannonGroup){const d=cannonGroup.userData;d.recoil=Math.max(0,d.recoil-dt*3.8);d.drivePhase+=dt*(rolling?7:1.3);const kick=d.recoil;d.barrelPivot.position.x=.22-kick*.19;d.turretPivot.position.y=.7+Math.sin(d.drivePhase)*.012+(rolling?Math.sin(d.drivePhase*2)*.018:0);cannonGroup.position.y=d.baseY+(rolling?Math.abs(Math.sin(d.drivePhase*1.4))*.025:0);for(const tr of d.tracks)tr.position.y=.31+(rolling?Math.sin(d.drivePhase)*.012:0)}for(const b of landedBodies){if(b.userData?.mesh){b.userData.mesh.position.copy(b.position);b.userData.mesh.quaternion.copy(b.quaternion)}}while(acc>=1/60){world.step(1/60);if(rolling&&ballBody&&ballBody.position.y<=.215){const drag=Math.exp(-rollDrag/60);ballBody.velocity.x*=drag;ballBody.velocity.z*=drag;ballBody.angularVelocity.x*=Math.exp(-.3/60);ballBody.angularVelocity.z*=Math.exp(-.3/60);
@@ -987,7 +1001,7 @@ window.addEventListener('resize',resizeGameViewport);window.addEventListener('or
 let AC=null,muted=false,lastHit=0,lastChargeCue=50;
 function snd(f,d=.12,type='sine',v=.08,slide=0){if(muted)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();const t=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(30,f+slide),t+d);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(AC.destination);o.start();o.stop(t+d)}catch(e){}}
 function sndNoise(d=.12,v=.018,cutoff=900){if(muted)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();const t=AC.currentTime,n=Math.max(1,Math.floor(AC.sampleRate*d)),buffer=AC.createBuffer(1,n,AC.sampleRate),data=buffer.getChannelData(0);for(let i=0;i<n;i++)data[i]=(Math.random()*2-1)*(1-i/n);const source=AC.createBufferSource(),filter=AC.createBiquadFilter(),gain=AC.createGain();source.buffer=buffer;filter.type='lowpass';filter.frequency.setValueAtTime(cutoff,t);gain.gain.setValueAtTime(v,t);gain.gain.exponentialRampToValueAtTime(.0001,t+d);source.connect(filter).connect(gain).connect(AC.destination);source.start(t);source.stop(t+d)}catch(e){}}
-function toggleMute(){muted=!muted;const b=document.querySelector('#soundToggle');if(b){b.textContent=muted?'♪×':'♫';b.setAttribute('aria-label',muted?'Sound off':'Sound on');b.title=muted?'Turn sound on (M)':'Turn sound off (M)'}if(!muted&&AC?.state==='suspended')AC.resume().catch(()=>{})}
+function toggleMute(){muted=!muted;const b=document.querySelector('#soundToggle');if(b){b.textContent=muted?'♪×':'♫';b.setAttribute('aria-label',muted?'Sound off':'Sound on');b.title=muted?'Turn sound on':'Turn sound off'}if(!muted&&AC?.state==='suspended')AC.resume().catch(()=>{})}
 document.querySelector('#soundToggle').addEventListener('click',toggleMute);
 const fullscreenButton=document.querySelector('#fullscreenToggle');
 function syncFullscreenButton(){const active=!!document.fullscreenElement;fullscreenButton.textContent=active?'⤢':'⛶';fullscreenButton.setAttribute('aria-label',active?'Exit full screen':'Enter full screen');fullscreenButton.title=active?'Exit full screen':'Full screen';}
@@ -1006,12 +1020,12 @@ document.querySelector('#coopBtn').addEventListener('click',()=>showMenuScreen('
 document.querySelector('#onlineBtn').addEventListener('click',()=>showMenuScreen('menuonline'));
 document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',()=>showMenuScreen('menuhome')));
 const wg=document.querySelector('#worldgrid');
-function buildWorlds(){wg.innerHTML='';worldNames.forEach((name,w)=>{const b=document.createElement('button');b.className='world-btn';b.innerHTML='<span><b>'+String(w+1).padStart(2,'0')+' / '+name+'</b><br><small>★ '+worldStars(w)+'/12 · '+['BUMPERS · BREEZE','RAMPS · BOOSTS','HEAVY · MOVING','SAND · WIND','ICE','THICKET','FINAL EXAM'][w]+'</small></span><span>→</span>';b.addEventListener('click',()=>startGameAt(3+w*4));wg.appendChild(b)})}buildWorlds();
+function buildWorlds(){wg.innerHTML='';worldNames.forEach((name,w)=>{const b=document.createElement('button');b.className='world-btn';b.innerHTML='<span><b>'+String(w+1).padStart(2,'0')+' / '+name+'</b><br><small>★ '+worldStars(w)+'/12 · '+['BOUNCES & STEPS','RAMPS & BANK SHOTS','MOVING FORGE','CROSSWINDS','LOW FRICTION','ROUTE CHOICES','CHAMPIONSHIP'][w]+'</small><br><small>'+worldDescriptions[w]+'</small></span><span>→</span>';b.addEventListener('click',()=>startGameAt(3+w*4));wg.appendChild(b)})}buildWorlds();
 document.querySelector('#startCoop').addEventListener('click',()=>{
  coopMode=true;pendingNextCoopRound=false;document.querySelector('#coopboard').style.display='block';coopPlayers=Number(document.querySelector('#playersSelect').value)||2;placementPlayer=1;placementPhase=false;coopRound=1;coopActivePlayer=1;coopPlayersFinished=0;coopScores=[];coopPlayerThrows={};coopPlayerDistances={};
  const map=document.querySelector('#mapSelect').value;
  if(map==='garden')startGameAt(0);else if(map==='switchback')startGameAt(1);else if(map==='foundry')startGameAt(2);else startRandomCourse();
- shots=0;throwDistances=[];coopPlayerThrows={};coopPlayerDistances={};for(let p=1;p<=coopPlayers;p++){coopPlayerThrows[p]=0;coopPlayerDistances[p]=[]}chooseFlagLane();document.querySelector('#shots').textContent='P1 · 0 / 2';
+ shots=0;throwDistances=[];coopPlayerThrows={};coopPlayerDistances={};for(let p=1;p<=coopPlayers;p++){coopPlayerThrows[p]=0;coopPlayerDistances[p]=[]}chooseFlagLane();updateTurnLabel();
  document.querySelector('#aimtip').textContent='PLAYER 1 · AIM AT THE FLAG · TWO SHOTS';
  renderCoopBoard();showHint('ROUND 1 · PLAYER 1',`The flag appears in a random lane: centre, left, or right.`,2200);
 });
@@ -1027,61 +1041,4 @@ function onStatus(t){$('#onstatus').textContent=t}
 function onLobbyUI(){$('#onplayers').textContent=online?'PLAYERS IN ROOM: '+online.players+(online.isHost?' · NEED 2+ TO START':' · WAITING FOR HOST TO START'):''}
 function leaveOnline(){const o=online;online=null;orand=null;if(o)try{o.peer.destroy()}catch(e){}document.body.classList.remove('online');$('#onhome').style.display='block';$('#onlobby').style.display='none';$('#onplayers').textContent='';$('#onBaseWrap').style.display=location.protocol==='https:'?'none':'block'}
 function roomLink(id){const base=location.protocol==='https:'?location.origin+location.pathname:$('#onBase').value.trim().replace(/[?#].*$/u,'');return base?base+(base.includes('?')?'&':'?')+'room='+encodeURIComponent(id):''}
-function showLink(){const l=roomLink(online.id),q=$('#qr');$('#onlink').value=l||online.id;$('#onlink').placeholder=l?'Share this game link':'Room code — share with someone who has PeTANK';$('#onCopy').textContent=l?'COPY LINK':'COPY ROOM CODE';q.innerHTML='';if(l&&typeof qrcode!=='undefined'){try{const qr=qrcode(0,'M');qr.addData(l);qr.make();q.innerHTML=qr.createSvgTag(5,0)}catch(e){q.textContent='QR could not be generated. Copy the link instead.'}}else if(l){q.textContent='QR library did not load. Copy the link instead.'}else{q.style.background='transparent';q.style.color='#f2f3f4';q.style.padding='0';q.textContent='QR needs a public HTTPS game link. Share the room code shown above.'}}
-function onMsg(m,from){
- if(!online)return;
- if(online.isHost&&['aim','fire','end'].includes(m.t))onSend(m,from);
- if(m.t==='full'){leaveOnline();onStatus('This room is full or the match has already started.')}
- else if(m.t==='lobby'){online.players=m.n;onLobbyUI()}
- else if(m.t==='start')startOnline(m);
- else if(!online.started)return;
- else if(m.t==='aim'){aimYaw=m.y;aimPitch=m.p;updateAimGuide()}
- else if(m.t==='fire'){chargePower=m.pw;aimYaw=m.y;aimPitch=m.p;online.remote=true;fire();online.remote=false}
- else if(m.t==='end'&&ballBody){ballBody.position.set(m.x,m.y,m.z);online.forced=true;finishThrow();online.forced=false}
-}
-function wireConn(c){c.on('data',m=>onMsg(m,c));c.on('close',()=>{if(!online)return;if(online.isHost){online.conns=online.conns.filter(x=>x!==c);online.players=online.conns.length+1;if(!online.started){onSend({t:'lobby',n:online.players});onLobbyUI()}}showHint('PLAYER LEFT','A player disconnected.',2500)})}
-function hostRoom(){
- if(typeof Peer==='undefined'){onStatus('Online play needs internet access to load PeerJS.');return}
- leaveOnline();const peer=createOnlinePeer();online={peer,isHost:true,conns:[],me:1,players:1,started:false};
- onStatus('Creating room…');
- peer.on('error',e=>onStatus('Connection error: '+(e.type||e)+'. Check that the game is opened from its public HTTPS link.'));
- peer.on('open',id=>{online.id=id;$('#onhome').style.display='none';$('#onlobby').style.display='block';showLink();onLobbyUI();onStatus(roomLink(id)?'Room ready. Share the game link or scan its QR code.':'Room ready. No public game link is set, so share the room code; friends must open their own copy and enter it.')});
- peer.on('connection',c=>{
-  if(online.started||online.conns.length>=5){c.on('open',()=>{c.send({t:'full'});setTimeout(()=>c.close(),300)});return}
-  online.conns.push(c);wireConn(c);
-  c.on('open',()=>{online.players=online.conns.length+1;onSend({t:'lobby',n:online.players});onLobbyUI()})});
-}
-function joinRoom(id){
- if(typeof Peer==='undefined'){onStatus('Online play needs internet access to load PeerJS.');return}
- leaveOnline();const peer=createOnlinePeer();online={peer,isHost:false,me:0,players:1,started:false};
- $('#onhome').style.display='none';$('#onBaseWrap').style.display='none';onStatus('Connecting to room…');
- peer.on('error',e=>{leaveOnline();onStatus(e.type==='peer-unavailable'?'Room not found. The host may have closed it.':'Could not join: '+(e.type||e))});
- let connected=false;const joinTimer=setTimeout(()=>{if(!connected&&online&&online.peer===peer)onStatus('Still connecting… On mobile, keep this page open and check that both players use the same public HTTPS game link.')},9000);
- peer.on('open',()=>{const c=peer.connect(id,{reliable:true,serialization:'json'});online.hostConn=c;wireConn(c);c.on('open',()=>{connected=true;clearTimeout(joinTimer);onStatus('Connected! Waiting for the host to start the match…')});c.on('error',e=>{clearTimeout(joinTimer);onStatus('Connection failed: '+(e.type||e)+'. Try refreshing both devices.')})});
-}
-function startOnline(m){
- online.started=true;online.me=m.me;orand=seededRandom(m.seed);
- coopMode=true;pendingNextCoopRound=false;coopPlayers=m.players;placementPhase=false;coopRound=1;coopActivePlayer=1;coopPlayersFinished=0;coopScores=[];coopPlayerThrows={};coopPlayerDistances={};
- $('#mapSelect').value=m.map;activeCourseSeed=m.map==='random'?m.seed:null;
- menuRoot.style.display='none';document.body.classList.remove('menu-open');document.body.classList.add('online');
- loadLevel(m.level);
- shots=0;throwDistances=[];for(let q=1;q<=coopPlayers;q++){coopPlayerThrows[q]=0;coopPlayerDistances[q]=[]}chooseFlagLane();
- $('#shots').textContent='P1 · 0 / 2';$('#aimtip').textContent='YOU ARE PLAYER '+m.me+' · PLAYER 1 SHOOTS FIRST';
- renderCoopBoard();showHint('ONLINE MATCH','You are Player '+m.me+'. Players alternate shots; watch the others aim live.',2800);
-}
-$('#onHost').onclick=hostRoom;
-$('#onJoin').onclick=()=>{const id=$('#onJoinCode').value.trim();if(!id){onStatus('Enter the host room code first.');return}joinRoom(id)};
-$('#onCopy').onclick=async()=>{const value=$('#onlink').value;try{await navigator.clipboard.writeText(value);$('#onCopy').textContent='COPIED ✓'}catch(e){$('#onlink').focus();$('#onlink').select();onStatus('Copy was blocked. Select and copy the highlighted text.')}setTimeout(()=>$('#onCopy').textContent=roomLink(online?.id||'')?'COPY LINK':'COPY ROOM CODE',1500)};
-$('#onStart').onclick=()=>{
- if(!online||!online.isHost)return;if(online.conns.length<1){onStatus('Waiting for at least one more player…');return}
- const map=$('#onMap').value,seed=Math.floor(Math.random()*0x7fffffff),level=map==='garden'?0:map==='switchback'?1:map==='foundry'?2:3+seed%28;
- const msg={t:'start',players:online.conns.length+1,map,seed,level};
- online.conns.forEach((c,i)=>c.open&&c.send({...msg,me:i+2}));startOnline({...msg,me:1});
-};
-try{$('#onBase').value=localStorage.getItem('rollcannon.base')||''}catch(e){}
-$('#onBase').addEventListener('input',()=>{try{localStorage.setItem('rollcannon.base',$('#onBase').value)}catch(e){}if(online&&online.id)showLink()});
-leaveOnline();
-{const room=new URLSearchParams(location.search).get('room');if(room){showMenuScreen('menuonline');joinRoom(room)}}
-loadLevel(0);requestAnimationFrame(frame);
-</script>
-</body></html>
+function showLink(){const l=roomLink(online.id),q=$('#qr');$('#onlink').value=l||online.id;$('#onlink').placeholder=l?'Share this game link':'Room code — share with someone who has PeTANK';$('#onCopy').textContent=l?'COPY LINK':'COPY ROOM CODE';q.innerHTML='';if(l&&typeof qrcode!=='undefined'){try{const qr=qrcode(0,'M');qr.addData(l);qr.make();q.innerHTML=qr.createSvgTag(5,0)}catch(e){q.textContent='QR could not be generated. Copy the link instead.'}}else if(l){q.textContent='QR
