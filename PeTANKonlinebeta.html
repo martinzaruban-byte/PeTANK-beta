@@ -124,9 +124,9 @@ body.online #next,body.online #reset{display:none}
 <script>
 // Keep basic menu navigation responsive even if the game module is delayed or fails to initialize.
 (()=>{const root=document.getElementById('mainmenu');if(!root)return;root.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||!root.contains(b))return;let screen=null;if(b.id==='campaignBtn')screen='menucampaign';else if(b.id==='coopBtn')screen='menuc-oop';else if(b.id==='onlineBtn')screen='menuonline';else if(b.hasAttribute('data-back'))screen='menuhome';if(!screen)return;e.preventDefault();root.querySelectorAll('.menu-screen').forEach(s=>s.classList.toggle('active',s.id===screen));root.style.display='flex';document.body.classList.add('menu-open');if(screen==='menuhome')root.scrollTop=0;},true)})();
-</script><script type="module">
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-import * as CANNON from 'https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js';
+</script><script>window.addEventListener("error",e=>{if(e.target&&e.target.type==="module"){const box=document.querySelector("#runtime-error");if(box){box.style.display="block";box.textContent="Herní engine se nenačetl. Zkontroluj internet a obnov stránku."}}},true);setTimeout(()=>{const box=document.querySelector("#runtime-error");if(!document.querySelector("#game canvas")&&box&&box.style.display==="none"){box.style.display="block";box.textContent="Herní engine se stále nenačetl. Obnov stránku a zkus jiné připojení."}},18000)</script><script type="module">
+const THREE = await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js').catch(()=>import('https://unpkg.com/three@0.160.0/build/three.module.js'));
+const CANNON = await import('https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js').catch(()=>import('https://unpkg.com/cannon-es@0.20.0/dist/cannon-es.js'));
 
 // FLORAL PALETTE: blue-grey #A7B8C0, warm charcoal #625954, stone taupe #B5A58F, coral #CF7D65, blush #E1B8A2, cream #F2DEC7.
 const errorBox=document.querySelector('#runtime-error');
@@ -1034,9 +1034,3 @@ document.querySelector('#startCoop').addEventListener('click',()=>{
  renderCoopBoard();showHint('ROUND 1 · PLAYER 1',`The flag appears in a random lane: centre, left, or right.`,2200);
 });
 // Returning to the campaign leaves local-match state behind.
-document.querySelector('#campaignBtn').addEventListener('click',()=>{coopMode=false;placementPhase=false;showMenuScreen('menucampaign')});
-// ONLINE: peer-to-peer rooms via PeerJS. Everyone simulates each shot; the shooter's final ball position is authoritative.
-const $=q=>document.querySelector(q);let lastAim=0;
-function createOnlinePeer(){return new Peer(undefined,{debug:0,config:{iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'},{urls:'stun:stun.cloudflare.com:3478'}]}})}
-function notMyTurn(){return !!(online&&online.started&&coopActivePlayer!==online.me)}
-function sendAim(){if(!online||!online.started)return;const n=performance.now();if(n-l
