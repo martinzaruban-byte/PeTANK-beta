@@ -1073,6 +1073,7 @@ function hostRoom(){
 }
 function joinRoom(id){
  if(typeof Peer==='undefined'){onStatus('Online library did not load. Check internet and reload this page.');return}
+ document.querySelector('#onJoinCode').value=id;
  leaveOnline();const peer=createOnlinePeer();online={peer,isHost:false,me:0,players:1,started:false};
  $('#onhome').style.display='none';$('#onBaseWrap').style.display='none';onStatus('Connecting to the room service…');
  let phase='signal',connected=false;let joinTimer=setTimeout(()=>{if(online?.peer===peer&&!connected){onStatus(phase==='signal'?'Room service is not responding. Check internet and reload the game.':'Direct connection is taking too long. This network may block peer connections; try Wi-Fi on both devices.');leaveOnline()}},20000);
@@ -1102,4 +1103,7 @@ $('#onStart').onclick=()=>{
 try{$('#onBase').value=localStorage.getItem('rollcannon.base')||''}catch(e){}
 $('#onBase').addEventListener('input',()=>{try{localStorage.setItem('rollcannon.base',$('#onBase').value)}catch(e){}if(online&&online.id)showLink()});
 leaveOnline();
-{const room=new URLSearchParams(locati
+{const room=new URLSearchParams(location.search).get('room');if(room){showMenuScreen('menuonline');joinRoom(room)}}
+loadLevel(0);requestAnimationFrame(frame);
+</script>
+</body></html>
